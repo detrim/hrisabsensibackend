@@ -82,6 +82,7 @@ bash
 - [x] php artisan db:seed
 - [x] php artisan storage:link
 - [x] php artisan app:sync-wilayah
+- [x] php artisan serve
 
 ## Database Configuration
 
