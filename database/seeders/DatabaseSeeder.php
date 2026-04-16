@@ -69,7 +69,7 @@ class DatabaseSeeder extends Seeder
             'jabatan' => 'Manager',
             'departemen' => 'Executive',
             'jenis_kelamin' => 'L',
-            'status_kontrak' => 'kontrak',
+            'status_pegawai' => 'kontrak',
             'usia' => 34,
             'pendidikan' => [
                 ['jenjang' => 'S1', 'nama' => 'UMB', 'tahun' => 2012],
@@ -106,7 +106,7 @@ class DatabaseSeeder extends Seeder
             'jabatan' => 'Staf',
             'departemen' => 'HRD',
             'jenis_kelamin' => 'L',
-            'status_kontrak' => 'kontrak',
+            'status_pegawai' => 'kontrak',
             'usia' => 32,
             'pendidikan' => [
                 ['jenjang' => 'S1', 'nama' => 'UI', 'tahun' => 2014]

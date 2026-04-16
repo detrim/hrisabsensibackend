@@ -91,6 +91,7 @@ bash
 - DB_DATABASE=nama_database_anda  
 - DB_USERNAME=root  
 - DB_PASSWORD=password_anda
+- SESSION_DRIVER=file
 - FILESYSTEM_DISK=public
  ---
 # Screenshot Halaman
