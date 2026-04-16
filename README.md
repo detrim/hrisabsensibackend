@@ -71,8 +71,8 @@ Sistem menggunakan **AJAX autocomplete** untuk pengisian alamat secara otomatis.
 
 ## 1. Clone Repository
 bash
-- [x] git clone https://github.com/detrim/jmcapplocal.git
-- [x] cd jmcapp
+- [x] git clone https://github.com/jmcdevelopment/denitri.git
+- [x] cd denitri
 - [x] composer install
 - [x] npm install
 - [x] npm run build
