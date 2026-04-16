@@ -24,8 +24,8 @@ Dilengkapi dengan fitur export PDF, Excel, dan manajemen user.
 ## 🛠️ Teknologi yang Digunakan
 
 - [x] Laravel 12
-- [x] PHP
-- [x] MySQL / MariaDB
+- [x] PHP 8.2
+- [x] MariaDB 12.2
 - [x] Bootstrap 5
 - [x] jQuery & AJAX
 - [x] DOMPDF (laravel-dompdf)
