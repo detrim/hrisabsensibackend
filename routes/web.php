@@ -5,8 +5,15 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KelolaUserController;
 use App\Http\Controllers\DataPegawaiController;
+use App\Http\Controllers\AbsensiController;
+use App\Http\Controllers\PeriodeController;
+use App\Http\Controllers\LokasiController;
+use App\Http\Controllers\SettingTunjanganTransportController;
 
 
+Route::get('/tunjangan/index', function () {
+    return view('/tunjangan/index');
+})->name('tunjangan.index');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/user', [KelolaUserController::class, 'index'])->name('user.index');
@@ -36,6 +43,29 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/pegawai/filter', [DataPegawaiController::class, 'filter'])->name('pegawai.filter');
             Route::post('/pegawai/bulkstatus', [DataPegawaiController::class, 'bulkStatus']);
 
+            Route::get('/absensi/{thn}/{bln}/{tgl}/pegawai', [AbsensiController::class, 'absensi'])->name('absensi.hari');
+            Route::post('/absensi/store', [AbsensiController::class, 'store'])->name('absensi.store');
+            Route::post('/absensi/search', [AbsensiController::class, 'search'])->name('absensi.search');
+            Route::patch('/absensi/update', [AbsensiController::class, 'update'])->name('absensi.update.ajax');
+            Route::patch('/absensi/keterangan', [AbsensiController::class, 'keterangan'])->name('absensi.keterangan.ajax');
+
+            Route::get('/periode/index', [PeriodeController::class, 'index'])->name('periode.index');
+            Route::get('/periode/{id}/bulan', [PeriodeController::class, 'bulan'])->name('periode.bulan');
+            Route::patch('/periode/hari', [PeriodeController::class, 'hari'])->name('periode.hari');
+            Route::delete('/periode/hari', [PeriodeController::class, 'hapushari'])->name('periode.hari.hapus');
+            Route::post('/periode/store', [PeriodeController::class, 'store'])->name('periode.store');
+            Route::get('/periode/search', [PeriodeController::class, 'search'])->name('periode.search');
+            Route::post('/periode/update/{id}', [PeriodeController::class, 'update'])->name('periode.update');
+            Route::post('/periode/status/{id}', [PeriodeController::class, 'updateStatus'])->name('periode.update.status');
+
+            Route::get('/lokasi/index', [LokasiController::class, 'index'])->name('lokasi.index');
+            Route::post('/lokasi/pegawai', [LokasiController::class, 'pegawai'])->name('lokasipegawai.store');
+            Route::post('/lokasi/kantor', [LokasiController::class,'kantor'])->name('lokasikantor.store');
+            Route::get('/lokasi/search', [LokasiController::class,'search'])->name('lokasi.search');
+
+
+            Route::get('/setting/index', [SettingTunjanganTransportController::class,'index'])->name('setting.index');
+            Route::post('/setting/store', [SettingTunjanganTransportController::class,'store'])->name('setting.store');
     });
         Route::prefix('managerhrd')->group(function () {
             Route::get('/', [DashboardController::class, 'index'])->name('index');

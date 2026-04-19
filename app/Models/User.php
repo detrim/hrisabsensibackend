@@ -24,7 +24,7 @@ class User extends Authenticatable
         'is_active' => 'boolean',
     ];
 
-    // ✅ Relasi ke Role
+    //  Relasi ke Role
     public function pegawai()
     {
         return $this->belongsTo(Pegawai::class, 'employee_id', 'nip');
@@ -33,7 +33,7 @@ class User extends Authenticatable
     public function role()
     {
         return $this->belongsTo(Role::class);
-}
+    }
 
     public function hasPermission($permission)
     {

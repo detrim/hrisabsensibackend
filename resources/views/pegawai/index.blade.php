@@ -87,27 +87,11 @@
                         <tr>
                             <th><input type="checkbox" id="check-all"></th>
                             <th>No</th>
-
-                            <th>
-                                <a>NIP ↕</a>
-                            </th>
-
-                            <th>
-                                <a>Nama ↕</a>
-                            </th>
-
-                            <th>
-                                <a>Jabatan ↕</a>
-                            </th>
-
-                            <th>
-                                <a>Tanggal Masuk ↕</a>
-                            </th>
-
-                            <th>
-                                <a>Masa Kerja ↕</a>
-                            </th>
-
+                            <th><a>NIP ↕</a></th>
+                            <th><a>Nama ↕</a></th>
+                            <th><a>Jabatan ↕</a></th>
+                            <th><a>Tanggal Masuk ↕</a></th>
+                            <th><a>Masa Kerja ↕</a></th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -155,8 +139,6 @@
                 </table>
             </div>
         </form>
-
-        <!-- PAGINATION -->
 
         <div class="row justify-content-end ">
             <div class="btn-sm mt-2">

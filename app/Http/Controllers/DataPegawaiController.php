@@ -84,10 +84,10 @@ class DataPegawaiController extends Controller
                  $img->resize(300, 300) // bisa ubah sesuai kebutuhan
                      ->toJpeg(70); // kualitas 70% (optimal)
                     // pastikan folder ada
-                    $pathFolder = public_path('storage/photos');
-                    if (!file_exists($pathFolder)) {
-                        mkdir($pathFolder, 0777, true);
-                    }
+                    // $pathFolder = public_path('storage/photos');
+                    // if (!file_exists($pathFolder)) {
+                    //     mkdir($pathFolder, 0777, true);
+                    // }
                  Storage::put('photos/' . $filename, $img->encode());
                  // path untuk disimpan ke DB
                  $path = 'photos/' . $filename;

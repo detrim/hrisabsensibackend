@@ -20,6 +20,15 @@
             <li class="nav-item">
                 <a href="{{ route('pegawai.index') }}" class="nav-link text-white">Data Pegawai</a>
             </li>
+            <li class="nav-item">
+                <a href="{{ route('periode.index') }}" class="nav-link text-white">Absensi Pegawai</a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('setting.index') }}" class="nav-link text-white">Setting Tunjangan</a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('tunjangan.index') }}" class="nav-link text-white">Tunjangan Pegawai</a>
+            </li>
         @elseif (auth()->user()->isManagerHRD())
             <li class="nav-item">
                 <a href="{{ route('index') }}" class="nav-link text-white">Dashboard</a>
