@@ -62,7 +62,7 @@ class PeriodeController extends Controller
 
         if (empty($exists)) {
             if (!empty($id)) {
-                dd(empty($exists),$id);
+                // dd(empty($exists),$id);
                 $periode = Periode::findOrFail($id);
                 $periode->update($data);
                 return redirect()->route('periode.index')->with('success', 'Berhasil diupdate');

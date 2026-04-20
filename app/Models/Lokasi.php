@@ -22,4 +22,8 @@ class Lokasi extends Model
     {
         return $this->belongsTo(Pegawai::class, 'pegawai_nip', 'nip');
     }
+    public function absensi()
+    {
+        return $this->belongsTo(Absensi::class, 'pegawai_nip', 'pegawai_nip');
+    }
 }

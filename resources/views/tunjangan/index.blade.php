@@ -24,8 +24,12 @@
                         <td>{{ $item->tahun }}</td>
                         <td>{{ $item->nama_bulan }}</td>
                         <td>
-                            <a href="{{ route('periode.bulan', $item->id) }}"
-                                class="btn btn-sm  {{ $item->status == 1 ? 'btn-danger' : 'btn-success' }}">View</a>
+                            <a href="{{ route('tunjangan.bulan', [
+                                'bln' => $item->bulan,
+                                'thn' => $item->tahun,
+                                'id' => $item->id,
+                            ]) }}"
+                                class="btn btn-sm  {{ $item->status == 1 ? 'btn-success' : 'btn-danger' }}">View</a>
                         </td>
                     </tr>
                 @empty
@@ -47,7 +51,7 @@
             document.getElementById('search').addEventListener('keyup', function() {
                 let keyword = this.value;
                 let searchUrl = "{{ route('tunjangan.search') }}";
-                let urlTemplate = "{{ route('tunjangan.bulan', ':id') }}";
+                let urlTemplate = "{{ route('tunjangan.bulan', ['bln' => ':bln', 'thn' => ':thn', 'id' => ':id']) }}";
 
                 fetch(`${searchUrl}?keyword=${keyword}`)
                     .then(res => res.json())

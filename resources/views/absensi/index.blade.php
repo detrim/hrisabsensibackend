@@ -153,8 +153,9 @@
                 if (e.target.closest('.btn-edit')) {
 
                     let button = e.target.closest('.btn-edit');
-
                     let id = button.dataset.id;
+                    let url = "{{ route('periode.update', ':id') }}";
+                    url = url.replace(':id', id);
                     let tahun = button.dataset.tahun;
                     let bulan = button.dataset.bulan;
                     let status = button.dataset.status;
@@ -168,7 +169,7 @@
                     document.querySelector('.bulan-input').value = bulan;
                     let statusSelect = document.querySelector('.status-edit');
                     if (statusSelect) statusSelect.value = status;
-                    document.getElementById('formPeriode').action = '/periode/update/' + id;
+                    document.getElementById('formPeriode').action = url;
                     let modal = bootstrap.Modal.getOrCreateInstance(
                         document.getElementById('modalTambah')
                     );

@@ -107,8 +107,8 @@
             </div>
         </div>
     </div>
-    <div id="notif" class="alert d-none position-fixed top-0 end-0 m-3 shadow" style="z-index:9999; min-width:250px;">
-    </div>
+    {{-- <div id="notif" class="alert d-none position-fixed top-0 end-0 m-3 shadow" style="z-index:9999; min-width:250px;">
+    </div> --}}
     @push('absensi')
         <script>
             function showNotif(message, type = 'success') {

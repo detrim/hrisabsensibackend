@@ -82,8 +82,10 @@ class AuthController extends Controller
 
         public function logout(Request $request)
         {
+            // dd(Auth::user());
             Auth::logout();
             // hapus session
+            // $request->user()->currentAccessToken()->delete();
             $request->session()->invalidate();
             $request->session()->regenerateToken();
 

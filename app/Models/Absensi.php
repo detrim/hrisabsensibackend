@@ -25,4 +25,8 @@ class Absensi extends Model
     {
         return $this->belongsTo(Pegawai::class, 'pegawai_nip', 'nip');
     }
+    public function lokasi()
+    {
+        return $this->hasOne(Lokasi::class, 'pegawai_nip', 'pegawai_nip');
+    }
 }
