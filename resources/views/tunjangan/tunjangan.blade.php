@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Tunjangan Pegawai')
+@section('title', 'Tunjangan Transport')
 @section('content')
     <style>
         .table-scroll {
@@ -34,8 +34,7 @@
                     <th colspan="1" style="width: 350px;">Nama</th>
                     <th rowspan="2" style="width:100px;">Jarak</th>
                     <th colspan="2" style="width:50px;">Total Hari</th>
-                    <th rowspan="2" style="width: 275px;">Total Tunjangan</th>
-                    <th rowspan="2" style="width: 5px;"></th>
+                    <th rowspan="2" style="width: 290px;">Total Tunjangan</th>
                 </tr>
                 <tr>
                     <th>Pegawai Tetap</th>
@@ -44,7 +43,7 @@
                 </tr>
             </thead>
         </table>
-        <div class="table-responsive" style="max-height:400px; overflow-y:auto;max-width:100%; margin-top:-16px">
+        <div class="table-responsive" style="max-height:450px; overflow-y:auto;max-width:100%; margin-top:-16px">
             <table class="table " id="pegawaiBody">
                 <tbody>
                     @foreach ($tunjangan as $index => $item)

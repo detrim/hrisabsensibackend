@@ -27,7 +27,7 @@
                 <a href="{{ route('setting.index') }}" class="nav-link text-white">Setting Tunjangan</a>
             </li>
             <li class="nav-item">
-                <a href="{{ route('tunjangan.index') }}" class="nav-link text-white">Tunjangan Pegawai</a>
+                <a href="{{ route('tunjangan.index') }}" class="nav-link text-white">Tunjangan Transport</a>
             </li>
         @elseif (auth()->user()->isManagerHRD())
             <li class="nav-item">

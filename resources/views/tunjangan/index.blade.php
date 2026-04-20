@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Tunjangan Pegawai')
+@section('title', 'Tunjangan Transport')
 @section('content')
 
     <div class="container mt-4">
@@ -8,37 +8,39 @@
             <input type="text" id="search" class="form-control form-control-sm w-25" placeholder="Cari tahun...">
         </div>
         <!-- Table -->
-        <table class="table ">
-            <thead class="table-dark">
-                <tr>
-                    <th style="width: 50px;">NO</th>
-                    <th>TAHUN</th>
-                    <th>BULAN</th>
-                    <th>ABSENSI</th>
-                </tr>
-            </thead>
-            <tbody id="absensiTable1">
-                @forelse ($data as $key => $item)
+        <div class="table-responsive" style="max-height:450px; overflow-y:auto;max-width:100%; margin-top:-16px">
+            <table class="table mt-4">
+                <thead class="table-dark">
                     <tr>
-                        <td>{{ $key + 1 }}</td>
-                        <td>{{ $item->tahun }}</td>
-                        <td>{{ $item->nama_bulan }}</td>
-                        <td>
-                            <a href="{{ route('tunjangan.bulan', [
-                                'bln' => $item->bulan,
-                                'thn' => $item->tahun,
-                                'id' => $item->id,
-                            ]) }}"
-                                class="btn btn-sm  {{ $item->status == 1 ? 'btn-success' : 'btn-danger' }}">View</a>
-                        </td>
+                        <th style="width: 50px;">No</th>
+                        <th>Tahun</th>
+                        <th>Bulan</th>
+                        <th>Tunjangan</th>
                     </tr>
-                @empty
-                    <tr>
-                        <td colspan="6" class="text-center text-danger">Data tidak ditemukan</td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
+                </thead>
+                <tbody id="absensiTable1">
+                    @forelse ($data as $key => $item)
+                        <tr>
+                            <td>{{ $key + 1 }}</td>
+                            <td>{{ $item->tahun }}</td>
+                            <td>{{ $item->nama_bulan }}</td>
+                            <td>
+                                <a href="{{ route('tunjangan.bulan', [
+                                    'bln' => $item->bulan,
+                                    'thn' => $item->tahun,
+                                    'id' => $item->id,
+                                ]) }}"
+                                    class="btn btn-sm  {{ $item->status == 1 ? 'btn-success' : 'btn-danger' }}">View</a>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="6" class="text-center text-danger">Data tidak ditemukan</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
         <div class="row mt-2 align-items-center justify-content-end">
             <div class="col-auto">
                 {{ $data->links('pagination::bootstrap-5') }}

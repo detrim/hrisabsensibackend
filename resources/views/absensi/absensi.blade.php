@@ -33,12 +33,11 @@
         <table class="table table-bordered">
             <thead class="table-dark text-center align-middle">
                 <tr>
-                    <th rowspan="2" style="width:50px;">NO</th>
-                    <th rowspan="2" style="width: 350px;">NAMA</th>
-                    <th rowspan="2" style="width:170px;">STATUS PEGAWAI</th>
-                    <th colspan="2" style="width:50px;">JAM</th>
-                    <th rowspan="2" style="width: 275px;">KETERANGAN</th>
-                    <th rowspan="2" style="width: 5px;"></th>
+                    <th rowspan="2" style="width:50px;">No</th>
+                    <th rowspan="2" style="width: 350px;">Nama</th>
+                    <th rowspan="2" style="width:170px;">Status Pegawai</th>
+                    <th colspan="2" style="width:50px;">Jam</th>
+                    <th rowspan="2" style="width: 290px;">Keterangan</th>
                 </tr>
                 <tr>
                     <th style="width:95px;">08:00</th>
@@ -46,7 +45,7 @@
                 </tr>
             </thead>
         </table>
-        <div class="table-responsive" style="max-height:400px; overflow-y:auto;max-width:100%; margin-top:-16px">
+        <div class="table-responsive" style="max-height:450px; overflow-y:auto;max-width:100%; margin-top:-16px">
             <table class="table " id="pegawaiBody">
                 <tbody>
                     @forelse  ($pegawai as $key => $p)

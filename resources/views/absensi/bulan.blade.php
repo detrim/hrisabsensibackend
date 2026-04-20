@@ -34,7 +34,7 @@
             </button>
         </div>
         @include('session.session')
-        <table class="table table-bordered w-100 mt-3 mb-3">
+        <table class="table table-bordered w-100 mt-4 mb-3">
             <thead class="table-dark align-middle">
                 <tr>
                     {{-- <th style="50px;" class="text-center">No</th> --}}
@@ -47,19 +47,9 @@
         </table>
         <div class="table-responsive" style="max-height:450px; overflow-y:auto;max-width:100%; margin-top:-16px">
             <table class="table w-100 ">
-                <thead class="table-dark align-middle">
-                    <tr>
-                        {{-- <th style="50px;"></th> --}}
-                        <th style="width: 100px;"></th>
-                        <th style="width:100px;"></th>
-                        <th style="width:100px;"></th>
-                        <th style="width:200px;"></th>
-                    </tr>
-                </thead>
                 <tbody class="text-center">
                     @foreach ($dataHari as $d)
                         <tr>
-                            {{-- <td style="width:30px;">{{ $loop->iteration }}</td> --}}
                             <td style="width:100px;">{{ $d['tanggal'] }}</td>
                             <td style="width:100px;">{{ $d['hari'] }}</td>
                             <td style="width:100px;">{{ $d['total'] }}</td>

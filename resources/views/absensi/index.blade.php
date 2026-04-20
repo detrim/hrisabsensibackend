@@ -5,63 +5,65 @@
     <div class="container mt-4">
 
         <!-- Search + Button -->
-        <div class="d-flex justify-content-between mb-3">
+        <div class="d-flex justify-content-between mb-4">
             <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalTambah">
                 + Tambah Absensi
             </button>
             <input type="text" id="search" class="form-control form-control-sm w-25" placeholder="Cari tahun...">
         </div>
         @include('session.session')
-
-
         <!-- Table -->
-        <table class="table">
+        <table class="table mt-4">
             <thead class="table-dark">
                 <tr>
-                    <th style="width: 50px;">NO</th>
-                    <th>TAHUN</th>
-                    <th>BULAN</th>
-                    <th>ABSENSI</th>
-                    <th>Keterangan</th>
+                    <th style="width: 50px;">No</th>
+                    <th style="width:100px;">Tahun</th>
+                    <th style="width:150px;">Bulan</th>
+                    <th style="width:150px;">Absensi</th>
+                    <th style="width:200px;">Keterangan</th>
                     <th style="width: 100px;">AKSI</th>
                 </tr>
             </thead>
-            <tbody id="absensiTable">
-                @forelse ($data as $key => $item)
-                    <tr>
-                        <td>{{ $key + 1 }}</td>
-                        <td>{{ $item->tahun }}</td>
-                        <td>{{ $item->nama_bulan }}</td>
-                        <td>
-                            <a href="{{ route('periode.bulan', $item->id) }}"
-                                class="btn btn-sm  {{ $item->status == 1 ? 'btn-danger' : 'btn-success' }}">View</a>
-                        </td>
-                        <td style="width: 200px;">
-                            <form method="POST" action="{{ route('periode.update.status', $item->id) }}">
-                                @csrf
-                                <select class="form-select form-select-sm" name="status" onchange="confirmStatus(this)"
-                                    {{ $item->status == 1 ? 'disabled' : null }}>
-                                    <option value="0" {{ $item->status == 0 ? 'selected' : '' }}>Aktif</option>
-                                    <option value="1" {{ $item->status == 1 ? 'selected' : '' }}>Close</option>
-                                </select>
-                            </form>
-                        <td>
-                            <button class="btn btn-warning btn-sm btn-edit" data-title="Update Absensi"
-                                data-id="{{ $item->id }}" data-nama-bulan="{{ $item->nama_bulan }}"
-                                data-tahun="{{ $item->tahun }}" data-bulan="{{ $item->bulan }}"
-                                data-status="{{ $item->status }}" data-bs-toggle="modal" data-bs-target="#modalTambah">
-                                Update
-                            </button>
-                        </td>
-                        </td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="6" class="text-center text-danger">Data tidak ditemukan</td>
-                    </tr>
-                @endforelse
-            </tbody>
         </table>
+        <div class="table-responsive" style="max-height:450px; overflow-y:auto;max-width:100%; margin-top:-16px">
+            <table class="table">
+                <tbody id="absensiTable">
+                    @forelse ($data as $key => $item)
+                        <tr>
+                            <td style="width:50px;">{{ $key + 1 }}</td>
+                            <td style="width:100px;">{{ $item->tahun }}</td>
+                            <td style="width:150px;">{{ $item->nama_bulan }}</td>
+                            <td style="width:150px;">
+                                <a href="{{ route('periode.bulan', $item->id) }}"
+                                    class="btn btn-sm  {{ $item->status == 1 ? 'btn-danger' : 'btn-success' }}">View</a>
+                            </td>
+                            <td style="width: 200px;">
+                                <form method="POST" action="{{ route('periode.update.status', $item->id) }}">
+                                    @csrf
+                                    <select class="form-select form-select-sm" name="status" onchange="confirmStatus(this)"
+                                        {{ $item->status == 1 ? 'disabled' : null }}>
+                                        <option value="0" {{ $item->status == 0 ? 'selected' : '' }}>Aktif</option>
+                                        <option value="1" {{ $item->status == 1 ? 'selected' : '' }}>Close</option>
+                                    </select>
+                                </form>
+                            <td style="width: 100px;">
+                                <button class="btn btn-warning btn-sm btn-edit" data-title="Update Absensi"
+                                    data-id="{{ $item->id }}" data-nama-bulan="{{ $item->nama_bulan }}"
+                                    data-tahun="{{ $item->tahun }}" data-bulan="{{ $item->bulan }}"
+                                    data-status="{{ $item->status }}" data-bs-toggle="modal" data-bs-target="#modalTambah">
+                                    Update
+                                </button>
+                            </td>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="6" class="text-center text-danger">Data tidak ditemukan</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
         <div class="row mt-2 mb-3 align-items-center justify-content-end">
             <div class="col-auto">
                 {{ $data->links('pagination::bootstrap-5') }}
@@ -251,10 +253,10 @@
                                 let btnInput = item.status == 1 ? 'disabled' : null;
                                 html += `
         <tr>
-            <td>${index + 1}</td>
-            <td>${item.tahun}</td>
-            <td>${item.nama_bulan}</td>
-            <td>
+            <td style="width:50px;">${index + 1}</td>
+            <td style="width:100px;">${item.tahun}</td>
+            <td style="width:150px;">${item.nama_bulan}</td>
+            <td style="width:150px;">
                 <a href="${url}" class="btn ${btnClass} btn-sm">View</a>
             </td>
             <td style="width: 200px;">
@@ -266,7 +268,7 @@
                     </select>
                 </form>
             </td>
-            <td>
+            <td style="width:100px;">
                 <button class="btn btn-warning btn-sm btn-edit" data-title="Update Absensi" data-id="${item.id}"
                     data-nama-bulan="${item.nama_bulan}" data-tahun="${item.tahun}" data-bulan="${item.bulan}"
                     data-status="${item.status}" data-bs-toggle="modal" data-bs-target="#modalTambah">

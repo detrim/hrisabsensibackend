@@ -61,8 +61,8 @@
         @include('session.session')
 
         <!-- TABLE -->
-        <table class="table table-bordered mt-2">
-            <thead class="table-dark text-center">
+        <table class="table mt-2">
+            <thead class="table-dark table-bordered">
                 <tr>
                     <th width="50">#</th>
                     <th>Nama Pegawai</th>
@@ -81,9 +81,9 @@
                         $lokasi = ($d = array_filter([$desa, $kab, $prov])) ? implode(', ', $d) : null;
                     @endphp
                     <tr>
-                        <td class="text-center">{{ $pegawai->firstItem() + $i }} </td>
+                        <td>{{ $pegawai->firstItem() + $i }} </td>
                         <td class="nama">{{ $p->nama }}</td>
-                        <td class="text-center" style="width: 370px">{{ $lokasi ? $lokasi : null }}</td>
+                        <td style="width: 370px">{{ $lokasi ? $lokasi : null }}</td>
                         <td class="position-relative flex-grow-1">
                             <input type="text" class="form-control lokasi-input" placeholder="Jl. / Desa"
                                 autocomplete="off" style="text-transform: capitalize;" data-id="{{ $p->id }}">
@@ -440,13 +440,13 @@
                                 }
                                 html += `
                         <tr>
-                            <td class="text-center">${index + 1}</td>
+                            <td>${index + 1}</td>
 
-                            <td class="nama">
+                            <td>
                                 ${p.nama ?? '-'}
                             </td>
 
-                            <td class="text-center" style="width: 370px">
+                            <td style="width: 370px">
                                 ${lokasiText}
                             </td>
 
@@ -511,11 +511,11 @@
                             data.forEach((p, i) => {
                                 html += `
                         <tr>
-                            <td class="text-center">${i + 1}</td>
+                            <td>${i + 1}</td>
                             <td class="nama">
                                 ${p.nama ?? '-'}
                             </td>
-                            <td class="text-center" style="width: 370px">
+                            <td style="width: 370px">
                                 ${p.lokasi ?? '-'}
                             </td>
                             <td class="position-relative flex-grow-1">
