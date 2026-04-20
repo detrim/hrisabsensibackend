@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\Periode;
 use App\Models\Pegawai;
 use Carbon\Carbon;
+use App\Services\TunjanganTransportService;
+use App\Models\TunjanganTransportPegawai;
+
 
 class PeriodeController extends Controller
 {
@@ -27,13 +30,34 @@ class PeriodeController extends Controller
             ->get();
         return response()->json($data);
     }
+    // public function updateStatus(Request $request, $id)
+    // {
+    //     $data = Periode::findOrFail($id);
+    //     $data->status = $request->status;
+    //     $data->save();
+    //     $service = new TunjanganTransportService();
+    //     $data = $service->hitung();
+
+    //     return back();
+    // }
     public function updateStatus(Request $request, $id)
     {
-        $data = Periode::findOrFail($id);
-        $data->status = $request->status;
-        $data->save();
+    $data = Periode::findOrFail($id);
+    $data->status = $request->status;
+    $data->save();
 
-        return back();
+    $service = new TunjanganTransportService();
+    $hasil = $service->hitung();
+        foreach ($hasil as $item) {
+            TunjanganTransportPegawai::create([
+                'pegawai_nip' => $item['pegawai_nip'],
+                'periode_id' => $item['periode_id'],
+                'jarak_km' => $item['jarak_dibulatkan'],
+                'jumlah_hari_masuk' => $item['jumlah_hari_masuk'],
+                'total_tunjangan' => $item['tunjangan_transport'],
+            ]);
+        }
+       return back()->with('success', 'Data Absensi Close, Cek Tunjangan');
     }
     public function update(Request $request, $id)
     {

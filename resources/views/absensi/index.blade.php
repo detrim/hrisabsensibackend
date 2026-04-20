@@ -39,8 +39,8 @@
                         <td style="width: 200px;">
                             <form method="POST" action="{{ route('periode.update.status', $item->id) }}">
                                 @csrf
-
-                                <select class="form-select form-select-sm" name="status" onchange="this.form.submit()">
+                                <select class="form-select form-select-sm" name="status" onchange="confirmStatus(this)"
+                                    {{ $item->status == 1 ? 'disabled' : null }}>
                                     <option value="0" {{ $item->status == 0 ? 'selected' : '' }}>Aktif</option>
                                     <option value="1" {{ $item->status == 1 ? 'selected' : '' }}>Close</option>
                                 </select>
@@ -142,6 +142,28 @@
     <!-- Script -->
     @push('absensi-index')
         <script>
+            function confirmStatus(el) {
+                if (el.value == 1) {
+                    Swal.fire({
+                        title: 'Yakin?',
+                        text: "Periode akan ditutup dan tidak bisa diubah lagi!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Ya, Close',
+                        cancelButtonText: 'Batal'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            el.form.submit();
+                        } else {
+                            el.value = 0;
+                        }
+                    });
+                } else {
+                    el.form.submit();
+                }
+            }
+
+
             const modal = document.getElementById('modalTambah');
             modal.addEventListener('hide.bs.modal', function() {
                 document.activeElement?.blur();
@@ -218,45 +240,41 @@
 
                         if (data.length === 0) {
                             html =
-                                `<tr><td colspan="6" class="text-center text-danger">Data tidak ditemukan</td></tr>`;
+                                `<tr>
+            <td colspan="6" class="text-center text-danger">Data tidak ditemukan</td>
+        </tr>`;
                         } else {
                             data.forEach((item, index) => {
                                 let url = urlTemplate.replace(':id', item.id);
                                 let urlst = urlTemplatestatus.replace(':id', item.id);
                                 let btnClass = item.status == 1 ? 'btn-danger' : 'btn-success';
+                                let btnInput = item.status == 1 ? 'disabled' : null;
                                 html += `
-                        <tr>
-                            <td>${index + 1}</td>
-                            <td>${item.tahun}</td>
-                            <td>${item.nama_bulan}</td>
-                            <td>
-                                <a href="${url}" class="btn ${btnClass} btn-sm">View</a>
-                            </td>
-                            <td style="width: 200px;">
-                               <form method="POST" action="${urlst}">
-                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                    <select class="form-select form-select-sm" name="status"
-                                        onchange="this.form.submit()">
-                                        <option value="1" ${item.status == 1 ? 'selected' : ''}>Close</option>
-                                        <option value="0" ${item.status == 0 ? 'selected' : ''}>Aktif</option>
-                                    </select>
-                                </form>
-                            </td>
-                            <td>
-                                <button class="btn btn-warning btn-sm btn-edit"
-                                    data-title="Update Absensi"
-                                    data-id="${item.id}"
-                                    data-nama-bulan="${item.nama_bulan}"
-                                    data-tahun="${item.tahun}"
-                                    data-bulan="${item.bulan}"
-                                    data-status="${item.status}"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#modalTambah">
-                                    Update
-                                </button>
-                            </td>
-                        </tr>
-                    `;
+        <tr>
+            <td>${index + 1}</td>
+            <td>${item.tahun}</td>
+            <td>${item.nama_bulan}</td>
+            <td>
+                <a href="${url}" class="btn ${btnClass} btn-sm">View</a>
+            </td>
+            <td style="width: 200px;">
+                <form method="POST" action="${urlst}">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <select class="form-select form-select-sm" name="status" onchange="this.form.submit()" ${btnInput}>
+                        <option value="1" ${item.status==1 ? 'selected' : '' }>Close</option>
+                        <option value="0" ${item.status==0 ? 'selected' : '' }>Aktif</option>
+                    </select>
+                </form>
+            </td>
+            <td>
+                <button class="btn btn-warning btn-sm btn-edit" data-title="Update Absensi" data-id="${item.id}"
+                    data-nama-bulan="${item.nama_bulan}" data-tahun="${item.tahun}" data-bulan="${item.bulan}"
+                    data-status="${item.status}" data-bs-toggle="modal" data-bs-target="#modalTambah">
+                    Update
+                </button>
+            </td>
+        </tr>
+        `;
                             });
                         }
 
