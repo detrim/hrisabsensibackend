@@ -9,11 +9,12 @@ use App\Http\Controllers\AbsensiController;
 use App\Http\Controllers\PeriodeController;
 use App\Http\Controllers\LokasiController;
 use App\Http\Controllers\SettingTunjanganTransportController;
+use App\Http\Controllers\TunjanganTransportPegawaiController;
 
 
-Route::get('/tunjangan/index', function () {
-    return view('/tunjangan/index');
-})->name('tunjangan.index');
+// Route::get('/tunjangan/index', function () {
+//     return view('/tunjangan/index');
+// })->name('tunjangan.index');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/user', [KelolaUserController::class, 'index'])->name('user.index');
@@ -66,6 +67,8 @@ Route::middleware(['auth'])->group(function () {
 
             Route::get('/setting/index', [SettingTunjanganTransportController::class,'index'])->name('setting.index');
             Route::post('/setting/store', [SettingTunjanganTransportController::class,'store'])->name('setting.store');
+
+            Route::get('/tunjangan/index', [TunjanganTransportPegawaiController::class,'index'])->name('tunjangan.index');
     });
         Route::prefix('managerhrd')->group(function () {
             Route::get('/', [DashboardController::class, 'index'])->name('index');

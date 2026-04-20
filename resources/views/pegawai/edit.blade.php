@@ -189,9 +189,11 @@
                         <div class="col-md-2 mb-3">
                             <label class="form-label">Status Pegawai</label>
                             <select name="status_pegawai" class="form-select">
-                                <option value="kontrak" {{ $pegawai->status == 'kontrak' ? 'selected' : '' }}>Kontrak
+                                <option value="kontrak" {{ $pegawai->status_pegawai == 'kontrak' ? 'selected' : '' }}>
+                                    Kontrak
                                 </option>
-                                <option value="tetap" {{ $pegawai->status == 'tetap' ? 'selected' : '' }}>Tetap</option>
+                                <option value="tetap" {{ $pegawai->status_pegawai == 'tetap' ? 'selected' : '' }}>Tetap
+                                </option>
                             </select>
                         </div>
                         <div class="col-md-2">

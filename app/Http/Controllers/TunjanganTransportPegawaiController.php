@@ -11,6 +11,7 @@ class TunjanganTransportPegawaiController extends Controller
 {
     public function index()
     {
+        
         return TunjanganTransportPegawai::with('pegawai')->get();
     }
 
