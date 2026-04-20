@@ -73,7 +73,7 @@
             </thead>
 
             <tbody id="tbodyPegawai">
-                @foreach ($pegawai as $i => $p)
+                @forelse ($pegawai as $i => $p)
                     @php
                         $data = explode(',', $p->lokasi?->lokasi);
                         $desa = $data[0] ?? null;
@@ -98,7 +98,11 @@
                             </button>
                         </td>
                     </tr>
-                @endforeach
+                @empty
+                    <tr>
+                        <td colspan="5" class="text-center text-danger">Data tidak ditemukan</td>
+                    </tr>
+                @endforelse
             </tbody>
         </table>
         <div class="row mt-2 align-items-center justify-content-between">

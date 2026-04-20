@@ -5,14 +5,40 @@ namespace App\Http\Controllers;
 use App\Models\TunjanganTransportPegawai;
 use App\Models\SettingTunjanganTransport;
 use App\Models\Pegawai;
+use App\Models\Periode;
 use Illuminate\Http\Request;
 
 class TunjanganTransportPegawaiController extends Controller
 {
     public function index()
     {
-        
-        return TunjanganTransportPegawai::with('pegawai')->get();
+        $data = Periode::where('status',1)
+            ->orderBy('tahun', 'desc')
+            ->orderBy('bulan', 'desc')
+            ->paginate(12);
+        $bulan = Periode::bulanList();
+        return view('tunjangan.index', compact('data', 'bulan'));
+    }
+    public function search(Request $request)
+    {
+        $keyword = $request->keyword;
+        $data = Periode::where('tahun', 'like', "%$keyword%")
+            ->where('status',1)
+            ->orderBy('tahun', 'desc')
+            ->orderBy('bulan', 'desc')
+            ->get();
+        return response()->json($data);
+    }
+    public function tunjangan()
+    {
+
+        $data = TunjanganTransportPegawai::with(['pegawai', function($q) {
+            $q->where('status_pegawai', 'tetap')
+            ->where('status', 1)
+            ->get();
+        }
+        ])
+        ->paginate(10);
     }
 
     public function store(Request $request)

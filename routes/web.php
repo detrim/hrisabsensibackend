@@ -69,6 +69,8 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/setting/store', [SettingTunjanganTransportController::class,'store'])->name('setting.store');
 
             Route::get('/tunjangan/index', [TunjanganTransportPegawaiController::class,'index'])->name('tunjangan.index');
+            Route::get('/tunjangan/search', [TunjanganTransportPegawaiController::class,'search'])->name('tunjangan.search');
+            Route::get('/tunjangan/{id}/bulan', [TunjanganTransportPegawaiController::class,'bulan'])->name('tunjangan.bulan');
     });
         Route::prefix('managerhrd')->group(function () {
             Route::get('/', [DashboardController::class, 'index'])->name('index');

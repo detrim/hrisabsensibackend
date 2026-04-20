@@ -48,6 +48,7 @@
 
 <script src="{{ asset('js/public.js') }}"></script>
 @stack('setting')
+@stack('tunjangan-index')
 @stack('absensi-index')
 @stack('bulan')
 @stack('absensi')

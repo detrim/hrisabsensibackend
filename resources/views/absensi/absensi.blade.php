@@ -38,6 +38,7 @@
                     <th rowspan="2" style="width:170px;">STATUS PEGAWAI</th>
                     <th colspan="2" style="width:50px;">JAM</th>
                     <th rowspan="2" style="width: 275px;">KETERANGAN</th>
+                    <th rowspan="2" style="width: 5px;"></th>
                 </tr>
                 <tr>
                     <th style="width:95px;">08:00</th>
@@ -74,7 +75,7 @@
                                     data-tgl="{{ $tgl }}" data-jenis="sore"
                                     {{ ($sore ?? 0) == 1 ? 'checked' : '' }} {{ $disabled }}>
                             </td>
-                            <td style="width: 267px;">
+                            <td style="width: 290px;">
                                 <select name="keterangan[{{ $p->id }}]"
                                     class="form-control form-control-sm keterangan-select" data-nip="{{ $p->nip }}"
                                     data-id="{{ $data->id }}" data-bulan="{{ $data->bulan }}"
