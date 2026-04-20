@@ -1,32 +1,15 @@
 @extends('layouts.app')
 @section('title', 'Tunjangan Transport')
 @section('content')
-    <style>
-        .table-scroll {
-            width: 100%;
-            table-layout: fixed;
-        }
 
-        .table-scroll thead,
-        .table-scroll tbody tr {
-            display: table;
-            width: 99%;
-            table-layout: fixed;
-        }
-
-        .table-scroll tbody {
-            display: block;
-            max-height: 300px;
-            overflow-y: auto;
-        }
-    </style>
     <div class="container mt-4">
-        <div class="d-flex justify-content-end mb-3">
+        <div class="d-flex justify-content-between mb-3">
+            <p class="mb-0">
+                <b>PERIODE :</b> {{ $data->nama_bulan }} {{ $data->tahun }}
+            </p>
             <input type="text" id="search" data-id="{{ $data->id }}" data-bulan="{{ $data->bulan }}"
                 class="form-control form-control-sm w-25" placeholder="Nama Pegawai...">
         </div>
-        <p><b>PERIODE :</b> {{ $data->nama_bulan }} {{ $data->tahun }}</p>
-        @include('session.session')
         <table class="table table-bordered">
             <thead class="table-dark text-center align-middle">
                 <tr>
@@ -44,7 +27,7 @@
             </thead>
         </table>
         <div class="table-responsive" style="max-height:450px; overflow-y:auto;max-width:100%; margin-top:-16px">
-            <table class="table " id="pegawaiBody">
+            <table class="table " id="tunjanganBody">
                 <tbody>
                     @foreach ($tunjangan as $index => $item)
                         <tr>
@@ -61,7 +44,7 @@
                             <td style="width: 99px;" class="text-center">
                                 {{ $item->jumlah_hari_masuk ?? 0 }}
                             </td>
-                            <td style="width:290px;">
+                            <td style="width:290px;" class="text-end">
                                 Rp {{ number_format($item->total_tunjangan, 0, ',', '.') }}
                             </td>
                         </tr>
@@ -80,6 +63,59 @@
             </div>
         </div>
     </div>
-    @push('tunjangan-bulan')
+    @push('tunjangan')
+        <script>
+            document.getElementById('search').addEventListener('keyup', function() {
+                let id = $(this).attr('data-id');
+                let bulan = $(this).attr('data-bulan');
+                let urlTemplate = "{{ route('tunjangan.nama') }}";
+                let keyword = $(this).val();
+                let data = {
+                    id: id,
+                    bulan: bulan,
+                    keyword: keyword,
+                    _token: '{{ csrf_token() }}'
+                };
+                fetch(urlTemplate, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify(data)
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        let html = '';
+                        if (data.length === 0) {
+                            html =
+                                `<tr><td colspan="6" class="text-center text-danger">Data tidak ditemukan</td></tr>`;
+                        } else {
+                            data.forEach((item, index) => {
+                                let nama = item.pegawai?.nama ?? '-';
+                                let jarak = item.jarak_km ?? 0;
+                                let minimal = item.minimal_hari ?? 19;
+                                let masuk = item.jumlah_hari_masuk ?? 0;
+                                let tunjangan = item.total_tunjangan ?? 0;
+
+                                let rupiah = new Intl.NumberFormat('id-ID').format(tunjangan);
+
+                                html += `
+            <tr>
+                <td class="text-center" style="width: 52px;">${index + 1}</td>
+                <td style="width: 366px;">${nama}</td>
+                <td class="text-center" style="width: 105px;">${jarak} km</td>
+                <td class="text-center" style="width: 99px;">${minimal}</td>
+                <td class="text-center" style="width: 99px;">${masuk}</td>
+                <td class="text-end" style="width: 260px;">Rp ${rupiah}</td>
+            </tr>
+        `;
+                            });
+                        }
+                        document.getElementById('tunjanganBody').innerHTML = html;
+                    });
+            });
+        </script>
     @endpush
 @endsection

@@ -284,7 +284,7 @@
                 // console.log('pegawaiData:', pegawaiData);
                 // console.log(Array.isArray(pegawaiData));
                 if (!lokasi || !latitude || !longitude) {
-                    alert('Data tidak lengkap!');
+                    alert('Data lokasi tidak lengkap!');
                     return;
                 }
                 setLoading(btn, true);

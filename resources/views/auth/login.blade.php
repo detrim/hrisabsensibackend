@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title>LoginPegawai</title>
 
     <!-- Bootstrap 5 CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -50,7 +50,7 @@
                         <label class="form-label">Role</label>
                         <select name="role" class="form-select" required>
                             <option value="">-- Pilih Role --</option>
-                            <option value="superadmin">Admin</option>
+                            <option value="Superadmin">Admin</option>
                             <option value="Manager HRD">Manajer HRD</option>
                             <option value="Admin HRD">Staf HRD</option>
                         </select>

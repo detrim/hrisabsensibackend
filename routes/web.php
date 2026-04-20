@@ -12,10 +12,6 @@ use App\Http\Controllers\SettingTunjanganTransportController;
 use App\Http\Controllers\TunjanganTransportPegawaiController;
 
 
-// Route::get('/tunjangan/index', function () {
-//     return view('/tunjangan/index');
-// })->name('tunjangan.index');
-
 Route::middleware(['auth'])->group(function () {
     Route::get('/user', [KelolaUserController::class, 'index'])->name('user.index');
     Route::get('/user/{id}/edit', [KelolaUserController::class, 'edit'])->name('user.edit');
@@ -64,13 +60,13 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/lokasi/kantor', [LokasiController::class,'kantor'])->name('lokasikantor.store');
             Route::get('/lokasi/search', [LokasiController::class,'search'])->name('lokasi.search');
 
-
             Route::get('/setting/index', [SettingTunjanganTransportController::class,'index'])->name('setting.index');
             Route::post('/setting/store', [SettingTunjanganTransportController::class,'store'])->name('setting.store');
 
             Route::get('/tunjangan/index', [TunjanganTransportPegawaiController::class,'index'])->name('tunjangan.index');
             Route::get('/tunjangan/search', [TunjanganTransportPegawaiController::class,'search'])->name('tunjangan.search');
             Route::get('/tunjangan/{thn}/{bln}/pegawai/{id}', [TunjanganTransportPegawaiController::class,'tunjangan'])->name('tunjangan.bulan');
+            Route::post('/tunjangan/nama', [TunjanganTransportPegawaiController::class,'tunjangansearch'])->name('tunjangan.nama');
     });
         Route::prefix('managerhrd')->group(function () {
             Route::get('/', [DashboardController::class, 'index'])->name('index');

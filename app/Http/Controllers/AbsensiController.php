@@ -37,16 +37,19 @@ class AbsensiController extends Controller
         $tgl = $data['tgl'];
         $bln = $data['bulan'];
         $keyword = $data['keyword'];
+
         $pegawai = Pegawai::with(['absensi' => function ($q) use ($id, $bln, $tgl) {
-            $q->select('id', 'pegawai_nip', 'pagi', 'sore', 'keterangan','periode_id','tgl','bulan')
-                ->where('periode_id', $id)
-                ->where('bulan', $bln)
-                ->where('tgl', $tgl)
-                ->with('periode');
-            }])
-            ->where('nama', 'like', "%$keyword%")
-            ->where('status', 1)
-            ->get();
+        $q->select('id', 'pegawai_nip', 'pagi', 'sore', 'keterangan', 'periode_id', 'tgl', 'bulan')
+            ->where('periode_id', $id)
+            ->where('bulan', $bln)
+            ->where('tgl', $tgl)
+            ->with('periode');
+        }])
+        ->where('status', 1)
+        ->when($keyword, function ($query) use ($keyword) {
+            $query->where('nama', 'like', "%$keyword%");
+        })
+        ->get();
         return response()->json($pegawai);
     }
     public function update(Request $request)

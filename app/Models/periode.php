@@ -34,9 +34,9 @@ class Periode extends Model
     /**
      * 1 Periode punya banyak Tunjangan Transport
      */
-    public function tunjanganTransport()
+    public function tunjangan()
     {
-        return $this->hasMany(TunjanganTransportPegawai::class, 'periode_id');
+        return $this->hasMany(TunjanganTransportPegawai::class, 'periode_id', 'id');
     }
 
     /**

@@ -72,7 +72,9 @@ class LokasiController extends Controller
         $keyword = $request->keyword;
         $pegawai = Pegawai::with('lokasi')
             ->where('status', 1)
-            ->where('nama', 'like', "%$keyword%")
+            ->when($keyword, function ($q) use ($keyword) {
+                $q->where('nama', 'like', "%{$keyword}%");
+            })
             ->get();
         // NORMALISASI lokasi jadi string
         $pegawai->transform(function ($p) {

@@ -24,22 +24,16 @@ class PeriodeController extends Controller
      public function search(Request $request)
     {
         $keyword = $request->keyword;
-        $data = Periode::where('tahun', 'like', "%$keyword%")
+       $data = Periode::query()
+            ->when($keyword, function ($q) use ($keyword) {
+                $q->where('tahun', 'like', "%{$keyword}%");
+            })
             ->orderBy('tahun', 'desc')
             ->orderBy('bulan', 'desc')
             ->get();
         return response()->json($data);
     }
-    // public function updateStatus(Request $request, $id)
-    // {
-    //     $data = Periode::findOrFail($id);
-    //     $data->status = $request->status;
-    //     $data->save();
-    //     $service = new TunjanganTransportService();
-    //     $data = $service->hitung();
 
-    //     return back();
-    // }
     public function updateStatus(Request $request, $id)
     {
     $data = Periode::findOrFail($id);

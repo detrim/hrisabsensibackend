@@ -25,46 +25,38 @@ class TunjanganTransportPegawaiController extends Controller
     public function search(Request $request)
     {
         $keyword = $request->keyword;
-        $data = Periode::where('tahun', 'like', "%$keyword%")
-            ->where('status',1)
-            ->orderBy('tahun', 'desc')
-            ->orderBy('bulan', 'desc')
-            ->get();
+        $data = Periode::query()
+        ->where('status', 1)
+        ->when($keyword, function ($q) use ($keyword) {
+            $q->where('tahun', 'like', "%{$keyword}%");
+        })
+        ->orderBy('tahun', 'desc')
+        ->orderBy('bulan', 'desc')
+        ->get();
         return response()->json($data);
     }
     public function tunjangan($thn,$bln,$id)
     {
         $data = Periode::findOrFail($id);
-        $tunjangan = TunjanganTransportPegawai::with('pegawai')->paginate(100);
-            // dd($tunjangan,$thn);
+        $tunjangan = TunjanganTransportPegawai::with('pegawai')
+        ->where('periode_id', $id)
+        ->paginate(100);
         return view('tunjangan.tunjangan', compact('tunjangan','data', 'bln'));
     }
-
-    public function store(Request $request)
+   public function tunjangansearch(Request $request)
     {
-        $request->validate([
-            'pegawai_nip' => 'required|exists:pegawai,nip',
-            'jarak_km' => 'required|numeric',
-            'jumlah_hari_masuk' => 'required|integer',
-            'periode' => 'required|date'
-        ]);
+        $keyword = $request->keyword;
+        $id = $request->id;
+        $pegawai = TunjanganTransportPegawai::with('pegawai')
+        ->where('periode_id', $id)
+        ->when($keyword, function ($query) use ($keyword) {
+            $query->whereHas('pegawai', function ($q) use ($keyword) {
+                $q->where('nama', 'like', "%$keyword%");
+            });
+        })
+        ->get();
 
-        $pegawai = Pegawai::findOrFail($request->pegawai_nip);
-        $setting = SettingTunjanganTransport::latest()->first();
-
-        $total = TunjanganTransportPegawai::hitungTunjangan(
-            $request->jarak_km,
-            $request->jumlah_hari_masuk,
-            $setting->tarif_per_km,
-            $pegawai->isTetap()
-        );
-
-        return TunjanganTransportPegawai::create([
-            'pegawai_nip' => $request->pegawai_nip,
-            'jarak_km' => $request->jarak_km,
-            'jumlah_hari_masuk' => $request->jumlah_hari_masuk,
-            'total_tunjangan' => $total,
-            'periode' => $request->periode
-        ]);
+        return response()->json($pegawai);
     }
+
 }

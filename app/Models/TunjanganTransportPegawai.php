@@ -20,31 +20,9 @@ class TunjanganTransportPegawai extends Model
     {
         return $this->belongsTo(Pegawai::class, 'pegawai_nip', 'nip');
     }
-
-    // LOGIC PERHITUNGAN
-    public static function hitungTunjangan($jarak, $hari, $tarif, $pegawaiTetap)
+    public function periode()
     {
-        // hanya pegawai tetap
-        if (!$pegawaiTetap) {
-            return 0;
-        }
-        // minimal hari kerja
-        if ($hari < 19) {
-            return 0;
-        }
-        // pembulatan km
-        $jarakBulat = floor($jarak);
-        if (($jarak - $jarakBulat) >= 0.5) {
-            $jarakBulat = ceil($jarak);
-        }
-        // minimal jarak
-        if ($jarakBulat <= 5) {
-            return 0;
-        }
-        // maksimal jarak
-        if ($jarakBulat > 25) {
-            $jarakBulat = 25;
-        }
-        return $tarif * $jarakBulat * $hari;
+        return $this->belongsTo(Periode::class, 'periode_id', 'id');
     }
+
 }

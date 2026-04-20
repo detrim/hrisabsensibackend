@@ -77,17 +77,20 @@ class AuthController extends Controller
             } elseif ($role->isAdminHRD()) {
                 return redirect('adminhrd');
             }
-                return redirect('/dashboard');
+            return redirect('/');
         }
 
         public function logout(Request $request)
         {
-            // dd(Auth::user());
-            Auth::logout();
             // hapus session
-            // $request->user()->currentAccessToken()->delete();
-            $request->session()->invalidate();
-            $request->session()->regenerateToken();
+            $user = Auth::user();
+            if ($user) {
+                $user->setRememberToken(null);
+                $user->save();
+                }
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+                Auth::logout();
 
             return redirect('/login')->with('success', 'Berhasil logout');
         }
