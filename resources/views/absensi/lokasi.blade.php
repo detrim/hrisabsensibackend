@@ -71,7 +71,6 @@
                     <th>Aksi</th>
                 </tr>
             </thead>
-
             <tbody id="tbodyPegawai">
                 @forelse ($pegawai as $i => $p)
                     @php

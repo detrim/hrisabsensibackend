@@ -41,7 +41,8 @@ class AbsensiController extends Controller
             $q->select('id', 'pegawai_nip', 'pagi', 'sore', 'keterangan','periode_id','tgl','bulan')
                 ->where('periode_id', $id)
                 ->where('bulan', $bln)
-                ->where('tgl', $tgl);
+                ->where('tgl', $tgl)
+                ->with('periode');
             }])
             ->where('nama', 'like', "%$keyword%")
             ->where('status', 1)

@@ -81,7 +81,7 @@
         <!-- TABLE -->
         <form id="bulk-form">
             <div class="table-responsive">
-                <table id="pegawaiTable" class="table table-bordered table-hover">
+                <table id="pegawaiTable" class="table  table-hover">
 
                     <thead class="table-dark">
                         <tr>

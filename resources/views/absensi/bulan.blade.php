@@ -21,8 +21,8 @@
             margin-top: 10px;
         }
     </style>
-    <div class="container mt-4">
-        <div class="d-flex justify-content-between align-items-center mb-3">
+    <div class="container mt-3 mb-3">
+        <div class="d-flex justify-content-between align-items-center">
             <p class="mb-0">
                 <b>PERIODE :</b> {{ $data->nama_bulan }} {{ $data->tahun }}
             </p>
@@ -34,56 +34,68 @@
             </button>
         </div>
         @include('session.session')
-        <table class="table table-bordered table-bordered w-100" id="hariTable">
-            <thead class="table-dark  align-middle">
+        <table class="table table-bordered w-100 mt-3 mb-3">
+            <thead class="table-dark align-middle">
                 <tr>
-                    <th style="50px;" class="text-center">No</th>
-                    <th class="text-center">Tanggal</th>
-                    <th class="text-center">Hari</th>
-                    <th class="text-center">Total Pegawai Bulan Ini</th>
+                    {{-- <th style="50px;" class="text-center">No</th> --}}
+                    <th class="text-center" style="width: 100px;">Tanggal</th>
+                    <th class="text-center" style="width:100px;">Hari</th>
+                    <th class="text-center" style="width:100px;">Total Pegawai Bulan Ini</th>
                     <th style="width:200px;" class="text-center">Aksi</th>
                 </tr>
             </thead>
-            <tbody class="text-center">
-
-                @foreach ($dataHari as $d)
-                    <tr>
-                        <td style="width:50px;">{{ $loop->iteration }}</td>
-                        <td>{{ $d['tanggal'] }}</td>
-                        <td>{{ $d['hari'] }}</td>
-                        <td style="width:200px;">{{ $d['total'] }}</td>
-                        <td>
-                            <button class="btn
-                        btn-warning btn-sm btn-edit" {{ $disabled }}
-                                data-tanggal="{{ $d['tanggal'] }}" data-id="{{ $data->id }}" data-bs-toggle="modal"
-                                data-bs-target="#modalHari">
-                                Edit
-                            </button>
-                            <a href="{{ route('absensi.hari', [
-                                'tgl' => $d['tanggal'],
-                                'bln' => $data->bulan,
-                                'thn' => $data->tahun,
-                                'id' => $data->id,
-                            ]) }}"
-                                class="btn btn-info btn-sm">
-                                View
-                            </a>
-                            <form action="{{ route('periode.hari.hapus') }}" method="POST" style="display:inline;">
-                                @csrf
-                                @method('DELETE')
-                                <input type="hidden" name="periode_id" value="{{ $data->id }}">
-                                <input type="hidden" name="tanggal" value="{{ $d['tanggal'] }}">
-                                <button type="submit" class="btn btn-danger btn-sm" {{ $disabled }}
-                                    onclick="return confirm('Yakin hapus tanggal ini?')">
-                                    Hapus
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
-                @endforeach
-
-            </tbody>
         </table>
+        <div class="table-responsive" style="max-height:450px; overflow-y:auto;max-width:100%; margin-top:-16px">
+            <table class="table w-100 ">
+                <thead class="table-dark align-middle">
+                    <tr>
+                        {{-- <th style="50px;"></th> --}}
+                        <th style="width: 100px;"></th>
+                        <th style="width:100px;"></th>
+                        <th style="width:100px;"></th>
+                        <th style="width:200px;"></th>
+                    </tr>
+                </thead>
+                <tbody class="text-center">
+                    @foreach ($dataHari as $d)
+                        <tr>
+                            {{-- <td style="width:30px;">{{ $loop->iteration }}</td> --}}
+                            <td style="width:100px;">{{ $d['tanggal'] }}</td>
+                            <td style="width:100px;">{{ $d['hari'] }}</td>
+                            <td style="width:100px;">{{ $d['total'] }}</td>
+                            <td style="width:200px;">
+                                <button class="btn
+                            btn-warning btn-sm btn-edit"
+                                    {{ $disabled }} data-tanggal="{{ $d['tanggal'] }}" data-id="{{ $data->id }}"
+                                    data-bs-toggle="modal" data-bs-target="#modalHari">
+                                    Edit
+                                </button>
+                                <a href="{{ route('absensi.hari', [
+                                    'tgl' => $d['tanggal'],
+                                    'bln' => $data->bulan,
+                                    'thn' => $data->tahun,
+                                    'id' => $data->id,
+                                ]) }}"
+                                    class="btn btn-info btn-sm">
+                                    View
+                                </a>
+                                <form action="{{ route('periode.hari.hapus') }}" method="POST" style="display:inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <input type="hidden" name="periode_id" value="{{ $data->id }}">
+                                    <input type="hidden" name="tanggal" value="{{ $d['tanggal'] }}">
+                                    <button type="submit" class="btn btn-danger btn-sm" {{ $disabled }}
+                                        onclick="return confirm('Yakin hapus tanggal ini?')">
+                                        Hapus
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    @endforeach
+
+                </tbody>
+            </table>
+        </div>
     </div>
     <div class="modal fade" id="modalHari" tabindex="-1">
         <div class="modal-dialog">
@@ -150,7 +162,7 @@
                     language: {
                         emptyTable: "Data kosong"
                     },
-                    paging: true,
+                    paging: false,
                     lengthMenu: [10, 20, 30],
                     autoWidth: false,
                     responsive: true,

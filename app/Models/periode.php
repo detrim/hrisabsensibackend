@@ -22,9 +22,13 @@ class Periode extends Model
     /**
      * 1 Periode punya banyak Absensi
      */
+    // public function absensi()
+    // {
+    //     return $this->hasMany(Absensi::class, 'periode_id');
+    // }
     public function absensi()
     {
-        return $this->hasMany(Absensi::class, 'periode_id');
+        return $this->hasMany(Absensi::class, 'periode_id', 'id');
     }
 
     /**

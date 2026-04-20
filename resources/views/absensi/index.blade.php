@@ -15,7 +15,7 @@
 
 
         <!-- Table -->
-        <table class="table table-bordered">
+        <table class="table">
             <thead class="table-dark">
                 <tr>
                     <th style="width: 50px;">NO</th>
@@ -62,7 +62,7 @@
                 @endforelse
             </tbody>
         </table>
-        <div class="row mt-2 align-items-center justify-content-end">
+        <div class="row mt-2 mb-3 align-items-center justify-content-end">
             <div class="col-auto">
                 {{ $data->links('pagination::bootstrap-5') }}
             </div>

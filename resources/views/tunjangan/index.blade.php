@@ -8,7 +8,7 @@
             <input type="text" id="search" class="form-control form-control-sm w-25" placeholder="Cari tahun...">
         </div>
         <!-- Table -->
-        <table class="table table-bordered">
+        <table class="table ">
             <thead class="table-dark">
                 <tr>
                     <th style="width: 50px;">NO</th>

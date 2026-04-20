@@ -29,4 +29,8 @@ class Absensi extends Model
     {
         return $this->hasOne(Lokasi::class, 'pegawai_nip', 'pegawai_nip');
     }
+    public function periode()
+    {
+        return $this->belongsTo(Periode::class, 'periode_id', 'id');
+    }
 }

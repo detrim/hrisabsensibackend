@@ -47,7 +47,7 @@
             </thead>
         </table>
         <div class="table-responsive" style="max-height:400px; overflow-y:auto;max-width:100%; margin-top:-16px">
-            <table class="table table-bordered" id="pegawaiBody">
+            <table class="table " id="pegawaiBody">
                 <tbody>
                     @forelse  ($pegawai as $key => $p)
                         @php
@@ -96,7 +96,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="row mt-2 align-items-center justify-content-between">
+        <div class="row mt-2 mb-3 align-items-center justify-content-between">
             <div class="col-auto">
                 {{ $pegawai->links('pagination::bootstrap-5') }}
             </div>
@@ -160,18 +160,18 @@
                                 let pagi = p.absensi?.[0]?.pagi ?? 0;
                                 let sore = p.absensi?.[0]?.sore ?? 0;
                                 let ket = p.absensi?.[0]?.keterangan ?? 0;
-                                let disabledAttr = p.status == 1 ? 'disabled' : '';
+                                let disabledAttr = p.periode?.status == 1 ? 'disabled' : '';
                                 html += `
                 <tr>
                     <td class="text-center" style="width: 50px;">${index + 1}</td>
-                    <td style="width: 350px;">${p.nama}</td>
+                    <td style="width: 350px;">${p.nama}  </td>
                     <td class="text-center" style="width:170px;">${p.status_pegawai.charAt(0).toUpperCase() + p.status_pegawai.slice(1)}</td>
 
                     <td class="text-center" style="width:95px;">
-                        <input type="checkbox" name="masuk_pagi[${p.id}]" ${(pagi ?? 0) == 1 ? 'checked' : ''} ${disabledAttr} ${disabledAttr}>
+                        <input type="checkbox" name="masuk_pagi[${p.id}]" ${(pagi ?? 0) == 1 ? 'checked' : ''} ${disabledAttr} >
                     </td>
                     <td class="text-center" style="width:95px;">
-                        <input type="checkbox" name="masuk_sore[${p.id}]" ${(sore ?? 0) == 1 ? 'checked' : ''} ${disabledAttr} ${disabledAttr}>
+                        <input type="checkbox" name="masuk_sore[${p.id}]" ${(sore ?? 0) == 1 ? 'checked' : ''}  ${disabledAttr}>
                     </td>
                     <td style="width:275px;">
                         <select class="form-control form-control-sm keterangan-select"
