@@ -41,7 +41,7 @@ class PeriodeController extends Controller
     $data->save();
 
     $service = new TunjanganTransportService();
-    $hasil = $service->hitung();
+    $hasil = $service->hitung($id);
         foreach ($hasil as $item) {
             TunjanganTransportPegawai::create([
                 'pegawai_nip' => $item['pegawai_nip'],

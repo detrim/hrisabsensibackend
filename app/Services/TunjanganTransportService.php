@@ -8,7 +8,7 @@ use App\Models\SettingTunjanganTransport;
 
 class TunjanganTransportService
 {
-    public function hitung()
+    public function hitung($id)
     {
         $lokasiKantor = LokasiKantor::first();
         if (!$lokasiKantor) {
@@ -18,6 +18,7 @@ class TunjanganTransportService
         $setting = SettingTunjanganTransport::first();
         $baseFare = $setting->tarif_per_km ?? 0;
         $pegawai = Absensi::with(['pegawai', 'lokasi'])
+            ->where('periode_id',$id)
             ->select(
                 'pegawai_nip',
                 'periode_id',
