@@ -49,7 +49,7 @@
         <div class="table-responsive" style="max-height:450px; overflow-y:auto;max-width:100%; margin-top:-16px">
             <table class="table table-striped w-100 ">
                 <tbody class="text-center">
-                    @foreach ($dataHari as $d)
+                    @forelse ($dataHari as $d)
                         <tr>
                             <td style="width:100px;">{{ $d['tanggal'] }}</td>
                             <td style="width:100px;">{{ $d['hari'] }}</td>
@@ -82,7 +82,11 @@
                                 </form>
                             </td>
                         </tr>
-                    @endforeach
+                    @empty
+                        <tr>
+                            <td colspan="4" class="text-center text-danger">Data tidak ditemukan</td>
+                        </tr>
+                    @endforelse
 
                 </tbody>
             </table>
