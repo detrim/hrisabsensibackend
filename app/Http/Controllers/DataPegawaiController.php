@@ -83,11 +83,6 @@ class DataPegawaiController extends Controller
                  // resize + compress
                  $img->resize(300, 300) // bisa ubah sesuai kebutuhan
                      ->toJpeg(70); // kualitas 70% (optimal)
-                    // pastikan folder ada
-                    // $pathFolder = public_path('storage/photos');
-                    // if (!file_exists($pathFolder)) {
-                    //     mkdir($pathFolder, 0777, true);
-                    // }
                  Storage::put('photos/' . $filename, $img->encode());
                  // path untuk disimpan ke DB
                  $path = 'photos/' . $filename;
@@ -119,12 +114,23 @@ class DataPegawaiController extends Controller
             'status' =>$status,
             'tanggal_keluar' => $tanggalKeluar
         ];
-    // CREATE / UPDATE
-    if ($pegawai) {
-        $pegawai->update($data);
+        // CREATE / UPDATE
+        if ($pegawai) {
+            $pegawai->update($data);
+            activity()
+                ->useLog('Pegawai')
+                ->causedBy(auth()->user())
+                ->performedOn($pegawai)
+                ->log('Update data pegawai');
+            return $pegawai;
+        }
+        $pegawai = Pegawai::create($data);
+        activity()
+            ->useLog('Pegawai')
+            ->causedBy(auth()->user())
+            ->performedOn($pegawai)
+            ->log('Tambah data pegawai');
         return $pegawai;
-    }
-    return Pegawai::create($data);
     }
 
     public function store(Request $request)
@@ -206,14 +212,22 @@ class DataPegawaiController extends Controller
             User::where('employee_id', $pegawai->nip)
                 ->update(['is_active' => $status]);
         }
+
+        activity()
+            ->useLog('Pegawai')
+            ->causedBy(auth()->user())
+            ->withProperties([
+                'status' => $status,
+                'total_pegawai' => count($request->ids ?? []),
+                'data' => $pegawais
+            ])
+            ->log('Update status pegawai massal');
         return response()->json([
+            'success' => true,
             'status' => $status,
-            'total_pegawai' => count($request->ids),
+            'total_pegawai' => count($request->ids ?? []),
             'message' => 'Berhasil update status'
-        ]);
-        return response()->json([
-        'message' => 'Berhasil update status'
-        ]);
+        ], 200);
     }
 
     public function delete(Request $request)
@@ -234,11 +248,21 @@ class DataPegawaiController extends Controller
                 Storage::disk('public')->delete($pegawai->foto);
             }
         }
-        // Hapus pegawai
+
+        $pegawaiData = Pegawai::whereIn('id', $ids)->get();
+        activity()
+            ->causedBy(auth()->user())
+            ->withProperties([
+                'ids' => $ids,
+                'total' => count($ids),
+                'data' => $pegawaiData
+            ])
+            ->log('Hapus data pegawai massal');
         Pegawai::whereIn('id', $ids)->delete();
         return response()->json([
             'status' => true,
             'message' => 'Data pegawai dan user berhasil dihapus'
         ]);
+
     }
 }

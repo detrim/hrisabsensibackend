@@ -11,9 +11,7 @@ use Illuminate\Support\Facades\Log;
 
 class AbsensiController extends Controller
 {
-    public function index(){
-
-    }
+    public function index(){}
     public function absensi(Request $request, $thn,$bln,$tgl){
         $id = $request->id;
         $data = Periode::findOrFail($request->id);

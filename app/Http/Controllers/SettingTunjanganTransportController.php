@@ -27,24 +27,62 @@ class SettingTunjanganTransportController extends Controller
 
     public function store(Request $request)
     {
-            try {
-                $request->validate([
-                    'tarif_per_km' => 'required|numeric|min:0'
-                ]);
-                $tarif = $request->tarif_per_km;
-                SettingTunjanganTransport::truncate();
-                SettingTunjanganTransport::create([
-                        'tarif_per_km' => $tarif,
-                    ]);
-                return response()->json([
-                    'status' => true,
-                    'message' => 'Berhasil disimpan',
-                ]);
-            } catch (\Exception $e) {
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Gagal menyimpan'
-                ], 500);
-            }
+        try {
+            $request->validate([
+                'tarif_per_km' => 'required|numeric|min:0'
+            ]);
+            $tarif = $request->tarif_per_km;
+            // ambil data lama sebelum dihapus (untuk log)
+            $old = SettingTunjanganTransport::all();
+            SettingTunjanganTransport::truncate();
+            $setting = SettingTunjanganTransport::create([
+                'tarif_per_km' => $tarif,
+            ]);
+            activity()
+                ->useLog('Setting')
+                ->causedBy(auth()->user())
+                ->performedOn($setting)
+                ->withProperties([
+                    'old_data' => $old,
+                    'new_data' => $setting,
+                ])
+                ->log('Update tarif transport');
+            return response()->json([
+                'status' => true,
+                'message' => 'Berhasil disimpan',
+            ]);
+        } catch (\Exception $e) {
+            activity()
+                ->useLog('Setting')
+                ->causedBy(auth()->user())
+                ->log('Gagal update tarif transport: ' . $e->getMessage());
+            return response()->json([
+                'status' => false,
+                'message' => 'Gagal menyimpan'
+            ], 500);
+        }
     }
+
+    // public function store(Request $request)
+    // {
+    //         try {
+    //             $request->validate([
+    //                 'tarif_per_km' => 'required|numeric|min:0'
+    //             ]);
+    //             $tarif = $request->tarif_per_km;
+    //             SettingTunjanganTransport::truncate();
+    //             SettingTunjanganTransport::create([
+    //                     'tarif_per_km' => $tarif,
+    //                 ]);
+    //             return response()->json([
+    //                 'status' => true,
+    //                 'message' => 'Berhasil disimpan',
+    //             ]);
+    //         } catch (\Exception $e) {
+    //             return response()->json([
+    //                 'status' => false,
+    //                 'message' => 'Gagal menyimpan'
+    //             ], 500);
+    //         }
+    // }
 }

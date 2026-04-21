@@ -10,6 +10,7 @@ use App\Http\Controllers\PeriodeController;
 use App\Http\Controllers\LokasiController;
 use App\Http\Controllers\SettingTunjanganTransportController;
 use App\Http\Controllers\TunjanganTransportPegawaiController;
+use App\Http\Controllers\ActivityController;
 
 
 Route::middleware(['auth'])->group(function () {
@@ -20,6 +21,7 @@ Route::middleware(['auth'])->group(function () {
 
         Route::prefix('superadmin')->group(function () {
             Route::get('/', [DashboardController::class, 'index']);
+            Route::get('/activity', [ActivityController::class, 'index'])->name('log.activity');
             Route::get('/user/create', [KelolaUserController::class, 'create'])->name('user.create');
             Route::post('/user/store', [KelolaUserController::class, 'store'])->name('user.store');
             Route::delete('/user/{id}/delete', [KelolaUserController::class, 'delete'])->name('user.destroy');

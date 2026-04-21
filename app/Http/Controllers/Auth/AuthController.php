@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 use App\Models\User;
 use App\Models\Role;
 use Illuminate\Support\Facades\Auth;
@@ -70,14 +71,33 @@ class AuthController extends Controller
             // simpan token ke session (biar Blade bisa pakai kalau perlu)
             session(['api_token' => $token]);
             // redirect sesuai role
-            if ($role->isSuperadmin()) {
-                return redirect('superadmin');
-            } elseif ($role->isManagerHRD()) {
-                return redirect('managerhrd');
-            } elseif ($role->isAdminHRD()) {
-                return redirect('adminhrd');
-            }
-            return redirect('/');
+            $redirect = null;
+            $roleName = null;
+        if ($role->isSuperadmin()) {
+            $redirect = 'superadmin';
+            $roleName = 'Superadmin';
+        } elseif ($role->isManagerHRD()) {
+            $redirect = 'managerhrd';
+            $roleName = 'Manager HRD';
+        } elseif ($role->isAdminHRD()) {
+            $redirect = 'adminhrd';
+            $roleName = 'Admin HRD';
+        }
+        activity()
+            ->useLog('Auth')
+            ->causedBy($user)
+            ->log("Login sebagai {$roleName}");
+
+        return redirect($redirect);
+
+            // if ($role->isSuperadmin()) {
+            //     return redirect('superadmin');
+            // } elseif ($role->isManagerHRD()) {
+            //     return redirect('managerhrd');
+            // } elseif ($role->isAdminHRD()) {
+            //     return redirect('adminhrd');
+            // }
+            // return redirect('/');
         }
 
         public function logout(Request $request)
@@ -85,6 +105,10 @@ class AuthController extends Controller
             // hapus session
             $user = Auth::user();
             if ($user) {
+                activity()
+                ->useLog('Auth')
+                ->causedBy($user)
+                ->log('Logout dari sistem');
                 $user->setRememberToken(null);
                 $user->save();
                 }

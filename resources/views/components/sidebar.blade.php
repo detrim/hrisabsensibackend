@@ -10,6 +10,9 @@
             <li class="nav-item">
                 <a href="{{ route('user.index') }}" class="nav-link text-white">Kelola User</a>
             </li>
+            <li class="nav-item">
+                <a href="{{ route('log.activity') }}" class="nav-link text-white">User Activity</a>
+            </li>
         @elseif (auth()->user()->isAdminHRD())
             <li class="nav-item">
                 <a href="{{ url('adminhrd') }}" class="nav-link text-white">Dashboard</a>

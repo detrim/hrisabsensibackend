@@ -78,11 +78,23 @@ class KelolaUserController extends Controller
     if ($request->filled('password')) {
         $data['password'] = Hash::make($request->password);
     }
-    if ($user) {
+
+        if ($user) {
         $user->update($data);
+        activity()
+            ->useLog('User')
+            ->causedBy(auth()->user())
+            ->performedOn($user)
+            ->log('Update user');
         return $user;
-    }
-        return User::create($data);
+        }
+        $user = User::create($data);
+        activity()
+            ->useLog('User')
+            ->causedBy(auth()->user())
+            ->performedOn($user)
+            ->log('Tambah user');
+        return $user;
     }
 
     public function edit($id)
@@ -99,6 +111,16 @@ class KelolaUserController extends Controller
     public function delete($id)
     {
         $user = User::findOrFail($id);
+        activity()
+            ->useLog('User')
+            ->causedBy(auth()->user())
+            ->performedOn($user)
+            ->withProperties([
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email
+            ])
+            ->log('Hapus user');
         $user->delete();
         return redirect()->route('user.index')
             ->with('success', 'User berhasil dihapus');
