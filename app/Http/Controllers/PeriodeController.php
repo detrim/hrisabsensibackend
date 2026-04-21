@@ -8,6 +8,7 @@ use App\Models\Pegawai;
 use Carbon\Carbon;
 use App\Services\TunjanganTransportService;
 use App\Models\TunjanganTransportPegawai;
+use App\Models\SettingTunjanganTransport;
 
 
 class PeriodeController extends Controller
@@ -39,6 +40,7 @@ class PeriodeController extends Controller
     $data = Periode::findOrFail($id);
     $data->status = $request->status;
     $data->save();
+    $tarif = SettingTunjanganTransport::first();
 
     $service = new TunjanganTransportService();
     $hasil = $service->hitung($id);
@@ -49,6 +51,7 @@ class PeriodeController extends Controller
                 'jarak_km' => $item['jarak_dibulatkan'],
                 'jumlah_hari_masuk' => $item['jumlah_hari_masuk'],
                 'total_tunjangan' => $item['tunjangan_transport'],
+                'max_jarak' => $tarif->max_jarak,
             ]);
         }
        return back()->with('success', 'Data Absensi Close, Cek Tunjangan');

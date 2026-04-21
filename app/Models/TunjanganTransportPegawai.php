@@ -13,6 +13,7 @@ class TunjanganTransportPegawai extends Model
         'jarak_km',
         'jumlah_hari_masuk',
         'total_tunjangan',
+        'max_jarak',
         'periode_id'
     ];
 

@@ -38,7 +38,7 @@
                                 {{ $item->pegawai->nama ?? '-' }}
                             </td>
                             <td style="width: 99px;" class="text-center">
-                                {{ 25 }}
+                                {{ $item->max_jarak ?? 0 }}
                             </td>
                             <td style="width: 99px;" class="text-center">
                                 {{ $item->jarak_km ?? 0 }}

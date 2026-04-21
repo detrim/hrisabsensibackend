@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('tunjangan_transport_pegawai', function (Blueprint $table) {
             $table->id();
             $table->string('pegawai_nip');
+            $table->integer('max_jarak');
 
             $table->foreignId('periode_id')
                 ->constrained('periode')

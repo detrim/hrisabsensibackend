@@ -51,6 +51,12 @@
                                 <input type="number" class="form-control" name="tarif_per_km" id="tarif"
                                     placeholder="Masukkan nominal">
                             </div>
+                            <div class="mb-3">
+                                <label class="form-label">Maximal Jarak</label>
+                                <input type="number" class="form-control" name="jarak_km" id="jarak"
+                                    placeholder="Masukkan maximal jarak">
+                                <small class="text-info">Jika kosong default 25</small>
+                            </div>
                         </form>
                     </div>
                     <div class="card-footer bg-white border-0">
@@ -324,6 +330,7 @@
                     console.log("FETCH ERROR:", error);
                 }
             }
+
             async function loadTunjangan() {
                 let api = "{{ route('api.setting.store') }}";
                 try {

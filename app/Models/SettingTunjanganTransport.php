@@ -9,5 +9,5 @@ class SettingTunjanganTransport extends Model
 {
     use HasFactory;
     protected $table = 'setting_tunjangan_transport';
-    protected $fillable = ['tarif_per_km'];
+    protected $fillable = ['tarif_per_km','max_jarak'];
 }

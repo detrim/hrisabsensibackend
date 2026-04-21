@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('setting_tunjangan_transport', function (Blueprint $table) {
             $table->id();
             $table->decimal('tarif_per_km', 15, 2); // base fare
+            $table->integer('max_jarak');
             $table->timestamps();
         });
     }

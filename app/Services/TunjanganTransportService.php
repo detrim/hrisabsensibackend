@@ -17,6 +17,7 @@ class TunjanganTransportService
         // ambil base fare dari setting
         $setting = SettingTunjanganTransport::first();
         $baseFare = $setting->tarif_per_km ?? 0;
+        $maxJarak = $setting->max_jarak ?? 25;
         $pegawai = Absensi::with(['pegawai', 'lokasi'])
             ->where('periode_id',$id)
             ->select(
@@ -48,7 +49,7 @@ class TunjanganTransportService
             if ($item->jumlah_hari_masuk < 19 || $km < 5) {
                 $tunjangan = 0;
             } else {
-                $kmFinal = min($km, 25);
+                $kmFinal = min($km, $maxJarak);
                 $tunjangan = $baseFare * $kmFinal * $item->jumlah_hari_masuk;
             }
             $result[] = [

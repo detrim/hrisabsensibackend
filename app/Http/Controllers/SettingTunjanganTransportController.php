@@ -32,11 +32,13 @@ class SettingTunjanganTransportController extends Controller
                 'tarif_per_km' => 'required|numeric|min:0'
             ]);
             $tarif = $request->tarif_per_km;
+            $jarak = $request->jarak_km ?  : 25;
             // ambil data lama sebelum dihapus (untuk log)
             $old = SettingTunjanganTransport::all();
             SettingTunjanganTransport::truncate();
             $setting = SettingTunjanganTransport::create([
                 'tarif_per_km' => $tarif,
+                'max_jarak' => $jarak,
             ]);
             activity()
                 ->useLog('Setting')
