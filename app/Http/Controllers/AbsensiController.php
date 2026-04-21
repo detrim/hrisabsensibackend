@@ -20,6 +20,7 @@ class AbsensiController extends Controller
         Carbon::setLocale('id');
         $tanggal = Carbon::create($data->tahun, $data->bulan, $tgl);
         $hari = $tanggal->translatedFormat('l');
+       $tgl_bln_thn = Carbon::create($thn, $bln, $tgl)->format('Y-m-d');
         $pegawai = Pegawai::with(['absensi' => function ($q) use ($id, $bln, $tgl) {
             $q->select('*')
                 ->where('periode_id', $id)
@@ -27,6 +28,7 @@ class AbsensiController extends Controller
                 ->where('tgl', $tgl);
             }])
             ->where('status', 1)
+            ->whereDate('tanggal_masuk', '<=', $tgl_bln_thn)
             ->paginate(100);
         return view('absensi.absensi', compact('pegawai','data','tgl','hari'));
     }
