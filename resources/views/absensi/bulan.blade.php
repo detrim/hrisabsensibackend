@@ -35,7 +35,7 @@
         </div>
         <br>
         @include('session.session')
-        <table class="table table-bordered w-100 mt-4 mb-3">
+        <table class="table table-bordered w-100  mb-3">
             <thead class="table-dark align-middle">
                 <tr>
                     {{-- <th style="50px;" class="text-center">No</th> --}}
