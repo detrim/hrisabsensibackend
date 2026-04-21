@@ -122,8 +122,12 @@
                                         $isDisabled = $user->isAdminHRD() && ($isSuperAdmin || $isSelf);
                                     @endphp
 
-                                    <input type="checkbox" name="selected[]" value="{{ $p->id }}"
-                                        @if ($isDisabled) disabled @endif />
+                                    @if ($isDisabled)
+                                        <input type="checkbox" disabled />
+                                    @else
+                                        <input type="checkbox" name="selected[]" value="{{ $p->id }}"
+                                            @if ($isDisabled) disabled @endif />
+                                    @endif
                                 </td>
 
                                 <td>{{ $pegawai->firstItem() + $i }} </td>
@@ -235,7 +239,8 @@
                     },
                     success: function(res) {
                         console.log(res); //  cek isi JSON
-                        alert(res.message + " (" + res.total_user + " data)");
+                        alert(res.message);
+                        // alert(res.message + " (" + res.total_user + " data)");
                         location.reload();
                     },
                     error: function(xhr) {

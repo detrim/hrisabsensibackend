@@ -129,7 +129,7 @@ class DatabaseSeeder extends Seeder
 
                 // Pegawai manager HRD
         $manager = Pegawai::create([
-            'nip' => '1010101',
+            'nip' => '10101011',
             'nama' => 'Manager HRD',
             'email' => 'manager.hrd@company.com',
             'no_hp' => '+6289876543211',

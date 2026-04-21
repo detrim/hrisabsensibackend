@@ -93,6 +93,7 @@ class DataPegawaiController extends Controller
                  $path = 'photos/' . $filename;
             }
         $status = $request->status;
+        $tanggalKeluar = $status == 1 ? null : Carbon::now()->format('Y-m-d');
         $pendidikan = array_values($request->pendidikan);
         $data = [
             'foto' => $path,
@@ -116,6 +117,7 @@ class DataPegawaiController extends Controller
             'status_pegawai' => $request->status_pegawai,
             'pendidikan' => $pendidikan,
             'status' =>$status,
+            'tanggal_keluar' => $tanggalKeluar
         ];
     // CREATE / UPDATE
     if ($pegawai) {
@@ -193,8 +195,10 @@ class DataPegawaiController extends Controller
     {
         $status = $request->status;
         // update semua pegawai sekaligus
+        $tanggalKeluar = $status == 1 ? null : Carbon::now()->format('Y-m-d');
         Pegawai::whereIn('id', $request->ids)->update([
-            'status' => $status
+            'status' => $status,
+            'tanggal_keluar' => $tanggalKeluar
         ]);
         // ambil data pegawai untuk update user
         $pegawais = Pegawai::whereIn('id', $request->ids)->get();
