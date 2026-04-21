@@ -135,6 +135,13 @@
                                     Role: Staf HRD <br>
                                     Password: Password123
                                 </p>
+                                <hr class="my-2">
+                                <p class="mb-0">
+                                    <strong>Manager HRD</strong><br>
+                                    Username: managerhrd <br>
+                                    Role: Manajer HRD <br>
+                                    Password: Password123
+                                </p>
                             </div>
                         </div>
                     </div>
