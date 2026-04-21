@@ -100,15 +100,30 @@
                         @foreach ($pegawai as $i => $p)
                             <tr>
                                 <td>
-                                    @php
+                                    {{-- @php
                                         $isSuperAdmin = $p->user?->role?->name === 'Superadmin';
                                         $isSelf = auth()->user()->id === $p->user?->id;
                                     @endphp
-                                    @if ($isSuperAdmin || $isSelf)
-                                        <input type="checkbox" disabled />
+                                    @if (Auth()->user()->isAdminHRD())
+                                        @if ($isSuperAdmin || $isSelf)
+                                            <input type="checkbox" disabled />
+                                        @else
+                                            <input type="checkbox" name="selected[]" value="{{ $p->id }}" />
+                                        @endif
                                     @else
                                         <input type="checkbox" name="selected[]" value="{{ $p->id }}" />
-                                    @endif
+                                    @endif --}}
+                                    @php
+                                        $user = auth()->user();
+
+                                        $isSuperAdmin = $p->user?->role?->name === 'Superadmin';
+                                        $isSelf = $user->id === $p->user?->id;
+
+                                        $isDisabled = $user->isAdminHRD() && ($isSuperAdmin || $isSelf);
+                                    @endphp
+
+                                    <input type="checkbox" name="selected[]" value="{{ $p->id }}"
+                                        @if ($isDisabled) disabled @endif />
                                 </td>
 
                                 <td>{{ $pegawai->firstItem() + $i }} </td>
