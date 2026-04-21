@@ -83,6 +83,9 @@ class AuthController extends Controller
             $redirect = 'adminhrd';
             $roleName = 'Admin HRD';
         }
+        $user->update([
+            'online' => 1
+        ]);
         activity()
             ->useLog('Auth')
             ->causedBy($user)
@@ -105,6 +108,9 @@ class AuthController extends Controller
             // hapus session
             $user = Auth::user();
             if ($user) {
+                $user->update([
+                    'online' => 0
+                ]);
                 activity()
                 ->useLog('Auth')
                 ->causedBy($user)

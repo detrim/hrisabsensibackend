@@ -11,6 +11,7 @@ use App\Http\Controllers\LokasiController;
 use App\Http\Controllers\SettingTunjanganTransportController;
 use App\Http\Controllers\TunjanganTransportPegawaiController;
 use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\PegawaiOnlineController;
 
 
 Route::middleware(['auth'])->group(function () {
@@ -21,7 +22,9 @@ Route::middleware(['auth'])->group(function () {
 
         Route::prefix('superadmin')->group(function () {
             Route::get('/', [DashboardController::class, 'index']);
-            Route::get('/activity', [ActivityController::class, 'index'])->name('log.activity');
+            Route::get('/log/activity', [ActivityController::class, 'index'])->name('log.activity');
+            Route::get('/online/index', [PegawaiOnlineController::class, 'index'])->name('online.index');
+            Route::get('/online', [PegawaiOnlineController::class, 'data'])->name('online');
             Route::get('/user/create', [KelolaUserController::class, 'create'])->name('user.create');
             Route::post('/user/store', [KelolaUserController::class, 'store'])->name('user.store');
             Route::delete('/user/{id}/delete', [KelolaUserController::class, 'delete'])->name('user.destroy');

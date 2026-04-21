@@ -19,6 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('role_id'); // ✅ UNSIGNED BIGINT
             $table->foreign('role_id')->references('id')->on('roles'); // ✅ AFTER roles
             $table->boolean('is_active')->default(true);
+            $table->boolean('online')->default(false);
             $table->rememberToken();
             $table->timestamps();
         });
