@@ -60,5 +60,37 @@
 @stack('script-index-pegawai')
 @stack('script-create-pegawai')
 @stack('script-edit-pegawai')
+@if (session('warning'))
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+
+            let error = @json(session('warning'));
+            let pesan = [];
+
+            if (error?.tarif) {
+                pesan.push("Tarif transport belum diatur");
+            }
+
+            if (error?.lokasi) {
+                pesan.push("Lokasi kantor belum diisi");
+            }
+
+            if (error?.pegawai > 0) {
+                pesan.push(error.pegawai + " pegawai belum memiliki lokasi");
+            }
+
+            if (pesan.length > 0) {
+                Swal.fire({
+                    title: 'Peringatan Sistem',
+                    html: pesan.join('<br>'),
+                    icon: 'warning',
+                    confirmButtonText: 'OK'
+                });
+            }
+
+        });
+    </script>
+@endif
+
 
 </html>

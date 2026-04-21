@@ -66,21 +66,23 @@
 
                         if (data.length === 0) {
                             html =
-                                `<tr><td colspan="4" class="text-center text-danger">Data tidak ditemukan</td></tr>`;
+                                `<tr>
+            <td colspan="4" class="text-center text-danger">Data tidak ditemukan</td>
+        </tr>`;
                         } else {
                             data.forEach((item, index) => {
                                 let url = urlTemplate.replace(':id', item.id);
                                 let btnClass = item.status == 1 ? 'btn-success' : 'btn-danger';
                                 html += `
-                        <tr>
-                            <td style="width: 50px;">${index + 1}</td>
-                            <td style="width: 150x;">${item.tahun}</td>
-                            <td style="width: 250px;">${item.nama_bulan}</td>
-                            <td style="width: 340px;">
-                                <a href="${url}" class="btn ${btnClass} btn-sm">View</a>
-                            </td>
-                        </tr>
-                    `;
+        <tr>
+            <td style="width: 50px;">${index + 1}</td>
+            <td style="width: 150x;">${item.tahun}</td>
+            <td style="width: 250px;">${item.nama_bulan}</td>
+            <td style="width: 340px;">
+                <a href="${url}" class="btn ${btnClass} btn-sm">View</a>
+            </td>
+        </tr>
+        `;
                             });
                         }
 

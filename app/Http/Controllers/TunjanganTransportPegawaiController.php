@@ -16,11 +16,24 @@ class TunjanganTransportPegawaiController extends Controller
 {
     public function index()
     {
+        $tarif = SettingTunjanganTransport::first();
+        $lokasiKantor = LokasiKantor::first();
+
+        $pegawaiBelumLokasi = Pegawai::where('status', 1)
+            ->whereDoesntHave('lokasi')
+            ->count();
+            if (is_null($tarif) || is_null($lokasiKantor) || $pegawaiBelumLokasi > 0) {
+                return back()->with('warning', [
+                    'tarif' => is_null($tarif),
+                    'lokasi' => is_null($lokasiKantor),
+                    'pegawai' => $pegawaiBelumLokasi
+                ]);
+            }
         $data = Periode::where('status',1)
             ->orderBy('tahun', 'desc')
             ->orderBy('bulan', 'desc')
             ->paginate(12);
-        return view('tunjangan.index', compact('data'));
+        return view('tunjangan.index', compact('data','tarif'));
     }
     public function search(Request $request)
     {
