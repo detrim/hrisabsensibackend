@@ -46,7 +46,7 @@
             </thead>
         </table>
         <div class="table-responsive" style="max-height:450px; overflow-y:auto;max-width:100%; margin-top:-16px">
-            <table class="table " id="pegawaiBody">
+            <table class="table table-striped" id="pegawaiBody">
                 <tbody>
                     @forelse  ($pegawai as $key => $p)
                         @php

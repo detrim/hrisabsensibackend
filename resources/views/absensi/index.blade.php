@@ -26,7 +26,7 @@
             </thead>
         </table>
         <div class="table-responsive" style="max-height:450px; overflow-y:auto;max-width:100%; margin-top:-16px">
-            <table class="table">
+            <table class="table table-striped">
                 <tbody id="absensiTable">
                     @forelse ($data as $key => $item)
                         <tr>

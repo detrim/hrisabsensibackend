@@ -15,19 +15,21 @@
                 <tr>
                     <th rowspan="2" style="width:50px;">No</th>
                     <th colspan="1" style="width: 350px;">Nama</th>
-                    <th rowspan="2" style="width:100px;">Jarak</th>
+                    <th colspan="2" style="width:100px;">Jarak/Km</th>
                     <th colspan="2" style="width:50px;">Total Hari</th>
-                    <th rowspan="2" style="width: 290px;">Total Tunjangan</th>
+                    <th rowspan="2" style="width: 290px;">Total Tunjangan/Rp.</th>
                 </tr>
                 <tr>
                     <th>Pegawai Tetap</th>
+                    <th style="width:95px;">Maximal</th>
+                    <th style="width:95px;">Pegawai</th>
                     <th style="width:95px;">Minimal</th>
                     <th style="width:95px;">Absensi</th>
                 </tr>
             </thead>
         </table>
         <div class="table-responsive" style="max-height:450px; overflow-y:auto;max-width:100%; margin-top:-16px">
-            <table class="table " id="tunjanganBody">
+            <table class="table table-striped" id="tunjanganBody">
                 <tbody>
                     @foreach ($tunjangan as $index => $item)
                         <tr>
@@ -35,8 +37,11 @@
                             <td style="width: 366px;">
                                 {{ $item->pegawai->nama ?? '-' }}
                             </td>
-                            <td style="width: 105px;" class="text-center">
-                                {{ $item->jarak_km ?? 0 }} km
+                            <td style="width: 99px;" class="text-center">
+                                {{ 25 }}
+                            </td>
+                            <td style="width: 99px;" class="text-center">
+                                {{ $item->jarak_km ?? 0 }}
                             </td>
                             <td style="width: 99px;" class="text-center">
                                 {{ $item->minimal_hari ?? 19 }}
@@ -44,8 +49,8 @@
                             <td style="width: 99px;" class="text-center">
                                 {{ $item->jumlah_hari_masuk ?? 0 }}
                             </td>
-                            <td style="width:290px;" class="text-end">
-                                Rp {{ number_format($item->total_tunjangan, 0, ',', '.') }}
+                            <td style="width:300px;" class="text-end">
+                                {{ number_format($item->total_tunjangan, 0, ',', '.') }}
                             </td>
                         </tr>
                     @endforeach
@@ -105,10 +110,11 @@
             <tr>
                 <td class="text-center" style="width: 52px;">${index + 1}</td>
                 <td style="width: 366px;">${nama}</td>
-                <td class="text-center" style="width: 105px;">${jarak} km</td>
+                <td class="text-center" style="width: 99px;">25</td>
+                <td class="text-center" style="width: 99px;">${jarak}</td>
                 <td class="text-center" style="width: 99px;">${minimal}</td>
                 <td class="text-center" style="width: 99px;">${masuk}</td>
-                <td class="text-end" style="width: 260px;">Rp ${rupiah}</td>
+                <td class="text-end" style="width: 300px;">${rupiah}</td>
             </tr>
         `;
                             });

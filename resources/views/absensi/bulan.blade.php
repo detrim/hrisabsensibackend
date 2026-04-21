@@ -47,7 +47,7 @@
             </thead>
         </table>
         <div class="table-responsive" style="max-height:450px; overflow-y:auto;max-width:100%; margin-top:-16px">
-            <table class="table w-100 ">
+            <table class="table table-striped w-100 ">
                 <tbody class="text-center">
                     @foreach ($dataHari as $d)
                         <tr>
