@@ -49,7 +49,7 @@ class AuthController extends Controller
                 ])->withInput();
             }
             // 4. CEK ROLE
-            $role = Role::where('name', $request->role)->first();
+            $role = Role::where('role', $request->role)->first();
             // cek apakah role yang dipilih sesuai dengan role user (by ID)
             // CEK ACTIVE ATAU TIDAK
             if ($role->id !== $user->role_id) {

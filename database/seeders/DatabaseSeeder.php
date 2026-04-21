@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
         // Roles
         $superadmin = Role::create([
             'name' => 'Superadmin',
+            'role' =>  1,
             'permissions' => [
                 'role' => ['Y'],
                 'user' => ['C','R','U','D'],
@@ -27,6 +28,7 @@ class DatabaseSeeder extends Seeder
 
         $managerHrd = Role::create([
             'name' => 'Manager HRD',
+            'role' =>  2,
             'permissions' => [
                 'role' => ['X'],
                 'user' => ['RO','UO'],
@@ -40,6 +42,7 @@ class DatabaseSeeder extends Seeder
 
         $adminHrd = Role::create([
             'name' => 'Admin HRD',
+            'role' =>  3,
             'permissions' => [
                 'role' => ['X'],
                 'user' => ['RO','UO'],
@@ -69,7 +72,7 @@ class DatabaseSeeder extends Seeder
             'jabatan' => 'Manager',
             'departemen' => 'Executive',
             'jenis_kelamin' => 'L',
-            'status_pegawai' => 'kontrak',
+            'status_pegawai' => 'tetap',
             'usia' => 34,
             'pendidikan' => [
                 ['jenjang' => 'S1', 'nama' => 'UMB', 'tahun' => 2012],
@@ -106,7 +109,7 @@ class DatabaseSeeder extends Seeder
             'jabatan' => 'Staf',
             'departemen' => 'HRD',
             'jenis_kelamin' => 'L',
-            'status_pegawai' => 'kontrak',
+            'status_pegawai' => 'tetap',
             'usia' => 32,
             'pendidikan' => [
                 ['jenjang' => 'S1', 'nama' => 'UI', 'tahun' => 2014]
@@ -121,6 +124,42 @@ class DatabaseSeeder extends Seeder
             'email' => $pegawaiHrd->email,
             'password' => Hash::make('Password123'),
             'role_id' => $adminHrd->id, // pastikan role admin_hrd sudah ada
+            'is_active' => true
+        ]);
+
+                // Pegawai manager HRD
+        $manager = Pegawai::create([
+            'nip' => '1010101',
+            'nama' => 'Manager HRD',
+            'email' => 'manager.hrd@company.com',
+            'no_hp' => '+6289876543211',
+            'tempat_lahir' => 'Kembangan',
+            'alamat_kecamatan' => 'Kembangan',
+            'alamat_kabupaten' => 'Jakarta Barat',
+            'alamat_provinsi' => 'DKI Jakarta',
+            'alamat_lengkap' => 'Jl. HRD No.1',
+            'tanggal_lahir' => '1992-12-02',
+            'status_kawin' => 'kawin',
+            'jumlah_anak' => 0,
+            'tanggal_masuk' => '2021-01-01',
+            'jabatan' => 'Manager',
+            'departemen' => 'Executive',
+            'jenis_kelamin' => 'L',
+            'status_pegawai' => 'tetap',
+            'usia' => 32,
+            'pendidikan' => [
+                ['jenjang' => 'S1', 'nama' => 'UI', 'tahun' => 2014]
+            ]
+        ]);
+
+        // User Admin HRD
+        User::create([
+            'employee_id' => $manager->nip,
+            'name' => 'Manager HRD',
+            'username' => 'managerhrd',
+            'email' => $manager->email,
+            'password' => Hash::make('Password123'),
+            'role_id' => $managerHrd->id, // pastikan role admin_hrd sudah ada
             'is_active' => true
         ]);
 

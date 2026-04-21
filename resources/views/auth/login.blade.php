@@ -56,9 +56,9 @@
                         <label class="form-label">Role</label>
                         <select name="role" class="form-select" required>
                             <option value="">-- Pilih Role --</option>
-                            <option value="Superadmin">Admin</option>
-                            <option value="Manager HRD">Manajer HRD</option>
-                            <option value="Admin HRD">Staf HRD</option>
+                            <option value="1">Admin</option>
+                            <option value="2">Manajer HRD</option>
+                            <option value="3">Staf HRD</option>
                         </select>
                     </div>
 
