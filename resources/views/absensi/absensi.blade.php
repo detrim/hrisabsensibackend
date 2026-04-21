@@ -23,7 +23,7 @@
     <div class="container mt-4">
         <div class="d-flex justify-content-between mb-3">
             <a class="btn btn-primary btn-sm" href="{{ route('lokasi.index') }}">
-                + Lokasi
+                Lokasi Pegawai
             </a>
             <input type="text" id="search" data-id="{{ $data->id }}" data-bulan="{{ $data->bulan }}"
                 data-tgl="{{ $tgl }}" class="form-control form-control-sm w-25" placeholder="Nama Pegawai...">
