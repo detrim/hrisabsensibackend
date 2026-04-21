@@ -29,10 +29,11 @@
             @php
                 $disabled = $data->status == 1 ? 'disabled' : '';
             @endphp
-            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalHari" {{ $disabled }}>
+            <button class="btn btn-primary btn-sm mb3" data-bs-toggle="modal" data-bs-target="#modalHari" {{ $disabled }}>
                 + Tambah Hari
             </button>
         </div>
+        <br>
         @include('session.session')
         <table class="table table-bordered w-100 mt-4 mb-3">
             <thead class="table-dark align-middle">
@@ -54,12 +55,12 @@
                             <td style="width:100px;">{{ $d['hari'] }}</td>
                             <td style="width:100px;">{{ $d['total'] }}</td>
                             <td style="width:200px;">
-                                <button class="btn
+                                {{-- <button class="btn
                             btn-warning btn-sm btn-edit"
                                     {{ $disabled }} data-tanggal="{{ $d['tanggal'] }}" data-id="{{ $data->id }}"
                                     data-bs-toggle="modal" data-bs-target="#modalHari">
                                     Edit
-                                </button>
+                                </button> --}}
                                 <a href="{{ route('absensi.hari', [
                                     'tgl' => $d['tanggal'],
                                     'bln' => $data->bulan,

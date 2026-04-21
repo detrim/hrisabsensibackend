@@ -21,7 +21,7 @@
                     <th style="width:150px;">Bulan</th>
                     <th style="width:150px;">Absensi</th>
                     <th style="width:200px;">Keterangan</th>
-                    <th style="width: 100px;">AKSI</th>
+                    {{-- <th style="width: 100px;">AKSI</th> --}}
                 </tr>
             </thead>
         </table>
@@ -46,14 +46,14 @@
                                         <option value="1" {{ $item->status == 1 ? 'selected' : '' }}>Close</option>
                                     </select>
                                 </form>
-                            <td style="width: 100px;">
+                                {{-- <td style="width: 100px;">
                                 <button class="btn btn-warning btn-sm btn-edit" data-title="Update Absensi"
                                     data-id="{{ $item->id }}" data-nama-bulan="{{ $item->nama_bulan }}"
                                     data-tahun="{{ $item->tahun }}" data-bulan="{{ $item->bulan }}"
                                     data-status="{{ $item->status }}" data-bs-toggle="modal" data-bs-target="#modalTambah">
                                     Update
                                 </button>
-                            </td>
+                            </td> --}}
                             </td>
                         </tr>
                     @empty
@@ -267,13 +267,6 @@
                         <option value="0" ${item.status==0 ? 'selected' : '' }>Aktif</option>
                     </select>
                 </form>
-            </td>
-            <td style="width:100px;">
-                <button class="btn btn-warning btn-sm btn-edit" data-title="Update Absensi" data-id="${item.id}"
-                    data-nama-bulan="${item.nama_bulan}" data-tahun="${item.tahun}" data-bulan="${item.bulan}"
-                    data-status="${item.status}" data-bs-toggle="modal" data-bs-target="#modalTambah">
-                    Update
-                </button>
             </td>
         </tr>
         `;

@@ -19,6 +19,12 @@
 
                 {{-- Error --}}
                 @if ($errors->any())
+                    <script>
+                        // stop loading jika ada error
+                        document.getElementById("btnLogin").disabled = false;
+                        document.getElementById("spinner").classList.add("d-none");
+                        document.getElementById("btnText").innerText = "Login";
+                    </script>
                     <div class="alert alert-danger">
                         {{ $errors->first() }}
                     </div>
@@ -87,8 +93,10 @@
                     </div>
                     {{-- Button --}}
                     <div class="d-grid">
-                        <button type="submit" class="btn btn-primary">
-                            Login
+                        <button type="submit" id="btnLogin" class="btn btn-primary">
+                            <span id="btnText">Login</span>
+
+                            <span id="spinner" class="spinner-border spinner-border-sm d-none" role="status"></span>
                         </button>
                     </div>
 
@@ -154,6 +162,17 @@
             input.type = "password";
         }
     }
+    const form = document.querySelector("form");
+    const btn = document.getElementById("btnLogin");
+    const spinner = document.getElementById("spinner");
+    const btnText = document.getElementById("btnText");
+
+    form.addEventListener("submit", function() {
+        // aktifkan loading
+        btn.disabled = true;
+        spinner.classList.remove("d-none");
+        btnText.innerText = "Memproses...";
+    });
 </script>
 
 </html>

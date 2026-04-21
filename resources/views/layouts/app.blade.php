@@ -47,6 +47,7 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script src="{{ asset('js/public.js') }}"></script>
+@stack('navbar')
 @stack('setting')
 @stack('tunjangan-index')
 @stack('tunjangan')

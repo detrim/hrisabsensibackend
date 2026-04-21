@@ -80,7 +80,6 @@ class PeriodeController extends Controller
 
         if (empty($exists)) {
             if (!empty($id)) {
-                // dd(empty($exists),$id);
                 $periode = Periode::findOrFail($id);
                 $periode->update($data);
                 return redirect()->route('periode.index')->with('success', 'Berhasil diupdate');
@@ -117,27 +116,15 @@ class PeriodeController extends Controller
     public function hari(Request $request)
     {
         $absensi = Periode::findOrFail($request->periode_id);
-        // ambil data lama
         $hariLama = $absensi->hari ?? [];
-        // pastikan integer semua
         $hariLama = array_map('intval', $hariLama);
-        // JIKA EDIT (ada tanggal_lama)
-        if (!empty($request->tanggal_lama)) {
-            // hapus tanggal lama
-            $hariLama = array_diff($hariLama, [(int) $request->tanggal_lama]);
-            // tambah tanggal baru (kalau belum ada)
-            if (!in_array((int)$request->hari, $hariLama)) {
-                $hariLama[] = (int) $request->hari;
+        $hariBaru = (int) $request->hari;
+            // tambah baru → cek duplikat
+            if (in_array($hariBaru, $hariLama)) {
+                return back()->with('error', 'Hari sudah ada di absensi');
             }
-        } else {
-            // JIKA TAMBAH
-            if (!in_array((int)$request->hari, $hariLama)) {
-                $hariLama[] = (int) $request->hari;
-            }
-        }
-        // urutkan
+            $hariLama[] = $hariBaru;
         sort($hariLama);
-        // reset index array
         $absensi->hari = array_values($hariLama);
         $absensi->save();
         return back()->with('success', 'Berhasil');

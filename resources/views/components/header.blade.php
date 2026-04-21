@@ -8,12 +8,34 @@
             </span>
 
             {{-- Logout --}}
-            <form action="{{ route('logout') }}" method="POST">
+            <form action="{{ route('logout') }}" method="POST" onsubmit="return confirmLogout(event, this)">
                 @csrf
-                <button class="btn btn-outline-danger btn-sm">
+                <button type="submit" class="btn btn-outline-danger btn-sm">
                     <i class="bi bi-box-arrow-right"></i> Logout
                 </button>
             </form>
         </div>
     </div>
 </nav>
+@push('navbar')
+    <script>
+        function confirmLogout(event, form) {
+            event.preventDefault();
+
+            Swal.fire({
+                title: 'Yakin ingin logout?',
+                text: "Anda akan keluar dari sistem.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Ya, Logout',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+
+            return false;
+        }
+    </script>
+@endpush
