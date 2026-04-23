@@ -61,8 +61,8 @@
         @include('session.session')
 
         <!-- TABLE -->
-        <table class="table mt-2">
-            <thead class="table-dark table-bordered">
+        <table class="table mt-2 table-striped ">
+            <thead class="table-dark ">
                 <tr>
                     <th width="50">#</th>
                     <th>Nama Pegawai</th>

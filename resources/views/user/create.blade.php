@@ -1,11 +1,10 @@
 @extends('layouts.app')
 
-@section('title', 'Create User')
+@section('title', 'Tambah User')
 
 @section('content')
 
     <div class="container mt-4">
-        <h4 class="mb-3">Tambah User</h4>
 
         <div class="card">
             <div class="card-body">

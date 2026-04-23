@@ -18,11 +18,13 @@ class SettingTunjanganTransportController extends Controller
        $tarif = SettingTunjanganTransport::first();
        if ($tarif && $tarif->tarif_per_km !== null) {
             $tunjangan = 'Rp. ' . number_format($tarif->tarif_per_km, 0, ',', '.') . '/Km';
+             $max = $tarif->max_jarak ? $tarif->max_jarak . ' Km' : '0 Km';
         } else {
             $tunjangan = 'Data Kosong';
+            $max = 'Data Kosong';
         }
 
-        return view('setting.index', compact('lokasi','tunjangan'));
+        return view('setting.index', compact('lokasi','tunjangan','max'));
     }
 
     public function store(Request $request)

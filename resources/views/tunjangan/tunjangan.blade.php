@@ -10,7 +10,7 @@
             <input type="text" id="search" data-id="{{ $data->id }}" data-bulan="{{ $data->bulan }}"
                 class="form-control form-control-sm w-25" placeholder="Nama Pegawai...">
         </div>
-        <table class="table table-bordered">
+        <table class="table table-striped">
             <thead class="table-dark text-center align-middle">
                 <tr>
                     <th rowspan="2" style="width:50px;">No</th>

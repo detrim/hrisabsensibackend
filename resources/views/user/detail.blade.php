@@ -74,10 +74,6 @@
                 </div>
                 {{-- Tombol --}}
                 <div class="mt-4">
-                    <a href="{{ route('user.edit', $user->id) }}" class="btn btn-warning">
-                        Edit
-                    </a>
-
                     <a href="{{ route('user.index') }}" class="btn btn-secondary">
                         Kembali
                     </a>

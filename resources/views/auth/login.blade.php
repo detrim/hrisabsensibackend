@@ -3,10 +3,25 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>LoginPegawai</title>
+    <title>HRIS Pegawai & Absensi System</title>
 
     <!-- Bootstrap 5 CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background-image: url('/img/hris.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+    </style>
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('img/shortcut.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('img/shortcut.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('img/shortcut.png') }}">
+    <link rel="shortcut icon" href="{{ asset('img/shortcut.png') }}">
 </head>
 
 <body class="bg-light">
@@ -106,10 +121,143 @@
                         class="text-decoration-underline fw-semibold">
                         Klik lihat akun demo
                     </a>
+                    <br>
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#rbacModal"
+                        class="text-decoration-underline fw-semibold">
+                        📘 Tekan untuk Pengertian Sistem
+                    </a>
                 </div>
 
             </div>
         </div>
+        <!-- Modal -->
+        <div class="modal fade" id="rbacModal" tabindex="-1" aria-labelledby="rbacModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl modal-dialog-scrollable">
+                <div class="modal-content">
+
+                    <!-- Header -->
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="rbacModalLabel">
+                            Role-Based Access Control (RBAC)
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+
+                    <!-- Body -->
+                    <div class="modal-body">
+
+                        <!-- Penjelasan -->
+                        <h6>📘 Pengertian Sistem</h6>
+                        <p>
+                            Sistem ini menggunakan Role-Based Access Control (RBAC) untuk mengatur hak akses pengguna
+                            berdasarkan peran (role).
+                            Setiap role memiliki akses berbeda terhadap modul sistem seperti user, absensi, pegawai, dan
+                            log aktivitas.
+                        </p>
+
+                        <hr>
+
+                        <!-- Tabel -->
+                        <h6>📊 Tabel Hak Akses</h6>
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Aktivitas</th>
+                                        <th>Superadmin</th>
+                                        <th>Manager HRD</th>
+                                        <th>Admin HRD</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Login / Logout</td>
+                                        <td>Y</td>
+                                        <td>Y</td>
+                                        <td>Y</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Kelola Role</td>
+                                        <td>Y</td>
+                                        <td>X</td>
+                                        <td>X</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Kelola User</td>
+                                        <td>CRUD</td>
+                                        <td>RO / UO</td>
+                                        <td>RO / UO</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Data Pegawai</td>
+                                        <td>X</td>
+                                        <td>R</td>
+                                        <td>CRUD</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Absensi</td>
+                                        <td>X</td>
+                                        <td>X</td>
+                                        <td>CRUD</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Setting Tunjangan Transpot</td>
+                                        <td>X</td>
+                                        <td>X</td>
+                                        <td>CRUD</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tunjangan Transpot Pegawai</td>
+                                        <td>X</td>
+                                        <td>RO</td>
+                                        <td>RO</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Log Activity</td>
+                                        <td>R</td>
+                                        <td>X</td>
+                                        <td>X</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Online Users Monitor</td>
+                                        <td>Y</td>
+                                        <td>X</td>
+                                        <td>X</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <hr>
+
+                        <!-- Keterangan -->
+                        <h6>🔑 Keterangan</h6>
+                        <ul>
+                            <li><b>C</b> = Create</li>
+                            <li><b>R</b> = Read</li>
+                            <li><b>U</b> = Update</li>
+                            <li><b>D</b> = Delete</li>
+                            <li><b>RO</b> = Read Only, hanya bisa membaca data yang dia buat atau hanya diperuntukkan
+                                dirinya</li>
+                            <li><b>UO</b> = Update Only, bisa memperbarui atau mengubah data terbatas</li>
+                            <li><b>X</b> = Tidak ada akses</li>
+                            <li><b>Y</b> = Akses penuh, tanpa perlu aksi CRUD</li>
+                        </ul>
+
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            Tutup
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <br>
         {{-- Info Akun Demo --}}
         <div class="modal fade" id="modalAkunDemo" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered">

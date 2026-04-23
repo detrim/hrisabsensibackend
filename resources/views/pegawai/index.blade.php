@@ -81,7 +81,7 @@
         <!-- TABLE -->
         <form id="bulk-form">
             <div class="table-responsive">
-                <table id="pegawaiTable" class="table  table-hover">
+                <table id="pegawaiTable" class="table table-striped table-hover">
 
                     <thead class="table-dark">
                         <tr>
@@ -115,18 +115,21 @@
                                     @endif --}}
                                     @php
                                         $user = auth()->user();
-
                                         $isSuperAdmin = $p->user?->role?->name === 'Superadmin';
                                         $isSelf = $user->id === $p->user?->id;
-
-                                        $isDisabled = $user->isAdminHRD() && ($isSuperAdmin || $isSelf);
+                                        // $isDisabled = $user->isAdminHRD() && ($isSuperAdmin || $isSelf);
+                                        // Tambahan: ID yang tidak boleh dicentang untuk hosting
+                                        $restrictedIds = [1, 2, 3];
+                                        $isRestricted = in_array($p->id, $restrictedIds);
+                                        $isDisabled =
+                                            ($user->isAdminHRD() && ($isSuperAdmin || $isSelf)) || $isRestricted;
                                     @endphp
 
-                                    @if ($isDisabled)
+                                    @if ($isRestricted)
                                         <input type="checkbox" disabled />
                                     @else
                                         <input type="checkbox" name="selected[]" value="{{ $p->id }}"
-                                            @if ($isDisabled) disabled @endif />
+                                            @if ($isRestricted) disabled @endif />
                                     @endif
                                 </td>
 
@@ -146,10 +149,15 @@
                                 <td>
                                     <a href="{{ route('pegawai.detail', $p->id) }}" class="btn btn-info btn-sm">Detail</a>
                                     @if (Auth()->user()->isAdminHRD())
-                                        <a href="{{ route('pegawai.edit', $p->id) }}"
-                                            class="btn btn-warning btn-sm">Edit</a>
-                                        <a href="{{ route('pegawai.pdf', $p->id) }}" class="btn btn-danger btn-sm">PDF</a>
+                                        {{-- <a href="{{ route('pegawai.edit', $p->id) }}"
+                                            class="btn btn-warning btn-sm">Edit</a> --}}
+                                        <a href="{{ $isRestricted ? '#' : route('pegawai.edit', $p->id) }}"
+                                            class="btn btn-warning btn-sm {{ $isRestricted ? 'disabled' : '' }}"
+                                            style="{{ $isRestricted ? 'pointer-events: none; opacity: 0.6;' : '' }}">
+                                            Edit
+                                        </a>
                                     @endif
+                                    <a href="{{ route('pegawai.pdf', $p->id) }}" class="btn btn-danger btn-sm">PDF</a>
                                 </td>
                             </tr>
                         @endforeach

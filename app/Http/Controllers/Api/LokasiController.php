@@ -18,14 +18,20 @@ class LokasiController extends Controller
     }
     public function getTunjangan()
     {
-        $data = SettingTunjanganTransport::first();
-        if ($data && $data->tarif_per_km !== null) {
-            $tarif = 'Rp. ' . number_format($data->tarif_per_km, 0, ',', '.') . '/Km';
+       $data = SettingTunjanganTransport::first();
+        if ($data) {
+            $tarif = $data->tarif_per_km !== null
+                ? 'Rp. ' . number_format($data->tarif_per_km, 0, ',', '.') . '/Km'
+                : 'Data Kosong';
+           $max = $data->max_jarak ? $data->max_jarak . ' Km' : '0 Km';
         } else {
             $tarif = 'Data Kosong';
+            $max = 0;
         }
-
-        return response()->json($tarif);
+        return response()->json([
+            'tarif_per_km' => $tarif,
+            'max_jarak' => $max,
+        ]);
     }
     public function getPegawai()
     {

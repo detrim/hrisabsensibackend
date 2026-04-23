@@ -20,15 +20,19 @@
                     <div class="card-body text-center">
                         <div class="mb-3">
                             <img src="{{ asset('img/map.jpg') }}" alt="Map" class="img-fluid rounded"
-                                style="max-height: 250px; object-fit: cover;">
+                                style="max-height: 230px; object-fit: cover;">
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-2">
                             <label class="form-label fw-bold">Lokasi Kantor</label>
                             <p class="mb-0" id="lokasi1">{{ $lokasi }}</p>
                         </div>
-                        <div>
+                        <div class="mb-2">
                             <label class="form-label fw-bold">Tarif Tunjangan</label>
                             <p class="mb-0" id="tarif">{{ $tunjangan }}</p>
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label fw-bold">Maximal Jarak</label>
+                            <p class="mb-0" id="max">{{ $max }}</p>
                         </div>
                     </div>
                 </div>
@@ -53,7 +57,7 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Maximal Jarak</label>
-                                <input type="number" class="form-control" name="jarak_km" id="jarak"
+                                <input type="number" class="form-control" name="jarak_km" id="max"
                                     placeholder="Masukkan maximal jarak">
                                 <small class="text-info">Jika kosong default 25</small>
                             </div>
@@ -332,7 +336,7 @@
             }
 
             async function loadTunjangan() {
-                let api = "{{ route('api.setting.store') }}";
+                let api = "{{ route('api.setting.data') }}";
                 try {
                     const res = await fetch(api, {
                         method: 'GET',
@@ -349,7 +353,9 @@
                         console.error("Response bukan JSON!");
                         return;
                     }
-                    document.getElementById('tarif').innerText = data ?? '-';
+                    console.log(data);
+                    document.getElementById('tarif').innerText = data.tarif_per_km ?? '-';
+                    document.getElementById('max').innerText = data.max_jarak ?? '-';
                 } catch (error) {
                     console.log("FETCH ERROR:", error);
                 }

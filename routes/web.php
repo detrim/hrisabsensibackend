@@ -74,13 +74,11 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/tunjangan/nama', [TunjanganTransportPegawaiController::class,'tunjangansearch'])->name('tunjangan.nama');
     });
         Route::prefix('managerhrd')->group(function () {
-            Route::get('/', [DashboardController::class, 'index'])->name('index');
+            Route::get('/', [DashboardController::class, 'index'])->name('managerhrd');
     });
-
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
 });
 
-Route::get('/',[AuthController::class,'login'])->name('login');
+Route::get('/',[AuthController::class,'login']);
 Route::get('/login',[AuthController::class,'login'])->name('login');
 Route::post('/postlog',[AuthController::class,'postlogin']);

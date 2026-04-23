@@ -32,17 +32,24 @@
 
                 <tbody>
                     @forelse ($users as $i => $user)
-                        @php
+                        {{-- @php
                             $isSuperAdmin = $user->employee_id === auth()->user()->employee_id;
+                        @endphp --}}
+                        @php
+                            $authUser = auth()->user();
+                            // tidak boleh pilih diri sendiri
+                            $isSelf = $user->employee_id === $authUser->employee_id;
+                            // ID yang dibatasi
+                            $restrictedIds = [1, 2, 3];
+                            $isRestricted = in_array($user->id, $restrictedIds);
+                            // gabungan kondisi
+                            $isDisabled = $isSelf || $isRestricted;
                         @endphp
 
                         <tr>
                             <td>{{ $i + 1 }}</td>
-
                             <td>{{ $user->name }}</td>
-
                             <td>{{ $user->username }}</td>
-
                             <td>
                                 @if ($user->is_active)
                                     <span class="badge bg-success">Aktif</span>
@@ -56,7 +63,12 @@
                                     Detail
                                 </a>
 
-                                <a href="{{ route('user.edit', $user->id) }}" class="btn btn-warning btn-sm">
+                                {{-- <a href="{{ route('user.edit', $user->id) }}" class="btn btn-warning btn-sm">
+                                    Edit
+                                </a> --}}
+                                <a href="{{ $isRestricted ? '#' : route('user.edit', $user->id) }}"
+                                    class="btn btn-warning btn-sm {{ $isRestricted ? 'disabled' : '' }}"
+                                    style="{{ $isRestricted ? 'pointer-events: none; opacity: 0.6;' : '' }}">
                                     Edit
                                 </a>
 
@@ -65,7 +77,7 @@
                                     @csrf
                                     @method('DELETE')
 
-                                    <button class="btn btn-danger btn-sm" @disabled($isSuperAdmin)>
+                                    <button class="btn btn-danger btn-sm" @disabled($isRestricted)>
                                         Hapus
                                     </button>
                                 </form>

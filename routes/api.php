@@ -12,7 +12,7 @@ Route::middleware(['auth:sanctum', 'active'])->group(function () {
     Route::get('/checkusername', [PegawaiController::class, 'checkusername']);
     Route::get('/lokasikantor', [LokasiController::class, 'getLokasi'])->name('api.lokasikantor');
     Route::get('/lokasipegawai', [LokasiController::class, 'getPegawai'])->name('api.lokasipegawai');
-    Route::get('/setting/store', [LokasiController::class,'getTunjangan'])->name('api.setting.store');
+    Route::get('/setting/data', [LokasiController::class,'getTunjangan'])->name('api.setting.data');
 
     });
 

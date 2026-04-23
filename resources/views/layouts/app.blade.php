@@ -3,19 +3,24 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>@yield('title')</title>
+    <title>HRIS Pegawai & Absensi System</title>
+    {{-- <title>@yield('title')</title> --}}
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="api-token" content="{{ session('api_token') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
-    <link rel="stylesheet" href="{{ asset('css/public.css') }}">
-
+    {{-- <link rel="stylesheet" href="{{ asset('css/public.css') }}"> --}}
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('img/shortcut.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('img/shortcut.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('img/shortcut.png') }}">
+    <link rel="shortcut icon" href="{{ asset('img/shortcut.png') }}">
+    @include('layouts.css')
 </head>
 
 <body>
@@ -46,7 +51,8 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<script src="{{ asset('js/public.js') }}"></script>
+@include('layouts.js')
+{{-- <script src="{{ asset('js/public.js') }}"></script> --}}
 @stack('online.index')
 @stack('navbar')
 @stack('setting')

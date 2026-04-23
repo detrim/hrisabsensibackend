@@ -19,7 +19,7 @@
             </thead>
         </table>
         <div class="table-responsive" style="max-height:450px; overflow-y:auto;max-width:100%; margin-top:-16px">
-            <table class="table">
+            <table class="table table-striped">
                 <tbody id="absensiTable1">
                     @forelse ($data as $key => $item)
                         <tr>
@@ -76,7 +76,7 @@
                                 html += `
         <tr>
             <td style="width: 50px;">${index + 1}</td>
-            <td style="width: 150x;">${item.tahun}</td>
+            <td style="width: 150px;">${item.tahun}</td>
             <td style="width: 250px;">${item.nama_bulan}</td>
             <td style="width: 340px;">
                 <a href="${url}" class="btn ${btnClass} btn-sm">View</a>

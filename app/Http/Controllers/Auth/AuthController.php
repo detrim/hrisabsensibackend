@@ -93,14 +93,6 @@ class AuthController extends Controller
 
         return redirect($redirect);
 
-            // if ($role->isSuperadmin()) {
-            //     return redirect('superadmin');
-            // } elseif ($role->isManagerHRD()) {
-            //     return redirect('managerhrd');
-            // } elseif ($role->isAdminHRD()) {
-            //     return redirect('adminhrd');
-            // }
-            // return redirect('/');
         }
 
         public function logout(Request $request)
