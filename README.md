@@ -101,7 +101,7 @@ bash
 ## 🔐 Login Aplikasi
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/detrim/public/img/main/img/login/login-p.png" width="600"/>
+  <img src="https://raw.githubusercontent.com/detrim/img/main/public/img/login/login-p.png" width="600"/>
 </p>
 
 ---
@@ -109,7 +109,7 @@ bash
 ## 🧑‍💼 Role: Manager HRD
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/detrim/public/img/main/img/manajerhrd/ds.png" width="600"/>
+  <img src="https://raw.githubusercontent.com/detrim/img/main/public/img/manajerhrd/ds.png" width="600"/>
 </p>
 
 ---
@@ -117,15 +117,15 @@ bash
 ## 🛠 Role: Super Admin
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/detrim/public/img/main/img/superadmin/user.png" width="600"/>
+  <img src="https://raw.githubusercontent.com/detrim/img/main/public/img/superadmin/user.png" width="600"/>
 </p>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/detrim/public/img/main/img/superadmin/log.png" width="600"/>
+  <img src="https://raw.githubusercontent.com/detrim/img/main/public/img/superadmin/log.png" width="600"/>
 </p>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/detrim/public/img/main/img/superadmin/on.png" width="600"/>
+  <img src="https://raw.githubusercontent.com/detrim/img/main/public/img/superadmin/on.png" width="600"/>
 </p>
 
 ---
@@ -137,15 +137,15 @@ bash
 </p>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/detrim/public/img/stafadmin/pg.png" width="600"/>
+  <img src="https://raw.githubusercontent.com/detrim/img/main/public/img/stafadmin/pg.png" width="600"/>
 </p>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/detrim/img/public/img/stafadmin/bs1.png" width="600"/>
+  <img src="https://raw.githubusercontent.com/detrim/img/main/public/img/stafadmin/bs1.png" width="600"/>
 </p>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/detrim/img/public/img/stafadmin/ab3.png" width="600"/>
+  <img src="https://raw.githubusercontent.com/detrim/img/main/public/img/stafadmin/ab3.png" width="600"/>
 </p>
 
 ---
