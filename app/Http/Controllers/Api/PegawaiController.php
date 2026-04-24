@@ -12,11 +12,46 @@ use Illuminate\Support\Facades\Storage;
 
 
 class PegawaiController extends Controller{
-    public function search(Request $r)
+    // public function search(Request $r)
+    // {
+    //     return Pegawai::where('nama', 'like', '%' . $r->q . '%')
+    //         ->limit(10)
+    //         ->get(['id', 'nama']);
+    // }
+    public function search(Request $request)
     {
-        return Pegawai::where('nama', 'like', '%' . $r->q . '%')
+        $keyword = trim($request->q);
+        if (!$keyword) {
+            return response()->json([]);
+        }
+        $usedNip = User::pluck('employee_id')->toArray();
+        $data = Pegawai::where('nama', 'like', "%{$keyword}%")
             ->limit(10)
-            ->get(['id', 'nama']);
+            ->get(['id', 'nama', 'nip']);
+        return $data->map(function ($item) use ($usedNip) {
+            return [
+                'id' => $item->id,
+                'nama' => $item->nama,
+                'nip' => $item->nip,
+                'disabled' => in_array($item->nip, $usedNip),
+            ];
+        });
+
+        // $data = Pegawai::query()
+        //     ->where('nama', 'like', "%{$keyword}%")
+        //     ->limit(10)
+        //     ->get(['id', 'nama', 'nip']);
+        // $result = $data->map(function ($item) {
+        // $isUsed = User::where('employee_id', $item->nip)->exists();
+        //     return [
+        //         'id' => $item->id,
+        //         'nama' => $item->nama,
+        //         'nip' => $item->nip,
+        //         'disabled' => $isUsed,
+        //     ];
+        // });
+
+        return response()->json($result);
     }
     public function checkusername(Request $r)
     {

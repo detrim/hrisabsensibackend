@@ -56,4 +56,13 @@ class User extends Authenticatable
     {
         return $this->role?->name === 'Admin HRD';
     }
+
+    public function getRoleNameAttribute()
+    {
+        return [
+            1 => 'super',
+            2 => 'manajer',
+            3 => 'staf'
+        ][$this->role_id];
+    }
 }

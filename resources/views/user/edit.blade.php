@@ -5,8 +5,6 @@
 @section('content')
 
     <div class="container mt-4">
-        <h4 class="mb-3">Edit User</h4>
-
         <div class="card">
             <div class="card-body">
                 @if (session('success'))
@@ -20,7 +18,7 @@
                     </div>
                 @endif
 
-                <form action="{{ route('user.update', $user->id) }}" method="POST">
+                <form action="{{ route('user.update.' . auth()->user()->role_name, $user->id) }}" method="POST">
                     @csrf
                     @method('PUT')
                     <div class="row">
@@ -87,16 +85,7 @@
                         </div>
                     </div>
 
-
-
-
-
-
-
-
-
-
-                    <button class="btn btn-primary">Update</button>
+                    <button class="btn btn-primary btn-sm">Update</button>
 
                 </form>
 

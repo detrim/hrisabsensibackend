@@ -1,49 +1,73 @@
      <style>
-     .nav-link {
-     border-radius: 8px;
-     transition: 0.2s;
-     }
+         .nav-link {
+             border-radius: 8px;
+             transition: 0.2s;
+         }
 
-     .nav-link:hover {
-     background: rgba(255,255,255,0.1);
-     padding-left: 12px;
-     }
-     .img-overlay-linen {
-     position: absolute;
-     display: block;
-     max-width: 210px;
-     max-height: 210px;
-     /* left: 50%; */
-     left: calc(50% + 1mm); /* Pergeseran ke kiri 1 mm */
-     transform: translateX(-52%);
-     }
-     /* Media query untuk menengahkan gambar overlay jika lebar gambar melebihi 232px */
-     @media (min-width: 210px) {
-     .img-overlay-linen img {
-     margin-left: auto;
-     margin-right: auto;
-     }
-     }
-     .img-placeholder-linen {
-     width: 211px;
-     height: 210px;
-     margin: left;
-     display: block;
-     }
-     .center-label-linen {
-     position: absolute;
-     top: 50%;
-     left: 50%;
-     transform: translate(-50%, -50%);
-     }
-     #kec-list {
-     max-height: 250px;
-     overflow-y: auto;
-     border: 1px solid #ddd;
-     background: #fff;
-     }
+         .nav-link:hover {
+             background: rgba(255, 255, 255, 0.1);
+             padding-left: 12px;
+         }
 
-     #kec-list a {
-     cursor: pointer;
-     }
- </style>
+         .img-overlay-linen {
+             position: absolute;
+             display: block;
+             max-width: 210px;
+             max-height: 210px;
+             /* left: 50%; */
+             left: calc(50% + 1mm);
+             /* Pergeseran ke kiri 1 mm */
+             transform: translateX(-52%);
+         }
+
+         /* Media query untuk menengahkan gambar overlay jika lebar gambar melebihi 232px */
+         @media (min-width: 210px) {
+             .img-overlay-linen img {
+                 margin-left: auto;
+                 margin-right: auto;
+             }
+         }
+
+         .img-placeholder-linen {
+             width: 211px;
+             height: 210px;
+             margin: left;
+             display: block;
+         }
+
+         .center-label-linen {
+             position: absolute;
+             top: 50%;
+             left: 50%;
+             transform: translate(-50%, -50%);
+         }
+
+         #kec-list {
+             max-height: 250px;
+             overflow-y: auto;
+             border: 1px solid #ddd;
+             background: #fff;
+         }
+
+         #kec-list a {
+             cursor: pointer;
+         }
+
+         .table-scroll {
+             width: 100%;
+             table-layout: fixed;
+         }
+
+         .table-scroll thead,
+         .table-scroll tbody tr {
+             display: table;
+             width: 99%;
+             table-layout: fixed;
+         }
+
+         .table-scroll tbody {
+             display: block;
+             max-height: 300px;
+             overflow-y: auto;
+         }
+     </style>

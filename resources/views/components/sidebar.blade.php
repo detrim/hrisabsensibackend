@@ -13,7 +13,7 @@
             </li>
 
             <li class="nav-item">
-                <a href="{{ route('user.index') }}"
+                <a href="{{ route('user.index.super') }}"
                     class="nav-link text-white {{ request()->routeIs('user.*') ? 'bg-primary' : '' }}">
                     <i class="fa-solid fa-users me-2 "></i> Kelola
                     User
@@ -30,7 +30,7 @@
             <li class="nav-item">
                 <a href="{{ route('online.index') }}"
                     class="nav-link text-white {{ request()->routeIs('online.*') ? 'bg-primary' : '' }}">
-                    <i class="fa-solid fa-circle text-success me-2"></i> User Online
+                    <i class="fa-solid fa-circle text-success me-2"></i> Users Online
                 </a>
             </li>
         @elseif (auth()->user()->isAdminHRD())
@@ -42,26 +42,34 @@
             </li>
 
             <li class="nav-item">
-                <a href="{{ route('user.index') }}"
+                <a href="{{ route('user.index.staf') }}"
                     class="nav-link text-white {{ request()->routeIs('user.*') ? 'bg-primary' : '' }}">
                     <i class="fa-solid fa-users me-2"></i> Kelola User
                 </a>
             </li>
 
             <li class="nav-item">
-                <a href="{{ route('pegawai.index') }}"
+                <a href="{{ route('pegawai.index.staf') }}"
                     class="nav-link text-white {{ request()->routeIs('pegawai.*') ? 'bg-primary' : '' }}">
                     <i class="fa-solid fa-id-card me-2"></i> Data Pegawai
                 </a>
             </li>
 
+            @php
+                $isActive = request()->routeIs('periode.*') || request()->routeIs('absensi.*');
+            @endphp
             <li class="nav-item">
                 <a href="{{ route('periode.index') }}"
-                    class="nav-link text-white {{ request()->routeIs('periode.*') ? 'bg-primary' : '' }}">
+                    class="nav-link text-white {{ $isActive ? 'bg-primary' : '' }}">
                     <i class="fa-solid fa-calendar-check me-2"></i> Absensi Pegawai
                 </a>
             </li>
-
+            <li class="nav-item">
+                <a href="{{ route('lokasi.index') }}"
+                    class="nav-link text-white {{ request()->routeIs('lokasi.*') ? 'bg-primary' : '' }}">
+                    <i class="fa-solid fa-location-dot me-2"></i> Lokasi Pegawai
+                </a>
+            </li>
             <li class="nav-item">
                 <a href="{{ route('setting.index') }}"
                     class="nav-link text-white {{ request()->routeIs('setting.*') ? 'bg-primary' : '' }}">
@@ -70,34 +78,36 @@
             </li>
 
             <li class="nav-item">
-                <a href="{{ route('tunjangan.index') }}"
+                <a href="{{ route('tunjangan.index.staf') }}"
                     class="nav-link text-white {{ request()->routeIs('tunjangan.*') ? 'bg-primary' : '' }}">
                     <i class="fa-solid fa-money-bill-wave me-2"></i> Tunjangan Transport
                 </a>
             </li>
         @elseif (auth()->user()->isManagerHRD())
             <li class="nav-item">
-                <a href="{{ route('managerhrd') }}"
-                    class="nav-link text-white {{ request()->is('superadmin') ? 'bg-primary rounded' : '' }}">
+                <a href="{{ url('managerhrd') }}"
+                    class="nav-link text-white {{ request()->is('managerhrd') ? 'bg-primary rounded' : '' }}">
                     <i class="fa-solid fa-gauge me-2"></i> Dashboard
                 </a>
             </li>
 
             <li class="nav-item">
-                <a href="{{ route('user.index') }}"
+                <a href="{{ route('user.index.' . auth()->user()->role_name) }}"
                     class="nav-link text-white {{ request()->routeIs('user.*') ? 'bg-primary' : '' }}">
                     <i class="fa-solid fa-users me-2"></i> Kelola User
                 </a>
             </li>
 
             <li class="nav-item">
-                <a href="{{ route('pegawai.index') }}" class="nav-link text-white">
+                <a href="{{ route('pegawai.index.' . auth()->user()->role_name) }}"
+                    class="nav-link text-white {{ request()->routeIs('pegawai.*') ? 'bg-primary' : '' }}">
                     <i class="fa-solid fa-id-card me-2"></i> Data Pegawai
                 </a>
             </li>
 
             <li class="nav-item">
-                <a href="{{ route('tunjangan.index') }}" class="nav-link text-white">
+                <a href="{{ route('tunjangan.index.' . auth()->user()->role_name) }}"
+                    class="nav-link text-white {{ request()->routeIs('tunjangan.*') ? 'bg-primary' : '' }}">
                     <i class="fa-solid fa-money-bill-wave me-2"></i> Tunjangan Transport
                 </a>
             </li>

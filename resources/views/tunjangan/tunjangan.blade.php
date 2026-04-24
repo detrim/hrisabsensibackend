@@ -14,10 +14,10 @@
             <thead class="table-dark text-center align-middle">
                 <tr>
                     <th rowspan="2" style="width:50px;">No</th>
-                    <th colspan="1" style="width: 350px;">Nama</th>
+                    <th colspan="1" style="width: 300px;">Nama</th>
                     <th colspan="2" style="width:100px;">Jarak/Km</th>
                     <th colspan="2" style="width:50px;">Total Hari</th>
-                    <th rowspan="2" style="width: 290px;">Total Tunjangan/Rp.</th>
+                    <th rowspan="2" style="width: 190px;">Total Tunjangan/Rp.</th>
                 </tr>
                 <tr>
                     <th>Pegawai Tetap</th>
@@ -29,12 +29,12 @@
             </thead>
         </table>
         <div class="table-responsive" style="max-height:450px; overflow-y:auto;max-width:100%; margin-top:-16px">
-            <table class="table table-striped" id="tunjanganBody">
-                <tbody>
+            <table class="table table-striped">
+                <tbody id="tunjanganBody">
                     @foreach ($tunjangan as $index => $item)
                         <tr>
                             <td style="width: 52px;" class="text-center">{{ $index + 1 }}</td>
-                            <td style="width: 366px;">
+                            <td style="width: 300px;">
                                 {{ $item->pegawai->nama ?? '-' }}
                             </td>
                             <td style="width: 99px;" class="text-center">
@@ -49,7 +49,7 @@
                             <td style="width: 99px;" class="text-center">
                                 {{ $item->jumlah_hari_masuk ?? 0 }}
                             </td>
-                            <td style="width:300px;" class="text-end">
+                            <td style="width:190px;" class="text-end">
                                 {{ number_format($item->total_tunjangan, 0, ',', '.') }}
                             </td>
                         </tr>
@@ -57,23 +57,29 @@
                 </tbody>
             </table>
         </div>
+
         <div class="row mt-2 align-items-center justify-content-between">
             <div class="col-auto">
-                {{ $tunjangan->links('pagination::bootstrap-5') }}
+                <small>
+                    Showing {{ $tunjangan->firstItem() }}
+                    to {{ $tunjangan->lastItem() }}
+                    of {{ $tunjangan->total() }} results
+                </small>
             </div>
             <div class="col-auto">
-                <a href="{{ url()->previous() }}" class="btn btn-secondary btn-sm">
-                    ← Back
-                </a>
+                {{ $tunjangan->onEachSide(1)->links('pagination::bootstrap-5') }}
             </div>
         </div>
     </div>
+    @php
+        $role = auth()->user()->role_name;
+    @endphp
     @push('tunjangan')
         <script>
             document.getElementById('search').addEventListener('keyup', function() {
                 let id = $(this).attr('data-id');
                 let bulan = $(this).attr('data-bulan');
-                let urlTemplate = "{{ route('tunjangan.nama') }}";
+                let urlTemplate = "{{ route('tunjangan.nama.' . $role) }}";
                 let keyword = $(this).val();
                 let data = {
                     id: id,
@@ -109,12 +115,12 @@
                                 html += `
             <tr>
                 <td class="text-center" style="width: 52px;">${index + 1}</td>
-                <td style="width: 366px;">${nama}</td>
+                <td style="width: 300px;">${nama}</td>
                 <td class="text-center" style="width: 99px;">25</td>
                 <td class="text-center" style="width: 99px;">${jarak}</td>
                 <td class="text-center" style="width: 99px;">${minimal}</td>
                 <td class="text-center" style="width: 99px;">${masuk}</td>
-                <td class="text-end" style="width: 300px;">${rupiah}</td>
+                <td class="text-end" style="width: 190px;">${rupiah}</td>
             </tr>
         `;
                             });

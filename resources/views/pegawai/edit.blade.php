@@ -269,7 +269,7 @@
                     </div>
 
                     <div class="text-end">
-                        <button type="submit" class="btn btn-success">
+                        <button type="submit" class="btn btn-success btn-sm">
                             Simpan
                         </button>
                     </div>

@@ -16,7 +16,6 @@
         <div class="table-responsive" style="max-height:450px; overflow-y:auto;max-width:100%; margin-top:-16px">
             <table class="table">
                 <tbody id="onlineTable">
-
                     <!-- AJAX load here -->
                 </tbody>
             </table>

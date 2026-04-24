@@ -1,29 +1,11 @@
 @extends('layouts.app')
 @section('title', 'Absensi')
 @section('content')
-    <style>
-        .table-scroll {
-            width: 100%;
-            table-layout: fixed;
-        }
 
-        .table-scroll thead,
-        .table-scroll tbody tr {
-            display: table;
-            width: 99%;
-            table-layout: fixed;
-        }
-
-        .table-scroll tbody {
-            display: block;
-            max-height: 300px;
-            overflow-y: auto;
-        }
-    </style>
     <div class="container mt-4">
         <div class="d-flex justify-content-between mb-3">
-            <a class="btn btn-primary btn-sm" href="{{ route('lokasi.index') }}">
-                Lokasi Pegawai
+            <a href="{{ url()->previous() }}" class="btn btn-secondary btn-sm">
+                ← Back
             </a>
             <input type="text" id="search" data-id="{{ $data->id }}" data-bulan="{{ $data->bulan }}"
                 data-tgl="{{ $tgl }}" class="form-control form-control-sm w-25" placeholder="Nama Pegawai...">
@@ -95,14 +77,16 @@
                 </tbody>
             </table>
         </div>
-        <div class="row mt-2 mb-3 align-items-center justify-content-between">
+        <div class="row mt-2 align-items-center justify-content-between">
             <div class="col-auto">
-                {{ $pegawai->links('pagination::bootstrap-5') }}
+                <small>
+                    Showing {{ $pegawai->firstItem() }}
+                    to {{ $pegawai->lastItem() }}
+                    of {{ $pegawai->total() }} results
+                </small>
             </div>
             <div class="col-auto">
-                <a href="{{ url()->previous() }}" class="btn btn-secondary btn-sm">
-                    ← Back
-                </a>
+                {{ $pegawai->onEachSide(1)->links('pagination::bootstrap-4') }}
             </div>
         </div>
     </div>

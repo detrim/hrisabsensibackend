@@ -5,33 +5,35 @@
         <!-- HEADER BUTTONS -->
         <div class="row mb-3 align-items-center">
             <div class="col-md-8">
-                @if (Auth()->user()->isAdminHRD())
-                    <div>
+                <div>
+                    @if (Auth()->user()->isAdminHRD())
                         <a href="{{ route('pegawai.create') }}" class="btn btn-primary btn-sm">+ Data Baru</a>
-                        <a href="{{ route('pegawai.export.pdf') }}" class="btn btn-danger btn-sm">Download PDF</a>
-                        <a href="{{ route('pegawai.export.excel') }}" class="btn btn-success btn-sm">Download Excel</a>
-
                         <button class="btn btn-warning btn-sm" id="btn-delete-selected">Hapus Data</button>
                         <select class="btn btn-secondary btn-sm" id="bulk-status">
                             <option value="">Status</option>
                             <option value="1">Aktif</option>
                             <option value="0">Non Aktif</option>
                         </select>
-                    </div>
-                @endif
+                    @endif
+                    <a href="{{ route('pegawai.export.pdf.' . auth()->user()->role_name) }}"
+                        class="btn btn-danger btn-sm">Download PDF</a>
+                    <a href="{{ route('pegawai.export.excel.' . auth()->user()->role_name) }}"
+                        class="btn btn-success btn-sm">Download Excel</a>
+                </div>
             </div>
             <div class="col-md-4">
                 <!-- SEARCH -->
-                <form method="GET" action="{{ route('pegawai.cari') }}" class="d-flex ">
+                <form method="GET" action="{{ route('pegawai.cari.' . auth()->user()->role_name) }}" class="d-flex ">
                     <input type="text" name="search" class="form-control form-control-sm"
-                        placeholder="Cari NIP / Nama / Jabatan" value="{{ request('search') }}">
+                        placeholder="Cari NIP / Nama / Jabatan"
+                        value="{{ request('search.' . auth()->user()->role_name) }}">
                     <button class="btn btn-primary btn-sm ms-1">Search</button>
                 </form>
             </div>
         </div>
 
         <!-- FILTER -->
-        <form method="GET" action="{{ route('pegawai.filter') }}">
+        <form method="GET" action="{{ route('pegawai.filter.' . auth()->user()->role_name) }}">
             <div class="card mb-3">
                 <div class="card-body row d-flex justify-content-end gap-3">
                     <div class="col-md-6">
@@ -68,7 +70,8 @@
                     </div>
                     <div class="col-md-2 align-items-end">
                         <button type="submit" class="btn btn-primary btn-sm">Filter</button>
-                        <a href="{{ route('pegawai.index') }}" class="btn btn-sm btn-secondary">
+                        <a href="{{ route('pegawai.index.' . auth()->user()->role_name) }}"
+                            class="btn btn-sm btn-secondary">
                             <i class="bi bi-arrow-clockwise"></i>
                         </a>
                     </div>
@@ -147,17 +150,17 @@
                                 </td>
 
                                 <td>
-                                    <a href="{{ route('pegawai.detail', $p->id) }}" class="btn btn-info btn-sm">Detail</a>
+                                    <a href="{{ route('pegawai.detail.' . auth()->user()->role_name, $p->id) }}"
+                                        class="btn btn-info btn-sm">Detail</a>
                                     @if (Auth()->user()->isAdminHRD())
-                                        {{-- <a href="{{ route('pegawai.edit', $p->id) }}"
-                                            class="btn btn-warning btn-sm">Edit</a> --}}
                                         <a href="{{ $isRestricted ? '#' : route('pegawai.edit', $p->id) }}"
                                             class="btn btn-warning btn-sm {{ $isRestricted ? 'disabled' : '' }}"
                                             style="{{ $isRestricted ? 'pointer-events: none; opacity: 0.6;' : '' }}">
                                             Edit
                                         </a>
                                     @endif
-                                    <a href="{{ route('pegawai.pdf', $p->id) }}" class="btn btn-danger btn-sm">PDF</a>
+                                    <a href="{{ route('pegawai.pdf.' . auth()->user()->role_name, $p->id) }}"
+                                        class="btn btn-danger btn-sm">PDF</a>
                                 </td>
                             </tr>
                         @endforeach
@@ -167,9 +170,16 @@
             </div>
         </form>
 
-        <div class="row justify-content-end ">
-            <div class="btn-sm mt-2">
-                <small>{{ $pegawai->links('pagination::bootstrap-5') }}</small>
+        <div class="row mt-3 align-items-center justify-content-between">
+            <div class="col-auto">
+                <small>
+                    Showing {{ $pegawai->firstItem() }}
+                    to {{ $pegawai->lastItem() }}
+                    of {{ $pegawai->total() }} results
+                </small>
+            </div>
+            <div class="col-auto">
+                <small>{{ $pegawai->onEachSide(1)->links('pagination::bootstrap-4') }}</small>
             </div>
         </div>
 

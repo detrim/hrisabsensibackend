@@ -25,11 +25,17 @@
                     let html = '';
 
                     data.forEach(function(item) {
-                        html += `<a href="#" class="list-group-item list-group-item-action"
-                    data-id="${item.id}"
-                    data-name="${item.nama}">
-                    ${item.nama}
-                </a>`;
+                        html += `
+                        <a href="#"
+                        class="list-group-item list-group-item-action ${item.disabled ? 'disabled text-muted' : ''}"
+                        data-id="${item.id}"
+                        data-name="${item.nama}"
+                        style="${item.disabled ? 'pointer-events:none; opacity:1;' : ''}">
+
+                            ${item.nama}
+                            ${item.disabled ? '<small class="text-danger ms-1">(sudah digunakan)</small>' : ''}
+                        </a>
+                    `;
                     });
 
                     $('#suggestion-box').html(html);

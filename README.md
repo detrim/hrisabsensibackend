@@ -14,12 +14,14 @@ Dilengkapi dengan fitur export PDF, Excel, dan manajemen user.
 - [x] Relasi pegawai dengan user
 - [x] Export data ke PDF (DOMPDF)
 - [x] Export data ke Excel
-- [x] Pencarian data pegawai
 - [x] Bulk action (hapus & update status)
-- [x] Upload & hapus foto pegawai
-- [x] Validasi form
 - [x] Proteksi role
 - [x] Alamat dynamic (Provinsi, Kabupaten, Kecamatan) dengan AJAX autocomplete
+- [x] Log Activity
+- [x] Absensi Pegawai (CRUD)
+- [x] Lokasi jarak km (latitude, longitude)
+- [x] Tunjangan transpot
+- [x] Users Online Monitor
 
 ## 🛠️ Teknologi yang Digunakan
 
@@ -71,8 +73,8 @@ Sistem menggunakan **AJAX autocomplete** untuk pengisian alamat secara otomatis.
 
 ## 1. Clone Repository
 bash
-- [x] git clone https://github.com/jmcdevelopment/denitri.git
-- [x] cd denitri
+- [x] git clone https://github.com/detrim/hrispabsensi.git
+- [x] cd hrisabsensi
 - [x] composer install
 - [x] npm install
 - [x] npm run build
@@ -99,7 +101,7 @@ bash
 ## 🔐 Login Aplikasi
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/detrim/img/main/img/login/login.png" width="600"/>
+  <img src="https://raw.githubusercontent.com/detrim/public/img/main/img/login/login-p.png" width="600"/>
 </p>
 
 ---
@@ -107,15 +109,7 @@ bash
 ## 🧑‍💼 Role: Manager HRD
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/detrim/img/main/img/manajerhrd/1.png" width="600"/>
-</p>
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/detrim/img/main/img/manajerhrd/2.png" width="600"/>
-</p>
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/detrim/img/main/img/manajerhrd/3.png" width="600"/>
+  <img src="https://raw.githubusercontent.com/detrim/public/img/main/img/manajerhrd/ds.png" width="600"/>
 </p>
 
 ---
@@ -123,15 +117,15 @@ bash
 ## 🛠 Role: Super Admin
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/detrim/img/main/img/superadmin/2.png" width="600"/>
+  <img src="https://raw.githubusercontent.com/detrim/public/img/main/img/superadmin/user.png" width="600"/>
 </p>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/detrim/img/main/img/superadmin/1.png" width="600"/>
+  <img src="https://raw.githubusercontent.com/detrim/public/img/main/img/superadmin/log.png" width="600"/>
 </p>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/detrim/img/main/img/superadmin/3.png" width="600"/>
+  <img src="https://raw.githubusercontent.com/detrim/public/img/main/img/superadmin/on.png" width="600"/>
 </p>
 
 ---
@@ -139,15 +133,19 @@ bash
 ## 👨‍💻 Role: Staf Admin
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/detrim/img/main/img/stafadmin/1.png" width="600"/>
+  <img src="https://raw.githubusercontent.com/detrim/img/main/public/img/stafadmin/lkpg.png" width="600"/>
 </p>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/detrim/img/main/img/stafadmin/2.png" width="600"/>
+  <img src="https://raw.githubusercontent.com/detrim/public/img/stafadmin/pg.png" width="600"/>
 </p>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/detrim/img/main/img/stafadmin/3.png" width="600"/>
+  <img src="https://raw.githubusercontent.com/detrim/img/public/img/stafadmin/bs1.png" width="600"/>
+</p>
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/detrim/img/public/img/stafadmin/ab3.png" width="600"/>
 </p>
 
 ---

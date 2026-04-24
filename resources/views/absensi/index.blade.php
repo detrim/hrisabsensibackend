@@ -64,9 +64,16 @@
                 </tbody>
             </table>
         </div>
-        <div class="row mt-2 mb-3 align-items-center justify-content-end">
+        <div class="row mt-2 align-items-center justify-content-between">
             <div class="col-auto">
-                {{ $data->links('pagination::bootstrap-5') }}
+                <small>
+                    Showing {{ $data->firstItem() }}
+                    to {{ $data->lastItem() }}
+                    of {{ $data->total() }} results
+                </small>
+            </div>
+            <div class="col-auto">
+                {{ $data->onEachSide(1)->links('pagination::bootstrap-4') }}
             </div>
         </div>
     </div>

@@ -8,7 +8,8 @@
             </span>
 
             {{-- Logout --}}
-            <form action="{{ route('logout') }}" method="POST" onsubmit="return confirmLogout(event, this)">
+            <form action="{{ route('logout.' . auth()->user()->role_name) }}" method="POST"
+                onsubmit="return confirmLogout(event, this)">
                 @csrf
                 <button type="submit" class="btn btn-outline-danger btn-sm">
                     <i class="bi bi-box-arrow-right"></i> Logout

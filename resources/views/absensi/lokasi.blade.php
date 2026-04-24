@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Lokasi')
+@section('title', 'Lokasi Pegawai')
 @section('content')
     <div class="container mt-3">
         <div class="row g-3">
@@ -104,14 +104,16 @@
                 @endforelse
             </tbody>
         </table>
-        <div class="row mt-2 align-items-center justify-content-between">
+        <div class="row mt-3 align-items-center justify-content-between">
             <div class="col-auto">
-                {{ $pegawai->links('pagination::bootstrap-5') }}
+                <small>
+                    Showing {{ $pegawai->firstItem() }}
+                    to {{ $pegawai->lastItem() }}
+                    of {{ $pegawai->total() }} results
+                </small>
             </div>
             <div class="col-auto">
-                <a href="{{ url()->previous() }}" class="btn btn-secondary btn-sm">
-                    ← Back
-                </a>
+                {{ $pegawai->onEachSide(1)->links('pagination::bootstrap-4') }}
             </div>
         </div>
     </div>

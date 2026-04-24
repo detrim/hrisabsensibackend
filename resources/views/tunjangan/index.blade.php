@@ -27,7 +27,7 @@
                             <td style="width: 150px;">{{ $item->tahun }}</td>
                             <td style="width: 250px;">{{ $item->nama_bulan }}</td>
                             <td style="width: 340px;">
-                                <a href="{{ route('tunjangan.bulan', [
+                                <a href="{{ route('tunjangan.bulan.' . auth()->user()->role_name, [
                                     'bln' => $item->bulan,
                                     'thn' => $item->tahun,
                                     'id' => $item->id,
@@ -43,19 +43,29 @@
                 </tbody>
             </table>
         </div>
-        <div class="row mt-2 align-items-center justify-content-end">
+        <div class="row mt-3 align-items-center justify-content-between">
             <div class="col-auto">
-                {{ $data->links('pagination::bootstrap-5') }}
+                <small>
+                    Showing {{ $data->firstItem() }}
+                    to {{ $data->lastItem() }}
+                    of {{ $data->total() }} results
+                </small>
+            </div>
+            <div class="col-auto">
+                <small>{{ $data->onEachSide(1)->links('pagination::bootstrap-4') }}</small>
             </div>
         </div>
     </div>
-
+    @php
+        $role = auth()->user()->role_name;
+    @endphp
     @push('tunjangan-index')
         <script>
             document.getElementById('search').addEventListener('keyup', function() {
                 let keyword = this.value;
-                let searchUrl = "{{ route('tunjangan.search') }}";
-                let urlTemplate = "{{ route('tunjangan.bulan', ['bln' => ':bln', 'thn' => ':thn', 'id' => ':id']) }}";
+                let searchUrl = "{{ route('tunjangan.search.' . $role) }}";
+                let urlTemplate =
+                    "{{ route('tunjangan.bulan.' . $role, ['bln' => ':bln', 'thn' => ':thn', 'id' => ':id']) }}";
 
                 fetch(`${searchUrl}?keyword=${keyword}`)
                     .then(res => res.json())

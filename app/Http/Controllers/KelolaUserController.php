@@ -34,21 +34,24 @@ class KelolaUserController extends Controller
     public function store(Request $request)
     {
         $this->saveuser($request);
-        return redirect()->route('user.index')
+        return redirect()->route('user.index.'.auth()->user()->role_name)
         ->with('success', 'User dibuat. Password: '.$request->password);
     }
     public function update(Request $request, $id)
     {
         $password = $request->password ?? 'Password tidak berubah!';
         $this->saveuser($request, $id);
-        return redirect()->route('user.edit', $id)
+        return redirect()->route('user.edit.'.auth()->user()->role_name, $id)
             ->with('success', 'Data berhasil diupdate. Password: ' .$password);
     }
     private function saveuser(Request $request,$Userid = null)
     {
         $user = $Userid ? User::findOrFail($Userid) : null;
         $request->validate([
-           'username' => ['required', Rule::unique('users','username')->ignore($user)],
+            'username' => [
+                'required',
+                Rule::unique('users', 'username')->ignore($Userid)
+            ]
         ]);
         // CEK PEGAWAI
         if ($request->pegawai_id) {
@@ -106,6 +109,25 @@ class KelolaUserController extends Controller
     {
         $user = User::findOrFail($id);
         return view('user.detail', compact('user'));
+    }
+    public function search(Request $request)
+    {
+        $keyword = trim($request->keyword);
+        if (!$keyword) {
+            return response()->json([]);
+        }
+        $users = User::query()
+            ->select('*')
+            ->where(function ($q) use ($keyword) {
+                $q->where('name', 'like', "%{$keyword}%")
+                ->orWhere('username', 'like', "%{$keyword}%");
+            })
+            ->limit(10)
+            ->get();
+        return response()->json([
+            'keyword' => $keyword,
+            'data' => $users
+        ]);
     }
 
     public function delete($id)

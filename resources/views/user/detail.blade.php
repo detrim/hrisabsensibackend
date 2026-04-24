@@ -5,8 +5,6 @@
 @section('content')
 
     <div class="container mt-4">
-        <h4 class="mb-3">Detail User</h4>
-
         <div class="card">
             <div class="card-body">
                 <div class="row">
@@ -40,7 +38,7 @@
                     <div class="mb-3 col-md-6">
                         <label class="fw-bold">No HP</label>
                         <div class="form-control">
-                            {{ $user->phone }}
+                            {{ $user->phone ?? '-' }}
                         </div>
                     </div>
 
@@ -74,8 +72,8 @@
                 </div>
                 {{-- Tombol --}}
                 <div class="mt-4">
-                    <a href="{{ route('user.index') }}" class="btn btn-secondary">
-                        Kembali
+                    <a href="{{ url()->previous() }}" class="btn btn-secondary btn-sm">
+                        ← Back
                     </a>
                 </div>
 

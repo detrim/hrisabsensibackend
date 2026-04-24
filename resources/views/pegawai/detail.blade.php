@@ -17,7 +17,7 @@
 
                                 <img src="{{ asset('img/white-background.jpg') }}"
                                     class="img-placeholder-linen img-thumbnail  rounded-0 bg-white" disabled>
-                                <img src="{{ asset('storage/' . $pegawai->foto) }}"
+                                <img src="{{ asset('storage/' . $pegawai->foto) ?? asset('storage/app/public/' . $pegawai->foto) }}"
                                     class="img-overlay-linen img-preview img-thumbnail rounded-0 bg-white" disabled>
 
                             </div>
@@ -182,7 +182,9 @@
                     </div>
 
                     <div class="mb-3 text-end">
-                        <a href="{{ route('pegawai.index') }}" class="btn-sm btn btn-info">Kembali</a>
+                        <a href="{{ url()->previous() }}" class="btn btn-secondary btn-sm">
+                            ← Back
+                        </a>
                     </div>
 
                 </form>

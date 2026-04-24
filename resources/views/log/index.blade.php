@@ -55,9 +55,16 @@
                 </tbody>
             </table>
         </div>
-        <div class="row mt-2 align-items-center justify-content-end">
+        <div class="row mt-3 align-items-center justify-content-between">
             <div class="col-auto">
-                {{ $logs->links('pagination::bootstrap-5') }}
+                <small>
+                    Showing {{ $logs->firstItem() }}
+                    to {{ $logs->lastItem() }}
+                    of {{ $logs->total() }} results
+                </small>
+            </div>
+            <div class="col-auto">
+                {{ $logs->onEachSide(1)->links('pagination::bootstrap-4') }}
             </div>
         </div>
     </div>
