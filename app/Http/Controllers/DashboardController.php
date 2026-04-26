@@ -19,6 +19,7 @@ class DashboardController extends Controller
     {
         $total_pegawai = Pegawai::count();
         $today = carbon::today();
+        // dd($today->day);
         if(auth()->user()->isManagerHRD()){
             $pegawai_kontrak = Pegawai::where('status_pegawai', 'kontrak')->count();
             $pegawai_tetap = Pegawai::where('status_pegawai', 'tetap')->count();
@@ -42,7 +43,12 @@ class DashboardController extends Controller
                 'pegawai_baru'
             ));
         }elseif(auth()->user()->isAdminHRD()){
-            $totalHariIni = Absensi::whereDate('created_at', $today)->count();
+            $totalHariIni = Absensi::whereDate('created_at', $today)
+                ->where(function ($q) {
+                    $q->where('pagi', 1)
+                    ->orWhere('sore', 1);
+                })
+                ->count();
             $izin = Absensi::whereDate('created_at', $today)
                 ->where('keterangan', 'izin')
                 ->count();
