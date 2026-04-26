@@ -116,6 +116,13 @@ class DataPegawaiController extends Controller
         ];
         // CREATE / UPDATE
         if ($pegawai) {
+            $user = User::where('employee_id', $request->nip)->first();
+        if ($user) {
+            $datauser = [
+                'email' => $request->email,
+            ];
+            $user->update($data);
+        }
             $pegawai->update($data);
             activity()
                 ->useLog('Pegawai')

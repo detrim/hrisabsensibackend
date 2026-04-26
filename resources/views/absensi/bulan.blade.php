@@ -22,16 +22,25 @@
         }
     </style>
     <div class="container mt-3 mb-3">
+        @php
+            $disabled = $data->status == 1 ? 'disabled' : '';
+        @endphp
         <div class="d-flex justify-content-between align-items-center">
+            {{-- kiri --}}
             <p class="mb-0">
                 <b>PERIODE :</b> {{ $data->nama_bulan }} {{ $data->tahun }}
             </p>
-            @php
-                $disabled = $data->status == 1 ? 'disabled' : '';
-            @endphp
-            <button class="btn btn-primary btn-sm mb3" data-bs-toggle="modal" data-bs-target="#modalHari" {{ $disabled }}>
-                + Tambah Hari
-            </button>
+
+            {{-- kanan --}}
+            <div class="d-flex gap-2">
+                <a href="{{ route('periode.qrcode') }}" class="btn btn-secondary btn-sm mb-0">
+                    Generate QR
+                </a>
+                <button class="btn btn-primary btn-sm mb-0" data-bs-toggle="modal" data-bs-target="#modalHari"
+                    {{ $disabled }}>
+                    + Tambah Hari
+                </button>
+            </div>
         </div>
         <br>
         @include('session.session')

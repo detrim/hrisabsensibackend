@@ -71,6 +71,7 @@ Route::middleware(['auth','CheckRole:3'])->group(function () {
             Route::get('/periode/search', [PeriodeController::class, 'search'])->name('periode.search');
             Route::post('/periode/update/{id}', [PeriodeController::class, 'update'])->name('periode.update');
             Route::post('/periode/status/{id}', [PeriodeController::class, 'updateStatus'])->name('periode.update.status');
+            Route::get('/generateqrpdf', [PeriodeController::class, 'generate'])->name('periode.qrcode');
 
             Route::get('/lokasi/index', [LokasiController::class, 'index'])->name('lokasi.index');
             Route::post('/lokasi/pegawai', [LokasiController::class, 'pegawai'])->name('lokasipegawai.store');
@@ -116,3 +117,10 @@ Route::get('/kosong', function () {
 Route::get('/',[AuthController::class,'login']);
 Route::get('/login',[AuthController::class,'login'])->name('login');
 Route::post('/postlog',[AuthController::class,'postlogin']);
+
+// Route::get('/', function () {
+//     return view('auth.login');
+// })->name('login');
+// Route::get('/login', function () {
+//     return view('auth.login');
+// })->name('login');

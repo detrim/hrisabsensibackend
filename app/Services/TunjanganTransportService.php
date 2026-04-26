@@ -25,9 +25,10 @@ class TunjanganTransportService
                 'periode_id',
                 'bulan'
             )
-            ->whereHas('pegawai', function ($q) {
-                $q->where('status_pegawai', 'tetap');
-            })
+            // aktifkan jika tetap saja yang dapat tunjangan
+            // ->whereHas('pegawai', function ($q) {
+            //     $q->where('status_pegawai', 'tetap');
+            // })
             ->selectRaw('SUM(pagi) as jumlah_hari_masuk')
             ->groupBy('pegawai_nip', 'periode_id', 'bulan')
             ->get();

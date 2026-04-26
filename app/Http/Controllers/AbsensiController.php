@@ -39,7 +39,7 @@ class AbsensiController extends Controller
         $keyword = $data['keyword'];
 
         $pegawai = Pegawai::with(['absensi' => function ($q) use ($id, $bln, $tgl) {
-        $q->select('id', 'pegawai_nip', 'pagi', 'sore', 'keterangan', 'periode_id', 'tgl', 'bulan')
+        $q->select('*')
             ->where('periode_id', $id)
             ->where('bulan', $bln)
             ->where('tgl', $tgl)

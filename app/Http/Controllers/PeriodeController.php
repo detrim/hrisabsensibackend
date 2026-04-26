@@ -9,7 +9,11 @@ use Carbon\Carbon;
 use App\Services\TunjanganTransportService;
 use App\Models\TunjanganTransportPegawai;
 use App\Models\SettingTunjanganTransport;
-
+use Illuminate\Support\Str;
+// use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\Writer\PngWriter;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class PeriodeController extends Controller
 {
@@ -145,5 +149,30 @@ class PeriodeController extends Controller
         $absensi->hari = array_values($hariLama);
         $absensi->save();
         return back()->with('success', 'Tanggal berhasil dihapus');
+    }
+
+    public function generate()
+    {
+    $key = env('QR_SECRET');
+        $payload = [
+            'type'      => 'absen',
+            'periode'   => now()->format('Y-m'), // contoh: 2026-04
+            'expired'   => now()->endOfMonth()->toDateString(),
+            'key'       => $key
+        ];
+        // encode ke JSON
+        $text = json_encode($payload);
+        // generate QR
+        $qrCode = QrCode::create($text)->setSize(500);
+        $writer = new PngWriter();
+        $result = $writer->write($qrCode);
+        // convert ke base64 (buat PDF)
+        $qr = base64_encode($result->getString());
+        // kirim ke view PDF
+        $pdf = Pdf::loadView('qrcode', [
+            'qr'   => $qr,
+            'text' => $payload // kirim array biar bisa ditampilkan
+        ]);
+        return $pdf->download('qrcode.pdf');
     }
 }

@@ -4,13 +4,10 @@
 
     <div class="container mt-4">
         <div class="d-flex justify-content-between mb-3">
-            <a href="{{ url()->previous() }}" class="btn btn-secondary btn-sm">
-                ← Back
-            </a>
+            <p><b>PERIODE :</b> {{ $hari }}, {{ $tgl }} {{ $data->nama_bulan }} {{ $data->tahun }}</p>
             <input type="text" id="search" data-id="{{ $data->id }}" data-bulan="{{ $data->bulan }}"
                 data-tgl="{{ $tgl }}" class="form-control form-control-sm w-25" placeholder="Nama Pegawai...">
         </div>
-        <p><b>PERIODE :</b> {{ $hari }}, {{ $tgl }} {{ $data->nama_bulan }} {{ $data->tahun }}</p>
         @include('session.session')
         <table class="table table-bordered">
             <thead class="table-dark text-center align-middle">
@@ -18,22 +15,33 @@
                     <th rowspan="2" style="width:50px;">No</th>
                     <th rowspan="2" style="width: 350px;">Nama</th>
                     <th rowspan="2" style="width:170px;">Status Pegawai</th>
-                    <th colspan="2" style="width:50px;">Jam</th>
-                    <th rowspan="2" style="width: 290px;">Keterangan</th>
+                    <th colspan="4" style="width:50px;">Jam</th>
+                    <th rowspan="2" style="width: 190px;">Keterangan</th>
                 </tr>
                 <tr>
                     <th style="width:95px;">08:00</th>
+                    <th style="width:110px;">Masuk</th>
                     <th style="width:95px;">17:00</th>
+                    <th style="width:110px;">Pulang</th>
                 </tr>
             </thead>
         </table>
         <div class="table-responsive" style="max-height:450px; overflow-y:auto;max-width:100%; margin-top:-16px">
-            <table class="table table-striped" id="pegawaiBody">
+            <table class="table table-striped " id="pegawaiBody">
                 <tbody>
                     @forelse  ($pegawai as $key => $p)
                         @php
-                            $pagi = $p->absensi->first()->pagi ?? 0;
-                            $sore = $p->absensi->first()->sore ?? 0;
+                            $absensi = $p->absensi->first();
+                            $pagi = $absensi->pagi ?? 0;
+                            $sore = $absensi->sore ?? 0;
+                            $masuk_pagi =
+                                $absensi && $absensi->jam_masuk_pagi
+                                    ? \Carbon\Carbon::parse($absensi->jam_masuk_pagi)->format('H:i')
+                                    : '-';
+                            $masuk_sore =
+                                $absensi && $absensi->jam_masuk_sore
+                                    ? \Carbon\Carbon::parse($absensi->jam_masuk_sore)->format('H:i')
+                                    : '-';
                             $ket = $p->absensi->first()->keterangan ?? 0;
                             $disabled = $data->status == 1 ? 'disabled' : '';
                         @endphp
@@ -43,20 +51,28 @@
                             <td class="text-center" style="width:178px;">
                                 {{ ucfirst($p->status_pegawai) }}
                             </td>
-                            <td class="text-center" style="width:99px;">
+                            <td class="text-center" style="width:95px;">
                                 <input type="checkbox" class="absen-checkbox" data-nip="{{ $p->nip }}"
                                     data-id="{{ $data->id }}" data-bulan="{{ $data->bulan }}"
                                     data-tgl="{{ $tgl }}" data-jenis="pagi"
                                     {{ ($pagi ?? 0) == 1 ? 'checked' : '' }} {{ $disabled }}>
                             </td>
+                            <td class="text-center">
+                                <input style="width:70px;margin-right:15px;" type="text" value="{{ $masuk_pagi }}"
+                                    readonly>
+                            </td>
 
-                            <td class="text-center" style="width:99px;">
+                            <td class="text-center" style="width:95px;">
                                 <input type="checkbox" class="absen-checkbox" data-nip="{{ $p->nip }}"
                                     data-id="{{ $data->id }}" data-bulan="{{ $data->bulan }}"
                                     data-tgl="{{ $tgl }}" data-jenis="sore"
                                     {{ ($sore ?? 0) == 1 ? 'checked' : '' }} {{ $disabled }}>
                             </td>
-                            <td style="width: 290px;">
+                            <td class="text-center">
+                                <input style="width:70px;margin-right:15px;" type="text" value="{{ $masuk_sore }}"
+                                    readonly>
+                            </td>
+                            <td style="width: 190px;">
                                 <select name="keterangan[{{ $p->id }}]"
                                     class="form-control form-control-sm keterangan-select" data-nip="{{ $p->nip }}"
                                     data-id="{{ $data->id }}" data-bulan="{{ $data->bulan }}"
@@ -140,23 +156,38 @@
                                 let tgl = p.absensi?.[0]?.tgl ?? 0;
                                 let bulan = p.absensi?.[0]?.bulan ?? 0;
                                 let periode = p.absensi?.[0]?.periode_id ?? 0;
-                                let pagi = p.absensi?.[0]?.pagi ?? 0;
-                                let sore = p.absensi?.[0]?.sore ?? 0;
+                                let absensi = p.absensi?.[0];
+                                let pagi = absensi?.pagi ?? 0;
+                                let sore = absensi?.sore ?? 0;
+                                let masuk_pagi = absensi?.jam_masuk_pagi ?
+                                    absensi.jam_masuk_pagi.slice(0, 5) :
+                                    "-";
+                                let masuk_sore = absensi?.jam_masuk_sore ?
+                                    absensi.jam_masuk_sore.slice(0, 5) :
+                                    "-";
                                 let ket = p.absensi?.[0]?.keterangan ?? 0;
                                 let disabledAttr = p.periode?.status == 1 ? 'disabled' : '';
                                 html += `
                 <tr>
                     <td class="text-center" style="width: 50px;">${index + 1}</td>
-                    <td style="width: 350px;">${p.nama}  </td>
-                    <td class="text-center" style="width:170px;">${p.status_pegawai.charAt(0).toUpperCase() + p.status_pegawai.slice(1)}</td>
+                    <td style="width: 350px;">${p.nama} </td>
+                    <td class="text-center" style="width:150px;">${p.status_pegawai.charAt(0).toUpperCase() + p.status_pegawai.slice(1)}</td>
 
                     <td class="text-center" style="width:95px;">
                         <input type="checkbox" name="masuk_pagi[${p.id}]" ${(pagi ?? 0) == 1 ? 'checked' : ''} ${disabledAttr} >
                     </td>
                     <td class="text-center" style="width:95px;">
+                                <input style="width:70px;margin-right:0px;" type="text" value="${masuk_pagi}"
+                                    readonly>
+                            </td>
+                    <td class="text-center" style="width:95px;">
                         <input type="checkbox" name="masuk_sore[${p.id}]" ${(sore ?? 0) == 1 ? 'checked' : ''}  ${disabledAttr}>
                     </td>
-                    <td style="width:275px;">
+                    <td class="text-center" style="width:95px;">
+                                <input style="width:70px;margin-right:0px;" type="text" value="${masuk_sore}"
+                                    readonly>
+                            </td>
+                    <td style="width:185px;">
                         <select class="form-control form-control-sm keterangan-select"
                                 data-nip="${nip}"
                                 data-id="${periode}"

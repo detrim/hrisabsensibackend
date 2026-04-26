@@ -22,6 +22,8 @@ return new class extends Migration
             $table->integer('bulan');
             $table->integer('tgl');
             $table->integer('pagi')->nullable();
+            $table->time('jam_masuk_pagi')->nullable();
+            $table->time('jam_masuk_sore')->nullable();
             $table->integer('sore')->nullable();
             $table->string('keterangan')->nullable();
 

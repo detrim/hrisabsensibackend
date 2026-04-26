@@ -4,7 +4,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\PegawaiController;
 use App\Http\Controllers\Api\LokasiController;
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\AbsensiController;
 
+Route::post('/login', [UserController::class, 'index']);
+Route::middleware('auth:sanctum')->post('/absensi/scan', [AbsensiController::class, 'scan']);
+Route::middleware('auth:sanctum')->get('/absensi/today', [AbsensiController::class, 'today']);
+
+
+// Route::middleware('web')->post('/postlogin', [AuthController::class, 'postlogin']);
+// Route::middleware('web')->get('/captcha', [AuthController::class, 'captcha']);
 Route::middleware(['auth:sanctum', 'active'])->group(function () {
     Route::get('/wilayah/searchkabupaten', [PegawaiController::class, 'searchKabupaten']);
     Route::get('/wilayah/searchwilayah', [PegawaiController::class, 'searchLocal']);

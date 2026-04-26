@@ -165,6 +165,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             PeriodeSeeder::class,
+            RoleSeeder::class,
         ]);
     }
 }

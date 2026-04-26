@@ -10,7 +10,7 @@
             <thead class="table-dark">
                 <tr>
                     <th style="width:50px;">No</th>
-                    <th style="width:150px;">User</th>
+                    <th style="width:150px;">Nama</th>
                     <th style="width:200px;">Activity</th>
                     <th style="width:255px;">Deskripsi</th>
                     <th style="width:330px;">Properties</th>

@@ -4,12 +4,16 @@
 
     <div class="container mt-4">
 
-        <!-- Search + Button -->
-        <div class="d-flex justify-content-between mb-4">
-            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalTambah">
-                + Tambah Absensi
-            </button>
-            <input type="text" id="search" class="form-control form-control-sm w-25" placeholder="Cari tahun...">
+        <div class="row align-items-center mb-4">
+            <div class="col-md-6">
+                <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalTambah">
+                    + Tambah Absensi
+                </button>
+            </div>
+            <div class="col-md-6 text-end">
+                <input type="text" id="search" class="form-control form-control-sm w-50 d-inline-block"
+                    placeholder="Cari tahun...">
+            </div>
         </div>
         @include('session.session')
         <!-- Table -->

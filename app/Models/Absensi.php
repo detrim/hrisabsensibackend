@@ -15,6 +15,8 @@ class Absensi extends Model
         'periode_id',
         'pagi',
         'sore',
+        'jam_masuk_pagi',
+        'jam_masuk_sore',
         'keterangan'
     ];
 

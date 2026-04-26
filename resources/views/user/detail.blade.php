@@ -36,9 +36,9 @@
 
                     {{-- Phone --}}
                     <div class="mb-3 col-md-6">
-                        <label class="fw-bold">No HP</label>
+                        <label class="fw-bold">NIP</label>
                         <div class="form-control">
-                            {{ $user->phone ?? '-' }}
+                            {{ $user->employee_id ?? '-' }}
                         </div>
                     </div>
 
@@ -52,8 +52,8 @@
                                 Manajer HRD
                             @elseif ($user->role_id == 3)
                                 Staf HRD
-                            @else
-                                -
+                            @elseif($user->role_id == 4)
+                                Staf
                             @endif
                         </div>
                     </div>

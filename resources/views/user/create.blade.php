@@ -64,6 +64,7 @@
                                     <option value="1">Admin</option>
                                     <option value="2">manajer HRD</option>
                                     <option value="3">Staf HRD</option>
+                                    <option value="4">Staf</option>
                                 </select>
                             </div>
                         </div>

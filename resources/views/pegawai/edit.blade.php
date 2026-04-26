@@ -48,8 +48,8 @@
                         <div class="col-md-4 mb-3">
                             <div class="mb-3">
                                 <label class="form-label">NIP</label>
-                                <input type="text" name="nip" class="form-control"
-                                    value="{{ old('nip', $pegawai->nip) }}">
+                                <input type="text" class="form-control" readonly value="{{ old('nip', $pegawai->nip) }}">
+                                <input type="hidden" name="nip" class="form-control" value="{{ $pegawai->nip }}">
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Email</label>
@@ -103,7 +103,8 @@
                             <label class="form-label">Usia</label>
                             <input type="text" id="usia_text" class="form-control" value="{{ $pegawai->usia }} Tahun"
                                 readonly>
-                            <input type="hidden" name="usia" id="usia" value="{{ old('usia', $pegawai->usia) }}">
+                            <input type="hidden" name="usia" id="usia"
+                                value="{{ old('usia', $pegawai->usia) }}">
                         </div>
 
                         <div class="col-md-4 mb-3 position-relative">
