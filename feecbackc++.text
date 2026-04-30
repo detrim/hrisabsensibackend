@@ -1,0 +1,116 @@
+#include <WiFi.h>
+#include <HTTPClient.h>
+#include <SPI.h>
+#include <MFRC522.h>
+
+#define SS_PIN 21
+#define RST_PIN 22
+#define BUZZER 5
+
+MFRC522 rfid(SS_PIN, RST_PIN);
+
+const char* ssid = "WIFI_KAMU";
+const char* password = "PASSWORD_WIFI";
+
+const char* serverUrl = "http://domainkamu.com/api/absensi/scanuid";
+const char* secret = "BBb4fhR9l0gfvdsd5IZzXtDYysq4MXzw";
+
+// 🔊 sukses
+void beepSuccess() {
+  tone(BUZZER, 1000);
+  delay(150);
+  noTone(BUZZER);
+}
+
+// 🔊 gagal
+void beepError() {
+  tone(BUZZER, 300);
+  delay(400);
+  noTone(BUZZER);
+}
+
+// 🔑 ambil UID dari kartu
+String getUID() {
+  String uidString = "";
+
+  for (byte i = 0; i < rfid.uid.size; i++) {
+    uidString += String(rfid.uid.uidByte[i], HEX);
+  }
+
+  uidString.toUpperCase(); // biar konsisten
+  return uidString;
+}
+
+void setup() {
+  Serial.begin(115200);
+
+  pinMode(BUZZER, OUTPUT);
+
+  SPI.begin();
+  rfid.PCD_Init();
+
+  WiFi.begin(ssid, password);
+
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(1000);
+    Serial.println("Connecting WiFi...");
+  }
+
+  Serial.println("WiFi Connected");
+  Serial.println("Tempelkan kartu...");
+}
+
+void loop() {
+
+  // cek kartu baru
+  if (!rfid.PICC_IsNewCardPresent()) return;
+  if (!rfid.PICC_ReadCardSerial()) return;
+
+  String uid = getUID();
+
+  Serial.print("UID: ");
+  Serial.println(uid);
+
+  if (WiFi.status() == WL_CONNECTED) {
+
+    HTTPClient http;
+    http.begin(serverUrl);
+    http.addHeader("Content-Type", "application/json");
+
+    String json = "{\"qr_code\":\"" + uid + "\",\"secret\":\"" + secret + "\"}";
+
+    int httpCode = http.POST(json);
+
+    if (httpCode > 0) {
+      String response = http.getString();
+
+      Serial.println("Response:");
+      Serial.println(response);
+
+      if (response.indexOf("success") > 0) {
+        Serial.println("✔ ABSEN BERHASIL");
+        beepSuccess();
+      }
+      else if (response.indexOf("already_checked") > 0) {
+        Serial.println("⚠ SUDAH ABSEN");
+        beepError();
+      }
+      else {
+        Serial.println("❌ GAGAL / TIDAK VALID");
+        beepError();
+      }
+
+    } else {
+      Serial.println("❌ Gagal koneksi server");
+      beepError();
+    }
+
+    http.end();
+  }
+
+  // stop komunikasi kartu
+  rfid.PICC_HaltA();
+  rfid.PCD_StopCrypto1();
+
+  delay(2000); // jeda biar tidak double scan
+}

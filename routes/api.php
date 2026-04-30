@@ -12,6 +12,8 @@ Route::post('/login', [UserController::class, 'index']);
 Route::middleware('auth:sanctum')->post('/absensi/scan', [AbsensiController::class, 'scan']);
 Route::middleware('auth:sanctum')->get('/absensi/today', [AbsensiController::class, 'today']);
 
+Route::post('/absensi/scanuid', [AbsensiController::class, 'scanuid']);
+
 
 // Route::middleware('web')->post('/postlogin', [AuthController::class, 'postlogin']);
 // Route::middleware('web')->get('/captcha', [AuthController::class, 'captcha']);

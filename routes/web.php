@@ -54,6 +54,7 @@ Route::middleware(['auth','CheckRole:3'])->group(function () {
             Route::get('/pegawai/filter', [DataPegawaiController::class, 'filter'])->name('pegawai.filter.staf');
             Route::get('/pegawai/search', [DataPegawaiController::class, 'cari'])->name('pegawai.cari.staf');
             Route::get('/pegawai/{id}/pdf', [DataPegawaiController::class, 'downloadPdf'])->name('pegawai.pdf.staf');
+            Route::get('/pegawai/{id}/pdfnip', [DataPegawaiController::class, 'generateNip'])->name('pegawai.pdfnip');
             Route::get('/pegawai/exportpdf', [DataPegawaiController::class, 'exportPdf'])->name('pegawai.export.pdf.staf');
             Route::get('/pegawai/exportexcel', [DataPegawaiController::class, 'exportExcel'])->name('pegawai.export.excel.staf');
 

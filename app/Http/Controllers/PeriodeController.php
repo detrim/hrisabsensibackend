@@ -110,11 +110,12 @@ class PeriodeController extends Controller
             $tanggalDb = $tanggal->format('Y-m-d');
             $total = Pegawai::totalByTanggal($tanggalDb);
             $dataHari[] = [
-                'dd' => $h,
+                'dd' => (int) $h,
                 'hari' => $formathari,
                 'tanggal' => $formattanggal,
-                'total' => $total
+                'total' => (int) $total
             ];
+            usort($dataHari, fn($a, $b) => $b['dd'] <=> $a['dd']);
         }
         // dd($tanggalDb,$total,$tanggal);
         return view('absensi.bulan', compact('data', 'dataHari', 'hariIni'));

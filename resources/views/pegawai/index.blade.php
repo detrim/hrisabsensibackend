@@ -158,6 +158,9 @@
                                             style="{{ $isRestricted ? 'pointer-events: none; opacity: 0.6;' : '' }}">
                                             Edit
                                         </a>
+                                        <a href="{{ route('pegawai.pdfnip', $p->id) }}" class="btn btn-secondary btn-sm">
+                                            NIP
+                                        </a>
                                     @endif
                                     <a href="{{ route('pegawai.pdf.' . auth()->user()->role_name, $p->id) }}"
                                         class="btn btn-danger btn-sm">PDF</a>

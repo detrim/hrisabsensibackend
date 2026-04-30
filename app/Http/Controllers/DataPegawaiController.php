@@ -13,6 +13,9 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use App\Exports\PegawaiExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\Writer\PngWriter;
 
 class DataPegawaiController extends Controller
 {
@@ -271,5 +274,50 @@ class DataPegawaiController extends Controller
             'message' => 'Data pegawai dan user berhasil dihapus'
         ]);
 
+    }
+
+    public function generateNip($id)
+    {
+        $pegawai = Pegawai::findOrFail($id);
+
+        $key = env('QR_SECRET');
+
+        // payload QR (data utama)
+        $payload = [
+            'type' => 'pegawai',
+            'nip'  => $pegawai->nip,
+            'nama' => $pegawai->nama,
+        ];
+
+        // encode payload
+        $text = json_encode($payload);
+
+        // signature (pengaman)
+        $signature = hash_hmac('sha256', $text, $key);
+
+        // gabungkan data + signature
+        $qrData = [
+            'data' => $payload,
+            'signature' => $signature
+        ];
+
+        $qrString = json_encode($qrData);
+
+        // generate QR
+        $qrCode = QrCode::create($qrString)->setSize(300);
+
+        $writer = new PngWriter();
+        $result = $writer->write($qrCode);
+
+        // convert ke base64 untuk PDF
+        $qr = base64_encode($result->getString());
+
+        // load PDF
+        $pdf = Pdf::loadView('pegawai.qrnip', [
+            'pegawai' => $pegawai,
+            'qr'      => $qr
+        ]);
+
+        return $pdf->download('id-card-'.$pegawai->nip.'.pdf');
     }
 }
