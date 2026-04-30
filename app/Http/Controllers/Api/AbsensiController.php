@@ -11,16 +11,15 @@ use App\Models\Periode;
 
 class AbsensiController extends Controller
 {
+
     public function scan(Request $request)
     {
         $request->validate([
             'employee_id' => 'required',
             'qr_code' => 'required'
         ]);
-
         $now = Carbon::now();
-
-        // VALIDASI QR
+        // DECODE QR
         $data = json_decode($request->qr_code, true);
         if (!$data || !isset($data['type'])) {
             return response()->json([
@@ -28,70 +27,71 @@ class AbsensiController extends Controller
                 'message' => 'QR tidak valid'
             ], 200);
         }
+        // VALIDASI SIGNATURE
+        if (!isset($data['signature'])) {
+            return response()->json([
+                'status' => 'invalid_qr',
+                'message' => 'Signature tidak ditemukan'
+            ], 200);
+        }
+        $signature = $data['signature'];
+        unset($data['signature']);
+        $validSignature = hash_hmac('sha256', json_encode($data), env('QR_SECRET'));
+        if (!hash_equals($validSignature, $signature)) {
+            return response()->json([
+                'status' => 'invalid_qr',
+                'message' => 'QR tidak valid'
+            ], 200);
+        }
+        // VALIDASI TYPE
         if ($data['type'] !== 'absen') {
             return response()->json([
                 'status' => 'invalid_qr',
                 'message' => 'QR tidak sesuai'
             ], 200);
         }
-        if (!isset($data['key']) || $data['key'] !== env('QR_SECRET')) {
-            return response()->json([
-                'status' => 'invalid_qr',
-                'message' => 'QR ilegal'
-            ], 200);
-        }
-
+        // VALIDASI PERIODE
         if (!isset($data['periode']) || $data['periode'] !== $now->format('Y-m')) {
             return response()->json([
                 'status' => 'invalid_period',
                 'message' => 'QR bukan periode ini'
             ], 200);
         }
-
+        // VALIDASI EXPIRED
         if (isset($data['expired']) && $now->toDateString() > $data['expired']) {
             return response()->json([
                 'status' => 'expired',
                 'message' => 'QR sudah kadaluarsa'
             ], 200);
         }
-
-        // PERIODE
-        $periode = Periode::where('bulan', $now->month)
-            ->where('tahun', $now->year)
-            ->first();
-
-        if (!$periode) {
-            return response()->json([
-                'status' => 'no_period',
-                'message' => 'Periode tidak ditemukan'
-            ], 200);
-        }
-
         // PEGAWAI
         $pegawai = Pegawai::where('nip', $request->employee_id)->first();
-
         if (!$pegawai) {
             return response()->json([
                 'status' => 'not_found',
                 'message' => 'Pegawai tidak ditemukan'
             ], 200);
         }
-
-        // JAM
+        // PERIODE DB
+        $periode = Periode::where('bulan', $now->month)
+            ->where('tahun', $now->year)
+            ->first();
+        if (!$periode) {
+            return response()->json([
+                'status' => 'no_period',
+                'message' => 'Periode tidak ditemukan'
+            ], 200);
+        }
+        // JAM ABSEN
         $isMorning = $now->hour >= 6 && $now->hour <= 9;
         $isAfternoon = $now->hour >= 16 && $now->hour <= 19;
-
         $sudahAbsen = Absensi::where('pegawai_nip', $pegawai->nip)
             ->where('tgl', $now->day)
             ->where('periode_id', $periode->id)
             ->where('bulan', $periode->bulan)
             ->first();
-
-        $absen = null;
-
         // ABSEN PAGI
         if ($isMorning) {
-
             if (!$sudahAbsen) {
                 $absen = Absensi::create([
                     'pegawai_nip' => $pegawai->nip,
@@ -101,36 +101,30 @@ class AbsensiController extends Controller
                     'jam_masuk_pagi' => $now->format('H:i:s'),
                     'pagi' => 1
                 ]);
-
                 return response()->json([
                     'status' => 'success',
                     'message' => 'Absen pagi berhasil',
                     'data' => $absen
                 ]);
             }
-
             if ($sudahAbsen->pagi == 1) {
                 return response()->json([
                     'status' => 'already_checked',
                     'message' => 'Sudah absen pagi'
                 ], 200);
             }
-
             $sudahAbsen->update([
                 'jam_masuk_pagi' => $now->format('H:i:s'),
                 'pagi' => 1
             ]);
-
             return response()->json([
                 'status' => 'success',
                 'message' => 'Absen pagi berhasil',
                 'data' => $sudahAbsen
             ]);
         }
-
         // ABSEN SORE
         elseif ($isAfternoon) {
-
             if (!$sudahAbsen) {
                 $absen = Absensi::create([
                     'pegawai_nip' => $pegawai->nip,
@@ -140,7 +134,6 @@ class AbsensiController extends Controller
                     'jam_masuk_sore' => $now->format('H:i:s'),
                     'sore' => 1
                 ]);
-
                 return response()->json([
                     'status' => 'success',
                     'message' => 'Absen sore (tanpa absen pagi)',
@@ -154,7 +147,6 @@ class AbsensiController extends Controller
                     'message' => 'Sudah absen sore'
                 ], 200);
             }
-
             $sudahAbsen->update([
                 'jam_masuk_sore' => $now->format('H:i:s'),
                 'sore' => 1
@@ -166,14 +158,12 @@ class AbsensiController extends Controller
                 'data' => $sudahAbsen
             ]);
         }
-
-        // BUKAN JAM ABSEN
+        // NOT TIME
         return response()->json([
             'status' => 'not_time',
             'message' => 'Bukan jam absen'
         ], 200);
     }
-
     public function today(Request $request)
     {
         $now = Carbon::now();
@@ -319,7 +309,168 @@ public function scanuid(Request $request)
     }
 }
 
+    // public function scan(Request $request)
+    // {
+    //     $request->validate([
+    //         'employee_id' => 'required',
+    //         'qr_code' => 'required'
+    //     ]);
 
+    //     $now = Carbon::now();
+
+    //     // VALIDASI QR
+    //     $data = json_decode($request->qr_code, true);
+    //     if (!$data || !isset($data['type'])) {
+    //         return response()->json([
+    //             'status' => 'invalid_qr',
+    //             'message' => 'QR tidak valid'
+    //         ], 200);
+    //     }
+    //     if ($data['type'] !== 'absen') {
+    //         return response()->json([
+    //             'status' => 'invalid_qr',
+    //             'message' => 'QR tidak sesuai'
+    //         ], 200);
+    //     }
+    //     if (!isset($data['key']) || $data['key'] !== env('QR_SECRET')) {
+    //         return response()->json([
+    //             'status' => 'invalid_qr',
+    //             'message' => 'QR ilegal'
+    //         ], 200);
+    //     }
+
+    //     if (!isset($data['periode']) || $data['periode'] !== $now->format('Y-m')) {
+    //         return response()->json([
+    //             'status' => 'invalid_period',
+    //             'message' => 'QR bukan periode ini'
+    //         ], 200);
+    //     }
+
+    //     if (isset($data['expired']) && $now->toDateString() > $data['expired']) {
+    //         return response()->json([
+    //             'status' => 'expired',
+    //             'message' => 'QR sudah kadaluarsa'
+    //         ], 200);
+    //     }
+
+    //     // PERIODE
+    //     $periode = Periode::where('bulan', $now->month)
+    //         ->where('tahun', $now->year)
+    //         ->first();
+
+    //     if (!$periode) {
+    //         return response()->json([
+    //             'status' => 'no_period',
+    //             'message' => 'Periode tidak ditemukan'
+    //         ], 200);
+    //     }
+
+    //     // PEGAWAI
+    //     $pegawai = Pegawai::where('nip', $request->employee_id)->first();
+
+    //     if (!$pegawai) {
+    //         return response()->json([
+    //             'status' => 'not_found',
+    //             'message' => 'Pegawai tidak ditemukan'
+    //         ], 200);
+    //     }
+
+    //     // JAM
+    //     $isMorning = $now->hour >= 6 && $now->hour <= 9;
+    //     $isAfternoon = $now->hour >= 16 && $now->hour <= 19;
+
+    //     $sudahAbsen = Absensi::where('pegawai_nip', $pegawai->nip)
+    //         ->where('tgl', $now->day)
+    //         ->where('periode_id', $periode->id)
+    //         ->where('bulan', $periode->bulan)
+    //         ->first();
+
+    //     $absen = null;
+
+    //     // ABSEN PAGI
+    //     if ($isMorning) {
+
+    //         if (!$sudahAbsen) {
+    //             $absen = Absensi::create([
+    //                 'pegawai_nip' => $pegawai->nip,
+    //                 'periode_id' => $periode->id,
+    //                 'bulan' => $periode->bulan,
+    //                 'tgl' => $now->day,
+    //                 'jam_masuk_pagi' => $now->format('H:i:s'),
+    //                 'pagi' => 1
+    //             ]);
+
+    //             return response()->json([
+    //                 'status' => 'success',
+    //                 'message' => 'Absen pagi berhasil',
+    //                 'data' => $absen
+    //             ]);
+    //         }
+
+    //         if ($sudahAbsen->pagi == 1) {
+    //             return response()->json([
+    //                 'status' => 'already_checked',
+    //                 'message' => 'Sudah absen pagi'
+    //             ], 200);
+    //         }
+
+    //         $sudahAbsen->update([
+    //             'jam_masuk_pagi' => $now->format('H:i:s'),
+    //             'pagi' => 1
+    //         ]);
+
+    //         return response()->json([
+    //             'status' => 'success',
+    //             'message' => 'Absen pagi berhasil',
+    //             'data' => $sudahAbsen
+    //         ]);
+    //     }
+
+    //     // ABSEN SORE
+    //     elseif ($isAfternoon) {
+
+    //         if (!$sudahAbsen) {
+    //             $absen = Absensi::create([
+    //                 'pegawai_nip' => $pegawai->nip,
+    //                 'periode_id' => $periode->id,
+    //                 'bulan' => $periode->bulan,
+    //                 'tgl' => $now->day,
+    //                 'jam_masuk_sore' => $now->format('H:i:s'),
+    //                 'sore' => 1
+    //             ]);
+
+    //             return response()->json([
+    //                 'status' => 'success',
+    //                 'message' => 'Absen sore (tanpa absen pagi)',
+    //                 'data' => $absen
+    //             ]);
+    //         }
+
+    //         if ($sudahAbsen->sore == 1) {
+    //             return response()->json([
+    //                 'status' => 'already_checked',
+    //                 'message' => 'Sudah absen sore'
+    //             ], 200);
+    //         }
+
+    //         $sudahAbsen->update([
+    //             'jam_masuk_sore' => $now->format('H:i:s'),
+    //             'sore' => 1
+    //         ]);
+
+    //         return response()->json([
+    //             'status' => 'success',
+    //             'message' => 'Absen sore berhasil',
+    //             'data' => $sudahAbsen
+    //         ]);
+    //     }
+
+    //     // BUKAN JAM ABSEN
+    //     return response()->json([
+    //         'status' => 'not_time',
+    //         'message' => 'Bukan jam absen'
+    //     ], 200);
+    // }
     }
 
 

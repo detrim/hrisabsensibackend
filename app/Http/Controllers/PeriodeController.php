@@ -153,27 +153,56 @@ class PeriodeController extends Controller
     }
 
     public function generate()
-    {
+{
     $key = env('QR_SECRET');
-        $payload = [
-            'type'      => 'absen',
-            'periode'   => now()->format('Y-m'), // contoh: 2026-04
-            'expired'   => now()->endOfMonth()->toDateString(),
-            'key'       => $key
-        ];
-        // encode ke JSON
-        $text = json_encode($payload);
-        // generate QR
-        $qrCode = QrCode::create($text)->setSize(500);
-        $writer = new PngWriter();
-        $result = $writer->write($qrCode);
-        // convert ke base64 (buat PDF)
-        $qr = base64_encode($result->getString());
-        // kirim ke view PDF
-        $pdf = Pdf::loadView('qrcode', [
-            'qr'   => $qr,
-            'text' => $payload // kirim array biar bisa ditampilkan
-        ]);
-        return $pdf->download('qrcode.pdf');
-    }
+
+    $payload = [
+        'type'    => 'absen',
+        'periode' => now()->format('Y-m'),
+        'expired' => now()->endOfMonth()->toDateString(),
+    ];
+    // BUAT SIGNATURE
+    $signature = hash_hmac('sha256', json_encode($payload), $key);
+    // MASUKKAN KE PAYLOAD
+    $payload['signature'] = $signature;
+    // ENCODE QR
+    $text = json_encode($payload);
+    // GENERATE QR
+    $qrCode = QrCode::create($text)->setSize(500);
+    $writer = new PngWriter();
+    $result = $writer->write($qrCode);
+    $qr = base64_encode($result->getString());
+    // PDF
+    $pdf = Pdf::loadView('qrcode', [
+        'qr'   => $qr,
+        'text' => $payload
+    ]);
+
+    return $pdf->download('qrcode.'.now()->format('Y-m').'.pdf');
+}
+
+    // public function generate()
+    // {
+    // $key = env('QR_SECRET');
+    //     $payload = [
+    //         'type'      => 'absen',
+    //         'periode'   => now()->format('Y-m'), // contoh: 2026-04
+    //         'expired'   => now()->endOfMonth()->toDateString(),
+    //         'key'       => $key
+    //     ];
+    //     // encode ke JSON
+    //     $text = json_encode($payload);
+    //     // generate QR
+    //     $qrCode = QrCode::create($text)->setSize(500);
+    //     $writer = new PngWriter();
+    //     $result = $writer->write($qrCode);
+    //     // convert ke base64 (buat PDF)
+    //     $qr = base64_encode($result->getString());
+    //     // kirim ke view PDF
+    //     $pdf = Pdf::loadView('qrcode', [
+    //         'qr'   => $qr,
+    //         'text' => $payload // kirim array biar bisa ditampilkan
+    //     ]);
+    //     return $pdf->download('qrcode.pdf');
+    // }
 }
