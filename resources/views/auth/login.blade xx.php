@@ -100,7 +100,6 @@
         document.addEventListener('DOMContentLoaded', function() {
             loadCaptcha();
         });
-
         // ================= CAPTCHA =================
         function loadCaptcha() {
             fetch('/api/captcha')

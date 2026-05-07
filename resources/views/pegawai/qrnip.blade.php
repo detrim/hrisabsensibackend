@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <style>
         body {
@@ -32,21 +33,23 @@
         }
     </style>
 </head>
+
 <body>
 
-<div class="card">
+    <div class="card">
 
-    {{-- FOTO PEGAWAI --}}
-    <img class="foto" src="{{ public_path('storage/'.$pegawai->foto) }}">
+        {{-- FOTO PEGAWAI --}}
+        <img class="foto" src="{{ asset('storage/' . $pegawai->foto) }}">
 
-    <h3>{{ $pegawai->nama }}</h3>
+        <h3>{{ $pegawai->nama }}</h3>
 
-    <div class="nip">NIP: {{ $pegawai->nip }}</div>
+        <div class="nip">NIP: {{ $pegawai->nip }}</div>
 
-    {{-- QR CODE --}}
-    <img class="qr" src="data:image/png;base64,{{ $qr }}">
+        {{-- QR CODE --}}
+        <img class="qr" src="data:image/png;base64,{{ $qr }}">
 
-</div>
+    </div>
 
 </body>
+
 </html>

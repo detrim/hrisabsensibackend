@@ -12,6 +12,7 @@ use App\Http\Controllers\SettingTunjanganTransportController;
 use App\Http\Controllers\TunjanganTransportPegawaiController;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\PegawaiOnlineController;
+use App\Http\Controllers\ScannerController;
 
 
 
@@ -119,6 +120,14 @@ Route::get('/',[AuthController::class,'login']);
 Route::get('/login',[AuthController::class,'login'])->name('login');
 Route::post('/postlog',[AuthController::class,'postlogin']);
 
+Route::get('/hadirku', function () {
+    return view('front.login');
+    })->name('hadirku');
+Route::get('/scanner',[ScannerController::class,'index'])->name('scanner');
+
+Route::get('/uuid', function () {
+    return view('front.uuid');
+    })->name('uuid');
 // Route::get('/', function () {
 //     return view('auth.login');
 // })->name('login');

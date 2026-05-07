@@ -188,7 +188,7 @@ class AbsensiController extends Controller
         }
 
         // qrcode ada nip
-public function scanuid(Request $request)
+public function scanuuid(Request $request)
 {
     $request->validate([
         'qr_code' => 'required',
@@ -216,7 +216,7 @@ public function scanuid(Request $request)
             'message' => 'NIP tidak terdaftar'
         ], 200);
     }
-    if ($pegawai->status !== 'aktif') {
+    if ((int)$pegawai->status !== 1) {
         return response()->json([
             'status' => 'inactive',
             'message' => 'Pegawai tidak aktif'

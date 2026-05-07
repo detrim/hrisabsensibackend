@@ -119,25 +119,33 @@ public function postlogin(Request $request)
     ]);
 }
 
-        public function logout(Request $request)
-        {
-            $user = Auth::user();
-            if ($user) {
-                $user->update([
-                    'online' => 0
-                ]);
-                activity()
-                ->useLog('Auth')
-                ->causedBy($user)
-                ->log('Logout dari sistem');
-                $user->setRememberToken(null);
-                $user->save();
-                }
-                $request->session()->invalidate();
-                $request->session()->regenerateToken();
-                Auth::logout();
+public function logout(Request $request)
+{
+    $user = Auth::user();
 
-            return redirect('/login')->with('success', 'Berhasil logout');
-        }
+    if ($user) {
+        $user->update([
+            'online' => 0
+        ]);
+
+        activity()
+            ->useLog('Auth')
+            ->causedBy($user)
+            ->log('Logout dari sistem');
+
+        $user->setRememberToken(null);
+        $user->save();
+    }
+
+    Auth::logout();
+
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+
+    return response()->json([
+        'status' => 'success',
+        'message' => 'Berhasil logout'
+    ]);
+}
 
 }

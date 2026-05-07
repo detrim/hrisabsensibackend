@@ -7,14 +7,17 @@ use App\Http\Controllers\Api\LokasiController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\AbsensiController;
+use App\Http\Controllers\Api\FrontController;
 
 Route::post('/login', [UserController::class, 'index']);
 Route::middleware('auth:sanctum')->post('/absensi/scan', [AbsensiController::class, 'scan']);
 Route::middleware('auth:sanctum')->get('/absensi/today', [AbsensiController::class, 'today']);
 
-Route::post('/absensi/scanuid', [AbsensiController::class, 'scanuid']);
+Route::post('/absensi/scanuuid', [AbsensiController::class, 'scanuuid']);
 
 
+Route::middleware('web')->post('/posthadirku', [FrontController::class, 'postlogin']);
+Route::middleware('web')->post('/logouthadirku', [FrontController::class, 'logout']);
 // Route::middleware('web')->post('/postlogin', [AuthController::class, 'postlogin']);
 // Route::middleware('web')->get('/captcha', [AuthController::class, 'captcha']);
 Route::middleware(['auth:sanctum', 'active'])->group(function () {
